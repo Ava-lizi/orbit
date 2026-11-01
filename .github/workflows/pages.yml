@@ -1,0 +1,49 @@
+name: Publish ORBIT
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: orbit-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout public files
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Prepare public artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site/public
+          cp index.html .nojekyll _site/
+          cp public/config.js public/message-api.js _site/public/
+          test "$(find _site -type f | wc -l)" -eq 4
+          if grep -R -E 'DEEPSEEK_API_KEY|SUPABASE_SERVICE_ROLE_KEY|sb_secret_' _site; then
+            echo 'Private configuration marker in public artifact'
+            exit 1
+          fi
+      - name: Upload public artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
