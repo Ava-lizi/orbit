@@ -35,7 +35,22 @@ jobs:
           mkdir -p _site/public
           cp index.html .nojekyll _site/
           cp public/config.js public/message-api.js _site/public/
-          test "$(find _site -type f | wc -l)" -eq 4
+          cp public/planet-portal.js _site/public/
+          mkdir -p _site/public/about
+          cp public/about/{archive.css,archive-data.js,manifesto.js,archive.js,observation.webp,entry.webp} _site/public/about/
+          cp -R public/earth _site/public/
+          cp -R public/neptune _site/public/
+          cp -R public/saturn _site/public/
+          cp -R public/mercury _site/public/
+          cp -R public/mars _site/public/
+          cp -R public/jupiter _site/public/
+          cp -R public/uranus _site/public/
+          test -s _site/index.html
+          test -s _site/public/earth/data.js
+          if find _site -type f | grep -E -v '^_site/(index\.html|\.nojekyll|public/(config\.js|message-api\.js|planet-portal\.js|about/(archive\.css|archive-data\.js|manifesto\.js|archive\.js|observation\.webp|entry\.webp)|earth/(data\.js|gallery\.js|gallery\.css|sources\.json|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|uranus/(data\.js|core\.js|future\.js|future\.css|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|jupiter/(data\.js|core\.js|archive\.js|archive\.css|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|mars/(data\.js|frontier\.js|frontier\.css|sources\.json|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|mercury/(data\.js|core\.js|experiments\.js|laboratory\.js|laboratory\.css|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|saturn/(data\.js|chronicles\.js|chronicles\.css|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))|neptune/(data\.js|reader\.js|reader\.css|images/[a-z0-9][a-z0-9_-]*\.(jpg|jpeg|png|webp|avif))))$'; then
+            echo 'Unexpected public artifact file'
+            exit 1
+          fi
           if grep -R -E 'DEEPSEEK_API_KEY|SUPABASE_SERVICE_ROLE_KEY|sb_secret_' _site; then
             echo 'Private configuration marker in public artifact'
             exit 1

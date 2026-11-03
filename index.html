@@ -7188,9 +7188,266 @@
   }
 
 </style>
+<style id="works-overview-style">
+  body.view-works #infoPanel {
+    top: clamp(112px, 24vh, 248px) !important;
+    left: clamp(32px, 7vw, 128px) !important;
+    width: min(416px, 42vw) !important;
+    background: transparent !important;
+  }
+  #indexPanel .index-eyebrow {
+    margin: 0 0 16px;
+    color: #aab1ba;
+    font: 500 .75rem/1rem var(--mono);
+    letter-spacing: .18em;
+  }
+  #indexPanel .index-heading { display: block; }
+  #indexPanel .index-heading h2 {
+    font-size: 3.75rem;
+    line-height: 1;
+    letter-spacing: -.065em;
+    background: linear-gradient(105deg, #fff, #b8bbc1);
+    background-clip: text;
+    color: transparent;
+  }
+  #indexPanel .index-sub {
+    margin: 24px 0 0;
+    color: #c0c5cd;
+    font-size: .875rem;
+    line-height: 1.5rem;
+    letter-spacing: .05em;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, .5);
+  }
+  .explore-toggle {
+    margin-top: 24px;
+    padding: 8px 0;
+    color: #eef0f3;
+    font-size: .875rem;
+    transition: color .3s cubic-bezier(.22,1,.36,1), border-color .3s cubic-bezier(.22,1,.36,1);
+  }
+  .explore-toggle span:last-child { font-size: .875rem; }
+
+  #indexPanel .works-list {
+    max-height: clamp(64px, calc(100dvh - clamp(112px, 24vh, 248px) - 258px), 340px);
+    margin-top: 16px;
+    padding: 4px;
+    pointer-events: auto;
+  }
+  #indexPanel.is-exploring .explore-toggle span:last-child { transform: none; }
+  #indexPanel .work-title { color: #b5bac2; font-size: .75rem; }
+
+  body.view-works #hud .planet-dock {
+    bottom: max(24px, env(safe-area-inset-bottom)) !important;
+    display: grid !important;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 0 !important;
+    width: min(720px, calc(100vw - 48px));
+  }
+  body.view-works #hud .planet-dock::after {
+    content: "";
+    position: absolute;
+    inset: 11px calc(100% / 18) auto;
+    height: 1px;
+    background: rgba(194, 203, 215, .22);
+    pointer-events: none;
+  }
+  body.view-works #hud .planet-dock .body-btn {
+    min-height: 44px;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding: 9px 0 4px !important;
+    color: #b2b7bf !important;
+    transition: color .3s cubic-bezier(.22,1,.36,1) !important;
+  }
+  body.view-works #hud .planet-dock .body-name { font-size: .75rem; white-space: nowrap; }
+  body.view-works #hud .planet-dock .body-btn:is(:hover, :focus-visible, .is-previewed, .is-active) {
+    color: #fff !important;
+  }
+  body.view-works #hud .planet-dock .body-dot {
+    width: 5px;
+    height: 5px;
+    flex: 0 0 5px;
+    background: var(--dot) !important;
+    box-shadow: 0 0 0 2px #080a0f !important;
+    opacity: .76;
+  }
+  body.view-works #hud .planet-dock .body-btn:is(:hover, :focus-visible, .is-previewed, .is-active) .body-dot {
+    opacity: 1;
+    filter: none;
+  }
+  body.view-works #hud .planet-dock .body-name::after {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 1px;
+    margin: 3px auto 0;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity .25s cubic-bezier(.22,1,.36,1);
+  }
+  body.view-works #hud .planet-dock .body-btn:not(.is-active):is(.is-previewed, :focus-visible) .body-name::after { opacity: .65; }
+  #hud .planet-dock .orbit-selection { display: none; }
+  body.view-works #hud .planet-dock .orbit-selection {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 37px;
+    width: 14px;
+    height: 1px;
+    background: #e7edf4;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(var(--orbit-selection-x, 0px));
+    transition: transform .5s cubic-bezier(.45,0,.2,1), opacity .24s cubic-bezier(.22,1,.36,1);
+  }
+  body.view-works #hud .planet-dock.has-selection .orbit-selection { opacity: .74; }
+  body.view-works #hud .planet-dock .body-btn.is-active .body-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--dot) !important;
+  }
+  body.view-works .stage-veil::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 96px;
+    background: linear-gradient(transparent, rgba(2, 4, 8, .8));
+  }
+  body.view-works :is(#exploreToggle, #worksList button, #planetDock button, #worksPreview button):focus-visible {
+    outline: 1px solid #e9e4da !important;
+    outline-offset: 3px;
+  }
+  #worksPreview {
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    color: #eef0f3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .24s cubic-bezier(.22,1,.36,1);
+  }
+  body.view-works #worksPreview.is-on.is-positioned { opacity: 1; }
+  #worksPreview.is-switching { transition-duration: .14s; }
+  #worksPreview .preview-copy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: max-content;
+    max-width: min(240px, calc(100vw - 32px));
+    text-shadow: 0 1px 2px #000, 0 0 5px #000, 0 0 12px #000, 0 0 20px #000;
+  }
+  body.view-works #worksPreview.is-on.is-positioned .preview-copy { pointer-events: auto; }
+  #worksPreview svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    clip-path: inset(var(--leader-top, 0px) 0 var(--leader-bottom, 0px));
+  }
+  #worksPreview path {
+    stroke: #b5becb;
+    stroke-opacity: .52;
+    stroke-width: .75;
+    fill: none;
+  }
+  #worksPreview circle {
+    fill: #e3e7ec;
+    filter: drop-shadow(0 0 3px #d1d9e590);
+  }
+  #worksPreview .preview-code {
+    color: #b2b8c1;
+    font: 500 .75rem/1rem var(--mono);
+    letter-spacing: .12em;
+  }
+  #worksPreview strong { display: block; margin-top: 4px; font-size: 1rem; line-height: 1.5rem; }
+  #worksPreview p { margin: 4px 0; color: #c0c5cd; font-size: .75rem; line-height: 1rem; }
+  #worksPreview button {
+    margin-top: 4px;
+    padding: 8px 0;
+    color: #eef0f3;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-size: .75rem;
+    text-shadow: inherit;
+  }
+  #worksPreview button:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  @media (max-width: 760px) {
+    body.view-works #infoPanel {
+      top: clamp(108px, 15vh, 136px) !important;
+      left: 24px !important;
+      width: calc(100vw - 48px) !important;
+    }
+    #indexPanel .index-heading h2 { font-size: 3rem; }
+    #indexPanel .index-sub { margin-top: 16px; }
+    #indexPanel .works-list { max-height: clamp(64px, calc(100dvh - 350px), 340px); background: #090b10; }
+    body.view-works #hud .planet-dock {
+      left: 50% !important;
+      right: auto !important;
+      width: calc(100vw - 16px);
+      transform: translateX(-50%) !important;
+    }
+  }
+  @media (max-width: 360px) {
+    body.view-works #hud .planet-dock .body-name { font-size: .6875rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #worksPreview,
+    body.view-works #hud .planet-dock .body-btn,
+    body.view-works #hud .planet-dock .orbit-selection,
+    body.view-works #hud .planet-dock .body-name::after { transition: none !important; }
+  }
+  @media (forced-colors: active) {
+    #indexPanel .index-heading h2 { background: none; color: CanvasText; }
+  }
+</style>
+<style id="planet-entry-style">
+  body.planet-entering #hud { opacity: 0 !important; }
+  body.planet-entering .stage-veil { opacity: .3; }
+  #planetEntryRush, #planetEntryFrame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  #planetEntryRush {
+    z-index: 9;
+    opacity: 0;
+    color: var(--entry-tint, #b6c5d8);
+    mask-image: radial-gradient(ellipse, transparent 48%, #000 86%);
+  }
+  #planetEntryRush::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(1.2px);
+  }
+  #planetEntryRush svg { position: absolute; width: 100%; height: 100%; }
+  #planetEntryFrame { z-index: 1100; }
+  body.planet-entry-revealing > section[id$="World"].is-open { transition: none !important; }
+  @media (max-width: 760px) { #planetEntryRush::before { display: none; } }
+  @media (prefers-reduced-motion: reduce) { #planetEntryRush { display: none; } }
+</style>
+<link rel="stylesheet" href="./public/about/archive.css">
+<link rel="stylesheet" href="./public/earth/gallery.css">
+<link rel="stylesheet" href="./public/neptune/reader.css">
+<link rel="stylesheet" href="./public/saturn/chronicles.css">
+<link rel="stylesheet" href="./public/mercury/laboratory.css">
+<link rel="stylesheet" href="./public/mars/frontier.css">
+<link rel="stylesheet" href="./public/jupiter/archive.css">
+<link rel="stylesheet" href="./public/uranus/future.css">
 </head>
 <body class="view-welcome">
   <div id="stage" aria-hidden="true"></div>
+  <div id="planetEntryRush" hidden aria-hidden="true">
+    <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+      <path d="M78 42L2 0 M293 28L274 0 M823 84L941 4 M899 176L1000 145 M921 368L1000 385 M785 526L866 598 M220 520L131 590 M84 409L0 431 M69 218L0 205" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+  <canvas id="planetEntryFrame" width="1" height="1" hidden aria-hidden="true"></canvas>
   <div class="stage-veil" aria-hidden="true"></div>
   <div class="stage-grain" aria-hidden="true"></div>
 
@@ -7279,25 +7536,16 @@
       <span class="panel-scan" aria-hidden="true"></span>
 
       <div class="panel-view index-view" id="indexPanel">
-        <div class="kicker">
-          <span class="kicker-dot"></span>
-          <span>作品索引</span>
-          <span class="kicker-en">SELECT A WORLD</span>
-        </div>
+        <p class="index-eyebrow">ORBIT / SELECTED WORKS</p>
         <div class="index-heading">
-          <h2>九界。</h2>
-          <span class="index-total">09</span>
+          <h2>轨道之间。</h2>
         </div>
-        <p class="index-sub">太阳与八大行星，八个作品，一处留言。<br>每一颗星体，都是一个入口。</p>
+        <p class="index-sub">八颗行星，收藏着不同的热爱。<br>一束恒光，留给偶然经过的你。</p>
         <button class="explore-toggle" id="exploreToggle" type="button" aria-expanded="false" aria-controls="worksList">
-          <span>浏览九界</span>
-          <span aria-hidden="true">→</span>
+          <span>开始漫游</span>
+          <span aria-hidden="true">↗</span>
         </button>
         <div class="works-list" id="worksList"></div>
-        <div class="panel-foot">
-          <span>ORBIT ARCHIVE / 2023—2025</span>
-          <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        </div>
       </div>
 
       <div class="panel-view project-view" id="projectPanel" hidden>
@@ -7409,6 +7657,15 @@
     </div>
 
     <nav class="planet-dock glass" id="planetDock" aria-label="天体导航"></nav>
+    <div id="worksPreview" inert>
+      <svg aria-hidden="true"><path/><circle r="1.5"/></svg>
+      <div class="preview-copy">
+        <div class="preview-code"></div>
+        <strong></strong>
+        <p></p>
+        <button type="button"></button>
+      </div>
+    </div>
 
     <div class="utility-wrap" id="utilityWrap">
       <button class="settings-toggle" id="settingsToggle" type="button" aria-expanded="false" aria-controls="utilityCard">设置</button>
@@ -7533,36 +7790,18 @@
     </div>
   </section>
 
-  <section class="about-overlay" id="aboutOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
-    <div class="about-backdrop" id="aboutBackdrop" aria-hidden="true"></div>
-    <div class="about-shell">
-      <header class="about-head">
-        <button class="about-close" id="aboutClose" type="button"><span>关闭</span><kbd>ESC</kbd></button>
-      </header>
-      <div class="about-grid">
-        <div class="about-copy">
-          <h2 id="aboutTitle">把作品，<br>放进宇宙的尺度。</h2>
-          <div class="about-body">
-            <p>我喜欢探索那些尚未被定义的可能。</p>
-            <p>代码、设计、影像，都是我理解世界的不同方式。</p>
-            <p>在这里，我把零散的想法整理成九颗星体。它们或许还不够<span class="about-nowrap">耀眼</span>，但每一颗，都<span class="about-nowrap">记录着</span>我认真创造过的痕迹。</p>
-          </div>
-          <div class="about-facts" aria-label="作品概览">
-            <span>八件作品 · 一处留言</span>
-            <span>视觉设计 · 动态影像 · 交互体验</span>
-          </div>
-          <button class="about-enter" id="aboutEnterWorks" type="button">进入作品星系 <span>→</span></button>
-        </div>
-        <aside class="about-visual">
-          <canvas class="about-planet-canvas" id="aboutPlanetCanvas" role="img" aria-label="土星侧逆光天文影像"></canvas>
-          <div class="about-visual-vignette" aria-hidden="true"></div>
-        </aside>
+  <section id="aboutArchive" hidden role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <header class="archive-header">
+      <span class="archive-brand">ORBIT / ABOUT <small>THE ARCHIVE</small></span>
+      <div class="archive-header-actions">
+        <button id="aboutEnterWorks" type="button">作品星系 ↗</button>
+        <button id="aboutClose" type="button">关闭 ×</button>
       </div>
-      <footer class="about-colophon" aria-label="素材与制作信息">
-        <span>行星影像：NASA / Solar System Scope · CC BY 4.0</span>
-        <span>实时渲染：Three.js · WebGL</span>
-        <span>设计与开发：ORBIT</span>
-      </footer>
+      <select class="archive-select" aria-label="定位档案章节"></select>
+    </header>
+    <div class="archive-layout">
+      <div class="archive-content"></div>
+      <nav class="archive-index" aria-label="设计档案章节"></nav>
     </div>
   </section>
 
@@ -7736,9 +7975,30 @@
       }
     }());
   </script>
+  <script src="./public/earth/data.js"></script>
+  <script src="./public/earth/gallery.js"></script>
+  <script src="./public/planet-portal.js"></script>
+  <script src="./public/about/archive-data.js"></script>
+  <script src="./public/about/manifesto.js"></script>
+  <script src="./public/about/archive.js"></script>
+  <script src="./public/neptune/data.js"></script>
+  <script src="./public/neptune/reader.js"></script>
+  <script src="./public/saturn/data.js"></script>
+  <script src="./public/saturn/chronicles.js"></script>
+  <script src="./public/mercury/core.js"></script>
+  <script src="./public/mercury/data.js"></script>
+  <script src="./public/mercury/experiments.js"></script>
+  <script src="./public/mercury/laboratory.js"></script>
+  <script src="./public/mars/data.js"></script>
+  <script src="./public/mars/frontier.js"></script>
+  <script src="./public/jupiter/core.js"></script>
+  <script src="./public/jupiter/data.js"></script>
+  <script src="./public/jupiter/archive.js"></script>
+  <script src="./public/uranus/core.js"></script>
+  <script src="./public/uranus/data.js"></script>
+  <script src="./public/uranus/future.js"></script>
   <script src="./public/config.js"></script>
   <script type="module">
-  import { createMessageApi } from './public/message-api.js';
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
   import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -7753,9 +8013,63 @@
 
   'use strict';
 
+  /* Inlined from public/message-api.js so the page can also start when
+     index.html is opened directly from file:// (local ES module imports are
+     blocked by the null origin under that protocol). */
+  function createMessageApi(config = window.ORBIT_CONFIG || {}) {
+    let pending = null;
+    let widget = null;
+    let token = '';
+    const live = config.mode === 'live';
+    const enabled = live || config.mode === 'mock';
+    if (!enabled) {
+      const write = document.getElementById('sunWrite');
+      if (write) {
+        write.disabled = true;
+        write.title = '留言审核服务配置完成后开放';
+        const label = write.querySelector('span');
+        if (label) label.textContent = '留言暂未开放';
+      }
+    }
+    const base = (config.apiBase || '/api').replace(/\/$/, '');
+    async function call(path, value) {
+      const r = await fetch(base + path, { method: value ? 'POST' : 'GET', signal: AbortSignal.timeout(22000), headers: value ? {'Content-Type':'application/json'} : {}, ...(value ? {body:JSON.stringify(value)} : {}) });
+      const data = await r.json();
+      if(!r.ok) throw new Error(data.error || '服务暂不可用。');
+      return data;
+    }
+    if(live && config.turnstileSiteKey) {
+      const mount = document.createElement('div'); mount.id = 'orbitChallenge';
+      document.getElementById('sunForm')?.append(mount);
+      // Existing form ID differs across older ORBIT revisions.
+      if(!mount.isConnected) document.getElementById('sunEditor')?.append(mount);
+      window.orbitTurnstileReady = () => { widget = window.turnstile.render(mount, {sitekey:config.turnstileSiteKey,action:'orbit_message',callback:t=>{token=t;},'expired-callback':()=>{token='';},'error-callback':()=>{token='';}}); };
+      const script=document.createElement('script');script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?onload=orbitTurnstileReady&render=explicit';script.async=true;document.head.append(script);
+    }
+    async function write(path,value) {
+      if(!enabled) throw new Error('留言服务尚未启用，内容未保存。');
+      if(live && !token) throw new Error('请先在留言框完成人机验证。');
+      try { return await call(path,{...value,turnstileToken:live?token:'local-mock'}); }
+      finally {token='';if(widget!==null) window.turnstile.reset(widget);}
+    }
+    return {
+      mode: config.mode || 'offline',
+      async list(){return enabled ? call('/messages') : {items:[],total:0};},
+      async create({nickname,body}) {
+        const signature=JSON.stringify({nickname,body});
+        if(pending?.signature!==signature) pending={signature,id:crypto.randomUUID()};
+        const x=await write('/messages',{nickname,body,requestId:pending.id});
+        pending=null;
+        return {mode:config.mode,item:null,status:x.status};
+      },
+      async report(id){return write('/reports',{id});}
+    };
+  }
+
   const TAU = Math.PI * 2;
   const DEG = Math.PI / 180;
   const SUN_RADIUS = 9;
+  const WORKS_SUN_SCALE = 1.36;
   const EARTH_RADIUS = 1;
   const MOON_RADIUS = 0.285;
   const MOON_ORBIT_RADIUS = 7.4;
@@ -7946,7 +8260,7 @@
         ['平均距日', '30.07 AU']
       ],
       desc: '太阳系最遥远的行星。深蓝色大气中翻涌着高速风暴，风速可达每小时 2,000 公里。',
-      radius: 2.08, orbitRadius: 224, visualPeriod: 220, phase: 2.9,
+      radius: 2.08, orbitRadius: 224, visualPeriod: 220, phase: 0.9,
       inclination: 1.77, node: 131, tilt: 28.32, spinSpeed: 0.36, spinPhase: 3.6,
       viewDistance: 9.8, style: 'ice', seed: 18, texture: TEX.neptune
     }
@@ -7987,12 +8301,12 @@
 
   const PROJECTS = {
     mercury: {
-      no: '01', title: '瞬时', en: 'MOMENTUM', category: '交互设计 / 创意编程', shortCategory: '交互设计',
-      year: '2024', role: '交互设计 · 创意开发', medium: 'WebGL / 实时交互',
-      tagline: '在最短的公转周期里，捕捉一个不被注意的瞬间。',
-      desc: '一件围绕速度与感知的交互作品。微小的动作被放大成引力波，在浏览器里持续自我修正。',
-      longDesc: '水星的公转是最快的，却几乎不被看见。《瞬时》把这种“快到被忽略”的状态做成一段实时交互：鼠标的速度、停留与犹豫会被记录成轨道参数，生成一颗只属于当前观众的微小行星。没有两次轨迹完全相同，也没有一个瞬间会被保存。',
-      tags: ['Interaction', 'Creative Coding', 'Generative']
+      no: '01', title: '初序', en: 'MERCURY / CODE LABORATORY', category: '编程作品 / 交互实验', shortCategory: '个人编程实验室',
+      year: 'V1', role: '编程 · 实验 · 记录', medium: 'Code / Experiments',
+      tagline: '一切创造，始于第一行代码。',
+      desc: '从最简单的语法，到真正运行的程序。这里收藏每一次尝试与创造。',
+      longDesc: '「初序」是 ORBIT 的水星编程实验室，收藏项目、浏览器端实验与开发手记。V1 先从一个真实可运行的二分查找演示开始，等待作者的更多真实作品。',
+      tags: ['Code', 'Projects', 'Experiments']
     },
     venus: {
       no: '02', title: '演绎', en: 'DEDUCTION', category: '数学可视化 / 交互体验', shortCategory: '数学可视化',
@@ -8003,52 +8317,52 @@
       tags: ['Mathematics', 'Visualization', 'Interactive']
     },
     earth: {
-      no: '03', title: '蓝色脉冲', en: 'BLUE PULSE', category: '数字体验 / 网站设计', shortCategory: '数字体验',
-      year: '2025', role: '创意开发 · 视觉设计', medium: 'Website / WebGL',
-      tagline: '让一颗行星的心跳，成为一段网页的节奏。',
-      desc: '把实时地球影像、城市灯光与轨道数据编织成一段可被浏览的蓝。一次关于“家”的数字体验设计。',
-      longDesc: '《蓝色脉冲》以地球的昼夜线作为叙事分镜：白昼是信息，夜晚是情绪。页面把天文影像、轨道时间与滚动节奏同步，观众每一次停留都会改变云的密度与城市的亮度。这是一个关于故土的数字空间，也是一次对“实时连接”的温柔想象。',
-      tags: ['Digital Experience', 'Web Design', 'Data Narrative']
+      no: '03', title: '人间', en: 'EARTH / PHOTOGRAPHY', category: '摄影 / 影像档案', shortCategory: '摄影艺术馆',
+      year: 'V1', role: '摄影 · 记录', medium: 'Photography / Gallery',
+      tagline: '世界很大，我只记录眼前。',
+      desc: '一座安静的摄影艺术馆。在四时、街巷、远方与片刻之间，留住认真观看过的世界。',
+      longDesc: '「人间」是 ORBIT 的地球摄影馆。走进序厅，翻阅影像档案，或停在一张照片前。当前展陈使用明确标记的第三方占位摄影，等待替换为真实作品。',
+      tags: ['Photography', 'Archive', 'Everyday Life']
     },
     mars: {
-      no: '04', title: '赤色迁徙', en: 'RED MIGRATION', category: '概念影像 / 场景设计', shortCategory: '概念影像',
-      year: '2023', role: '导演 · 概念设计', medium: 'Film / Worldbuilding',
-      tagline: '当人类把地平线搬去另一个星球，我们会带走什么？',
-      desc: '一部关于火星移民的概念短片。在沙尘、红色日光与临时建筑之间，重新定义“抵达”的含义。',
-      longDesc: '《赤色迁徙》是一份尚未发生的旅行档案。我们为一段三分钟的短片构建了一个近未来的火星聚落：低重力下的织物建筑、被风磨亮的金属、以及每天傍晚准时出现的蓝色日落。影像没有对白，只有环境声、呼吸与脚步，让观众自己决定这是开始还是告别。',
-      tags: ['Concept Film', 'Worldbuilding', 'Motion']
+      no: '04', title: '拓荒', en: 'MARS / EXPERIMENTAL FRONTIER', category: '技术探索 / 实验档案', shortCategory: '技术探索基地',
+      year: 'V1', role: '探索 · 尝试 · 复盘', medium: 'Research / Archives',
+      tagline: '向未知之处，迈出第一步。',
+      desc: '这里记录尚未被解决的问题，以及每一次向答案靠近的尝试。',
+      longDesc: '「拓荒」是 ORBIT 的火星技术探索档案馆。保留实验过程、挑战复盘与未来研究方向，不只陈列成功。当前示例均明确标注，不代表作者真实实验或技术成就。',
+      tags: ['Experiments', 'Challenges', 'Research']
     },
     jupiter: {
-      no: '05', title: '风暴眼', en: 'EYE OF THE STORM', category: '动态设计 / 品牌影像', shortCategory: '动态设计',
-      year: '2023', role: '动态设计 · 视觉开发', medium: 'Motion / Projection',
-      tagline: '在最大的风暴中心，时间反而安静。',
-      desc: '以木星大红斑为原型的动态视觉系统。流体模拟与品牌转场被折叠进同一段持续旋转的能量。',
-      longDesc: '木星的风暴眼已经旋转了数百年，而我们只看见它的一瞬。《风暴眼》用流体模拟生成一套可无限循环的动态图形，并为发布会现场制作了 360° 投影版本。画面中的每一条带纹都来自同一条被反复扰动的曲线，秩序与混乱在中心交换位置。',
-      tags: ['Motion System', 'Fluid Simulation', 'Projection']
+      no: '05', title: '万象', en: 'JUPITER / THE GRAND ARCHIVE', category: '综合创作 / 作品策展', shortCategory: '综合作品陈列馆',
+      year: 'V1', role: '创作 · 完成 · 陈列', medium: 'Works / Exhibition',
+      tagline: '让想象，拥有真实的形状。',
+      desc: '这里收藏那些从一个念头出发，最终成为真实作品的创造。',
+      longDesc: '「万象」是 ORBIT 的木星综合作品陈列馆，收藏已经完成、可完整呈现的创作。用影像、过程与思考认真呈现每件作品；当前展厅留白，等待作者确认完成的真实作品。',
+      tags: ['Works', 'Exhibition', 'Creation']
     },
     saturn: {
-      no: '06', title: '环状叙事', en: 'RING CYCLE', category: '空间叙事 / 展陈设计', shortCategory: '空间叙事',
-      year: '2025', role: '叙事设计 · 空间视觉', medium: 'Exhibition / Spatial',
-      tagline: '围绕着一颗看不见的行星，我们建起了九层叙事。',
-      desc: '一项沉浸式展览设计。声音、光线与环形动线共同构成一颗行星的引力场。',
-      longDesc: '《环状叙事》把一颗行星的环系拆成九层叙事：每一圈都是一段独立的记忆，只有沿着动线行走，故事才会完整。空间中央悬置一枚缓慢旋转的镜面球体，观众的声音被实时采样、过滤，再回放到环形的扬声器阵列中。',
-      tags: ['Spatial Narrative', 'Exhibition', 'Sound']
+      no: '06', title: '年轮', en: 'SATURN / CHRONICLES', category: '成长记录 / 时间档案', shortCategory: '个人成长档案馆',
+      year: 'V1', role: '学习 · 创作 · 记录', medium: 'Chronicles / Reading',
+      tagline: '时间从不言语，却留下所有答案。',
+      desc: '收藏学习、创作与生活中的阶段记录。那些未曾被注意的日子，也在悄悄构成今天的自己。',
+      longDesc: '「年轮」是 ORBIT 的土星成长档案馆。沿时间轴翻阅记录，在里程碑与回望中保存走过的路。当前内容为明确标记的框架演示，不代表作者真实经历或成就。',
+      tags: ['Chronicles', 'Learning', 'Reflection']
     },
     uranus: {
-      no: '07', title: '侧倾', en: 'TILT', category: '生成艺术 / 实验影像', shortCategory: '生成艺术',
-      year: '2024', role: '艺术家 · 生成设计', medium: 'Real-time Art / Print',
-      tagline: '当轴线倾斜，世界以另一种方式转起来。',
-      desc: '从天王星 98° 自转轴获得灵感的生成艺术系列。每一帧都接受一种“不端正”的秩序。',
-      longDesc: '天王星几乎是躺着自转的。在《侧倾》中，我们把这种角度变成生成规则：坐标系每 24 秒倾斜一次，图像因此不断找到新的平衡。系列包含实时视觉、限量版画与一段永不重复的网站生成器，献给所有拒绝被摆正的视角。',
-      tags: ['Generative Art', 'Real-time', 'Print']
+      no: '07', title: '未央', en: 'URANUS / THE UNWRITTEN FUTURE', category: '未来构想 / 创意蓝图', shortCategory: '未来构想馆',
+      year: 'V1', role: '想象 · 酝酿 · 记录', medium: 'Ideas / Blueprints',
+      tagline: '写给尚未抵达的明天。',
+      desc: '有些想法尚未成形，有些故事还没有开始。而未来，仍然留有无限可能。',
+      longDesc: '「未央」是 ORBIT 的天王星未来构想馆，收藏尚未实现的灵感、蓝图与可能。故事尚未写完，未来仍有回响。当前档案留白，等待作者真实的构想。',
+      tags: ['Ideas', 'Blueprints', 'Possibilities']
     },
     neptune: {
-      no: '08', title: '深蓝回声', en: 'DEEP BLUE ECHO', category: '声音可视化 / 装置', shortCategory: '声音可视化',
-      year: '2024', role: '创意技术 · 声音设计', medium: 'AV Installation / Sound',
-      tagline: '最远的行星，用最快的声音说话。',
-      desc: '一项将太阳风数据转译成声音与光的空间装置。深蓝不是沉默，而是一种低频的回应。',
-      longDesc: '《深蓝回声》把 Neptune 的大气流动与太阳风数据映射为低频声场：观众走进空间，会听见一颗行星的呼吸，同时看到光束在深蓝色的雾中缓慢移动。作品关于距离、延迟与仍然存在的连接——即使需要四个小时才能抵达。',
-      tags: ['Audio Visual', 'Installation', 'Data Sonification']
+      no: '08', title: '深蓝', en: 'NEPTUNE / WRITINGS', category: '文学 / 随笔', shortCategory: '私人文学馆',
+      year: 'V1', role: '写作 · 记录', medium: 'Writings / Reading',
+      tagline: '在世界的尽头，听见自己的回声。',
+      desc: '收藏随笔、故事与摄影文字的私人文学馆。安静地阅读，也把一小段时间留给自己。',
+      longDesc: '「深蓝」是 ORBIT 的海王星文学馆。在浮生、旧事、独白与光影札记之间，阅读文字与时间留下的痕迹。当前文章为明确标记的排版演示，等待作者的真实文字。',
+      tags: ['Writings', 'Essays', 'Reading']
     }
   };
 
@@ -8130,6 +8444,7 @@
     sunParticle: $('#sunParticle'),
     progressFill: $('#progressFill'),
     planetDock: $('#planetDock'),
+    worksPreview: $('#worksPreview'),
     speedButtons: $$('#speedSwitch button'),
     speedCycle: $('#speedCycle'),
     speedCycleText: $('#speedCycleText'),
@@ -8168,8 +8483,7 @@
     dossierPlanet: $('#dossierPlanet'),
     dossierPlanetName: $('#dossierPlanetName'),
     dossierArt: $('.dossier-art'),
-    aboutOverlay: $('#aboutOverlay'),
-    aboutBackdrop: $('#aboutBackdrop'),
+    aboutOverlay: $('#aboutArchive'),
     aboutClose: $('#aboutClose'),
     aboutEnterWorks: $('#aboutEnterWorks')
   };
@@ -8541,7 +8855,8 @@
 
   const starUniforms = {
     uTime: { value: 0 },
-    uPixelRatio: { value: renderer.getPixelRatio() }
+    uPixelRatio: { value: renderer.getPixelRatio() },
+    uEntryFade: { value: 1 }
   };
 
   const starVertexShader = `
@@ -8570,6 +8885,7 @@
     #include <logdepthbuf_pars_fragment>
     varying vec3 vColor;
     varying float vTwinkle;
+    uniform float uEntryFade;
     void main() {
       vec2 p = gl_PointCoord - 0.5;
       float d = length(p);
@@ -8578,7 +8894,7 @@
       float alpha = (core * 0.7 + halo * 0.3) * vTwinkle;
       if (alpha < 0.006) discard;
       vec3 color = vColor * (0.72 + 0.55 * core);
-      gl_FragColor = vec4(color, alpha);
+      gl_FragColor = vec4(color, alpha * uEntryFade);
       #include <logdepthbuf_fragment>
     }
   `;
@@ -8924,6 +9240,8 @@
     color: new THREE.Color().setRGB(1.65, 1.36, 1.02),
     toneMapped: false
   });
+  const sunFallbackTint = sunMaterial.color.clone();
+  const sunTextureTint = new THREE.Color().setRGB(1.32, 1.18, 1.02);
   const sunGeometry = new THREE.SphereGeometry(SUN_RADIUS, 96, 64);
   const sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
   sunMesh.renderOrder = 0;
@@ -8984,8 +9302,8 @@
       const geometry = new THREE.SphereGeometry(def.radius, 96, 64);
       const mesh = new THREE.Mesh(geometry, material);
       spinNode.add(mesh);
-      addBodyGlow(pivot, def.accent, def.radius, 0.09);
-      return { material, mesh, fallback };
+      const glow = addBodyGlow(pivot, def.accent, def.radius, 0.09);
+      return { material, mesh, glow };
     }
 
     /* Earth is the opening shot: day map + city lights + clouds + atmosphere. */
@@ -9310,7 +9628,7 @@
       kind: 'body', key: def.key, info: def, node: pivot, spinNode,
       material: layers.material, mesh: layers.mesh, lowTexture: layers.material.map, radius: def.radius,
       clearance: Math.max(def.radius * 1.8, def.radius * 1.08),
-      orbitLine, orbitalAngle: initialAngle
+      tiltNode, hit, hitRadius, glow: layers.glow, orbitLine, orbitalAngle: initialAngle
     };
 
     if (def.ring) {
@@ -9678,6 +9996,10 @@
     }).join('');
   }
   buildDock();
+  UI.planetDock.insertAdjacentHTML('beforeend', '<span class="orbit-selection" aria-hidden="true"></span>');
+  const dockButtons = new Map(Array.from(UI.planetDock.querySelectorAll('.body-btn'), (button) => [
+    button.dataset.target, button
+  ]));
 
   /* ═══════════════════════════════════════════════════════════════
      Camera, navigation, interaction, and the living simulation
@@ -9725,6 +10047,13 @@
   };
   let venusWorldActive = false;
   let venusOrbitPaused = false;
+  let previewBody = null;
+  let previewTrigger = null;
+  let previewTimer = 0;
+  let lastWorksInput = 0;
+  let lensMix = 0;
+  let lensDrift = 0;
+  let observation = null;
 
   const tempVecA = new THREE.Vector3();
   const tempVecB = new THREE.Vector3();
@@ -9976,10 +10305,16 @@
   }
 
   function setViewClass(view) {
+    if (state.view !== view) {
+      if (state.view === 'works') stopObservation();
+      hideHoverLabel();
+      if (view === 'works') lastWorksInput = performance.now();
+    }
     state.view = view;
     document.body.classList.toggle('view-welcome', view === 'welcome');
     document.body.classList.toggle('view-works', view === 'works');
     document.body.classList.toggle('view-project', view === 'project');
+    applyWorksScene();
     refreshNavActive();
   }
 
@@ -9989,18 +10324,48 @@
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    positionObservationIndicator(state.view === 'works' ? key : null);
+  }
+
+  function positionObservationIndicator(key) {
+    const button = dockButtons.get(key);
+    if (button) UI.planetDock.style.setProperty('--orbit-selection-x', `${button.offsetLeft + button.offsetWidth / 2 - 7}px`);
+    UI.planetDock.classList.toggle('has-selection', Boolean(button));
   }
 
   function updateOrbitVisuals() {
     const activeKey = state.activeFocus ? state.activeFocus.key : null;
-    const activeAccent = state.activeFocus && state.activeFocus.info ? state.activeFocus.info.accent : '#78d9c9';
-    orbitRecords.forEach(({ key, line }) => {
+    orbitRecords.forEach(({ key, line }, index) => {
       line.visible = state.showOrbits;
       const active = key === activeKey;
-      line.material.color.set(active ? '#8c969f' : '#505b66');
-      line.material.opacity = active ? 0.24 : 0.12;
+      const overview = state.view === 'works';
+      line.material.color.set(overview ? '#a4afbf' : active ? '#8c969f' : '#505b66');
+      line.material.opacity = overview ? worksOrbitOpacity(index) : active ? 0.24 : 0.12;
       line.renderOrder = active ? 3 : 1;
     });
+  }
+
+  function worksOrbitOpacity(index) {
+    return lerp(0.38, 0.17, index / (orbitRecords.length - 1));
+  }
+
+  function applyWorksScene() {
+    const overview = state.view === 'works';
+    sunMesh.scale.setScalar(overview ? WORKS_SUN_SCALE : 1);
+    sunHit.scale.copy(sunMesh.scale);
+    updateSunTint(1, 1);
+    sunLight.intensity = overview ? 3.85 : 3.3;
+    ambient.color.setHex(overview ? 0x91929a : 0x1b1e23);
+    ambient.intensity = overview ? 0.4 : 0.16;
+    bloomPass.strength = overview ? 0.12 : isNarrow ? 0.28 : 0.38;
+    for (const def of PLANET_DEFS) {
+      const body = bodies[def.key];
+      const displayRadius = Math.max(def.radius * (isNarrow ? 1.62 : 1.46), isNarrow ? 3.2 : 2.1);
+      body.tiltNode.scale.setScalar(overview ? displayRadius / def.radius : 1);
+      body.hit.scale.setScalar(overview ? Math.max(displayRadius * 1.65, isNarrow ? 8 : 5) / body.hitRadius : 1);
+      if (body.glow) body.glow.material.opacity = overview ? 0.025 : 0.09;
+      body.material.color.setScalar(1);
+    }
   }
 
   function buildWorksList() {
@@ -10073,7 +10438,7 @@
     if (UI.exploreToggle) {
       UI.exploreToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       const label = UI.exploreToggle.querySelector('span');
-      if (label) label.textContent = open ? '收起索引' : '浏览九界';
+      if (label) label.textContent = open ? '收起索引' : '开始漫游';
     }
   }
 
@@ -10415,10 +10780,12 @@
   }
 
   function setDrawerOpen(kind, open) {
+    if (open) hideHoverLabel();
     if (open) state.overlay = kind;
     else if (state.overlay === kind) state.overlay = null;
     document.body.classList.toggle('overlay-open', Boolean(state.overlay));
     refreshNavActive();
+    if (!state.overlay && observation && !observation.flight) showWorksPreview(observation.body, null);
   }
 
   function applySpeed(speed) {
@@ -10461,6 +10828,7 @@
       UI.hud.style.opacity = hidden ? '0' : '1';
     }
     if (hidden) {
+      hideHoverLabel();
       closeHelp();
       showToast('界面已隐藏 · 按 I 恢复', 2500);
     } else {
@@ -10469,6 +10837,13 @@
   }
 
   function hideHoverLabel() {
+    cancelPreviewDismiss();
+    setPreviewTarget(null, null);
+    clearTimeout(previewSwitchTimer);
+    previewSwitchTimer = 0;
+    renderedPreviewBody = null;
+    UI.worksPreview.inert = true;
+    UI.worksPreview.classList.remove('is-on', 'is-switching');
     UI.hoverLabel.classList.remove('is-on');
     renderer.domElement.classList.remove('is-hovering');
   }
@@ -10507,15 +10882,15 @@
 
   function solarOverview() {
     const { hFov } = viewportHalfFovs();
-    const compositionRadius = isNarrow ? 236 : 190;
+    const compositionRadius = isNarrow ? 216 : 222;
     const distance = clamp(
       compositionRadius / Math.tan(hFov * 0.5) * 1.08,
-      isNarrow ? 840 : 340,
+      isNarrow ? 740 : 340,
       1500
     );
     return {
       distance,
-      direction: new THREE.Vector3(0.26, 0.52, 0.82).normalize()
+      direction: new THREE.Vector3(0.40, isNarrow ? 0.57 : 0.51, 0.82).normalize()
     };
   }
 
@@ -10604,6 +10979,14 @@
   function finishFlight() {
     const flight = state.activeFlight;
     if (!flight) return;
+    if (flight.kind === 'galaxyExit') {
+      document.body.classList.remove('entering-works');
+      delete document.body.dataset.orbitTransit;
+      setWelcomeView({ settled: true });
+      controls.enabled = true;
+      state.transitionLock = false;
+      return;
+    }
     if (flight.kind === 'worksEntry') {
       finishWorksEntryFlight(flight);
       return;
@@ -10653,12 +11036,17 @@
   }
 
   function handleControlsStart() {
+    if (state.view === 'works') {
+      lastWorksInput = performance.now();
+      stopObservation();
+    }
     if (state.activeFlight) interruptFlight();
     hideHoverLabel();
   }
 
   function startFlight(focus, options = {}) {
     if (!focus) return;
+    stopObservation();
     welcomeLensStart = 0;
 
     const targetNow = focusPosition(focus, new THREE.Vector3());
@@ -10700,7 +11088,7 @@
       logStartDistance: Math.log(Math.max(startDistance, 0.02)),
       logEndDistance: Math.log(Math.max(endDistance, 0.02)),
       endDistance,
-      clearance: focusClearance(focus) * 1.02,
+      clearance: options.clearance ?? focusClearance(focus) * 1.02,
       startLook: controls.target.clone(),
       fovStart: camera.fov,
       fovKick
@@ -10765,8 +11153,8 @@
     return true;
   }
 
-  function updateCamera(now) {
-    if (!updateFlight(now)) {
+  function updateCamera(now, dt) {
+    if (!updateFlight(now) && !updateObservation(now, dt)) {
       if (state.trackedFocus) {
         const target = focusPosition(state.trackedFocus, tempVecA);
         const delta = tempVecB.copy(target).sub(controls.target);
@@ -10780,7 +11168,155 @@
     camera.updateMatrixWorld(true);
   }
 
+  // The observatory translates the existing camera and its look point together.
+  // Keeping its orientation and depth fixed preserves the orbital composition.
+  const observationWorld = new THREE.Vector3();
+  const observationGoal = new THREE.Vector2();
+  const observationDelta = new THREE.Vector2();
+
+  function stopObservation() {
+    if (!observation) return;
+    observation = null;
+    setDockActive(null);
+    hideHoverLabel();
+  }
+
+  function observationFov(body) {
+    const zoom = isNarrow ? 0.05 : 0.09;
+    return getBaseFov() * (1 - zoom * (body.key === 'sun' ? 0.65 : 1));
+  }
+
+  function getObservationGoal(rig) {
+    const relative = rig.body.node.getWorldPosition(observationWorld).sub(rig.origin);
+    const depth = Math.max(relative.dot(rig.forward), rig.distance * 0.18);
+    const span = Math.tan(observationFov(rig.body) * DEG / 2);
+    const halfHeight = depth * span;
+    const halfWidth = halfHeight * camera.aspect;
+    const x = relative.dot(rig.right);
+    const y = relative.dot(rig.up);
+    // An observation area leaves more of the system in view than a fixed reticle.
+    const aimX = clamp(lerp(x / halfWidth, isNarrow ? 0.02 : 0.066, 0.36),
+      isNarrow ? -0.20 : -0.04, isNarrow ? 0.20 : 0.33);
+    const aimY = clamp(lerp(y / halfHeight, isNarrow ? 0.09 : 0.076, 0.36),
+      isNarrow ? -0.11 : -0.22, isNarrow ? 0.19 : 0.34);
+    const horizontal = x - aimX * halfWidth;
+    const vertical = y - aimY * halfHeight;
+    // Manual close-ups can be inside the orbital envelope. Preserve their position.
+    const range = rig.distance >= 230 ? rig.distance : 0;
+    const maxX = range * Math.min(isNarrow ? 0.24 : 0.52, span * camera.aspect * (isNarrow ? 0.44 : 0.86));
+    const maxY = range * (isNarrow ? 0.14 : 0.28);
+    return observationGoal.set(clamp(horizontal, -maxX, maxX), clamp(vertical, -maxY, maxY));
+  }
+
+  function observeBody(body) {
+    if (!state.started || state.transitionLock || state.overlay || state.view !== 'works') return;
+    if (observation?.body === body) {
+      if (!observation.flight) showWorksPreview(body, null);
+      return;
+    }
+    if (!observation) {
+      observation = {
+        origin: camera.position.clone(),
+        look: controls.target.clone(),
+        right: new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0),
+        up: new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
+        forward: new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 2).negate(),
+        distance: camera.position.distanceTo(controls.target),
+        pan: new THREE.Vector2(),
+        goal: new THREE.Vector2(),
+        flight: null,
+        tracking: false
+      };
+      // Consume any pending drag inertia before handing the camera back later.
+      const damping = controls.enableDamping;
+      controls.enableDamping = false;
+      controls.update();
+      controls.enableDamping = damping;
+      camera.position.copy(observation.origin);
+      controls.target.copy(observation.look);
+      camera.lookAt(observation.look);
+      camera.updateMatrixWorld(true);
+    }
+    const rig = observation;
+    rig.body = body;
+    state.trackedFocus = null;
+    lastWorksInput = performance.now();
+    setDockActive(body.key);
+    const fadingBody = renderedPreviewBody;
+    hideHoverLabel();
+    rig.goal.copy(getObservationGoal(rig));
+    if (reducedMotionMq.matches) {
+      rig.flight = null;
+      rig.tracking = false;
+      showWorksPreview(body, null);
+      return;
+    }
+    renderedPreviewBody = fadingBody;
+    const travel = rig.pan.distanceTo(rig.goal);
+    rig.tracking = true;
+    rig.flight = {
+      start: rig.pan.clone(),
+      fov: camera.fov,
+      elapsed: 0,
+      lastFrame: performance.now(),
+      duration: lerp(0.85, 1.2, clamp(travel / Math.max(1, rig.distance * 0.6), 0, 1)),
+      arc: Math.min(travel * 0.10, rig.distance * (isNarrow ? 0.014 : 0.027)),
+      revealed: false
+    };
+  }
+
+  function updateObservation(now, dt) {
+    const rig = observation;
+    if (!rig || state.view !== 'works') return false;
+    const flight = rig.flight;
+    if (state.overlay || state.transitionLock) {
+      if (flight) flight.lastFrame = now;
+      return true;
+    }
+    if (reducedMotionMq.matches) {
+      rig.tracking = false;
+      if (rig.flight) {
+        rig.flight = null;
+        showWorksPreview(rig.body, null);
+      }
+      return true;
+    }
+    if (!rig.tracking) return true;
+
+    rig.goal.lerp(getObservationGoal(rig), 1 - Math.exp(-dt * (flight ? 9 : 3)));
+    let fov = observationFov(rig.body);
+    if (flight) {
+      flight.elapsed += Math.max(0, now - flight.lastFrame) / 1000;
+      flight.lastFrame = now;
+      const progress = clamp(flight.elapsed / flight.duration, 0, 1);
+      const eased = smootherstep(progress);
+      rig.pan.lerpVectors(flight.start, rig.goal, eased);
+      rig.pan.y += flight.arc * 4 * eased * (1 - eased);
+      fov = lerp(flight.fov, fov, eased);
+      if (!flight.revealed && flight.elapsed >= flight.duration - 0.20) {
+        flight.revealed = true;
+        showWorksPreview(rig.body, null);
+      } else if (!flight.revealed && flight.elapsed >= 0.25) {
+        renderedPreviewBody = null;
+      }
+      if (progress >= 1) rig.flight = null;
+    } else {
+      const delta = observationDelta.copy(rig.goal).sub(rig.pan);
+      const length = delta.length();
+      const deadZone = rig.distance * (isNarrow ? 0.016 : 0.009);
+      if (length > deadZone) rig.pan.addScaledVector(delta, (1 - deadZone / length) * (1 - Math.exp(-dt * 2)));
+    }
+    camera.position.copy(rig.origin).addScaledVector(rig.right, rig.pan.x).addScaledVector(rig.up, rig.pan.y);
+    controls.target.copy(rig.look).addScaledVector(rig.right, rig.pan.x).addScaledVector(rig.up, rig.pan.y);
+    if (camera.fov !== fov) {
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+    }
+    return true;
+  }
+
   function zoomBy(factor) {
+    stopObservation();
     if (state.activeFlight) interruptFlight();
     const offset = camera.position.clone().sub(controls.target);
     const distance = offset.length();
@@ -10818,7 +11354,7 @@
     controls.update();
   }
 
-  function setWelcomeView() {
+  function setWelcomeView({ settled = false } = {}) {
     state.activeFlight = null;
     state.trackedFocus = GALAXY_FOCUS;
     state.activeFocus = null;
@@ -10830,7 +11366,7 @@
     updateOrbitVisuals();
     renderIndexPanel();
     placeWelcomeCamera();
-    startWelcomeLens(55, 4400);
+    if (!settled) startWelcomeLens(55, 4400);
     controls.autoRotate = !reducedMotionMq.matches;
     controls.autoRotateSpeed = 0.16;
     replayWelcomeReveal();
@@ -10934,6 +11470,32 @@
     );
   }
 
+  function startGalaxyExitZoom() {
+    if (state.transitionLock) return;
+    state.transitionLock = true;
+    closeHelp();
+    if (!UI.projectDossier.hidden) closeDossier({ restoreFocus: false });
+    if (!UI.aboutOverlay.hidden) closeAbout({ restoreFocus: false });
+    state.activeFlight = null;
+    state.trackedFocus = null;
+    welcomeLensStart = 0;
+    controls.enabled = false;
+    controls.autoRotate = false;
+    hideHoverLabel();
+    document.body.classList.add('entering-works');
+    document.body.dataset.orbitTransit = 'galaxyExit';
+    const view = galaxyOverview();
+    startFlight(GALAXY_FOCUS, {
+      kind: 'galaxyExit', duration: 3.4,
+      distance: view.distance, direction: view.direction,
+      // Galaxy overview clearance must not snap a close planet camera outward.
+      clearance: 0.28
+    });
+    controls.minDistance = 0.28;
+    setDockActive(null);
+    setTrackState('正在返回银河系', 'RETURNING TO THE GALAXY');
+  }
+
   function showWelcome() {
     if (!state.started || state.transitionLock) return;
     setSettingsOpen(false);
@@ -10941,7 +11503,11 @@
       closeHelp();
       return;
     }
-    runViewTransition('正在返回银河系', 'RETURNING TO THE GALAXY', setWelcomeView);
+    if (reducedMotionMq.matches) {
+      runViewTransition('正在返回银河系', 'RETURNING TO THE GALAXY', setWelcomeView);
+      return;
+    }
+    startGalaxyExitZoom();
   }
 
   function focusSun() {
@@ -11001,6 +11567,250 @@
     });
   }
 
+  /* The dive owns the existing camera until its last rendered frame is handed off. */
+  const entryRush = $('#planetEntryRush');
+  const entryFrame = $('#planetEntryFrame');
+  const entryTarget = new THREE.Vector3();
+  const entryPosition = new THREE.Vector3();
+  const entryDirection = new THREE.Vector3();
+  const entryRotation = new THREE.Quaternion();
+  const entryFillTint = new THREE.Color(0x91929a);
+  let planetEntry = null;
+
+  function enterPlanet(key) {
+    if (!state.started || state.transitionLock || state.overlay || planetEntry) return;
+    const body = bodies[key];
+    if (!body) return;
+    const portal = window[`__${key}SiteReady`];
+    if (!portal && key !== 'sun') {
+      if (state.view === 'project' && state.activeFocus === body) openDossier();
+      else showToast('作品暂时无法打开，请稍后重试。');
+      return;
+    }
+    const position = camera.position.clone();
+    const direction = position.clone().sub(focusPosition(body, entryTarget));
+    const distance = direction.length();
+    if (distance > .001) direction.divideScalar(distance);
+    else direction.copy(UP);
+    const visualRadius = body.radius * (state.view === 'works'
+      ? key === 'sun' ? WORKS_SUN_SCALE : body.tiltNode.scale.x : 1);
+    const corner = Math.atan(Math.hypot(1, camera.aspect) * Math.tan(getBaseFov() * DEG / 2));
+    const frameDistance = clamp(1 / Math.sin(corner + .055), 1.13, 1.46);
+    const entry = planetEntry = {
+      body, portal, position, direction, distance,
+      // Leave space for the atmospheric shell, near plane and wide viewport.
+      endDistance: visualRadius * frameDistance + camera.near,
+      turn: new THREE.Quaternion(),
+      quaternion: camera.quaternion.clone(), target: controls.target.clone(), fov: camera.fov,
+      lensX: camera.view?.enabled ? camera.view.offsetX / camera.view.fullWidth : 0,
+      lensY: camera.view?.enabled ? camera.view.offsetY / camera.view.fullHeight : 0,
+      view: state.view, focus: state.activeFocus, trackedFocus: state.trackedFocus, mode: state.activeMode,
+      observation, controlsEnabled: controls.enabled, focusElement: document.activeElement,
+      exploring: UI.indexPanel.classList.contains('is-exploring'),
+      ambientColor: ambient.color.clone(), ambientIntensity: ambient.intensity,
+      orbitOpacity: orbitRecords.map(({ line }) => line.material.opacity),
+      start: performance.now(), progress: 0, reduced: reducedMotionMq.matches,
+      ready: !portal?.prepareEntry, phase: 'dive', readyFrames: 0
+    };
+    if (key !== 'sun') {
+      const daylight = entryTarget.clone().negate().normalize();
+      const angle = direction.angleTo(daylight);
+      if (angle > Math.PI / 2) {
+        entry.turn.identity().slerp(new THREE.Quaternion().setFromUnitVectors(direction, daylight),
+          Math.min(.58, angle - Math.PI / 2 + .18) / angle);
+      }
+    }
+    stopObservation();
+    state.activeFlight = null;
+    state.transitionLock = true;
+    controls.enabled = false;
+    controls.autoRotate = false;
+    hideHoverLabel();
+    closeHelp();
+    setSettingsOpen(false);
+    UI.hud.inert = true;
+    document.body.classList.add('planet-entering');
+    entryRush.style.setProperty('--entry-tint', body.info.accent);
+    ensureHighRes(key);
+    Promise.resolve().then(() => portal?.prepareEntry?.()).then(
+      () => { entry.ready = true; },
+      () => { entry.ready = true; } // The gallery renders its own image-error state.
+    );
+  }
+
+  function updatePlanetDive(now) {
+    const entry = planetEntry;
+    if (entry?.phase !== 'dive') return false;
+    const elapsed = (now - entry.start) / 1000;
+    entry.reduced ||= reducedMotionMq.matches;
+    entry.progress = clamp(elapsed / 1.34, 0, 1);
+    if (entry.reduced) {
+      entryRush.hidden = true;
+      return true;
+    }
+    const aim = smootherstep(clamp(elapsed / .39, 0, 1));
+    const travel = clamp((elapsed - .23) / 1.11, 0, 1);
+    const distance = Math.exp(lerp(Math.log(Math.max(entry.distance, entry.endDistance)),
+      Math.log(entry.endDistance), Math.pow(travel, 1.72)));
+    focusPosition(entry.body, entryTarget);
+    const turn = smootherstep(clamp((travel - .48) / .48, 0, 1));
+    entryRotation.identity().slerp(entry.turn, turn);
+    entryDirection.copy(entry.direction).applyQuaternion(entryRotation);
+    entryPosition.copy(entryTarget).addScaledVector(entryDirection, distance);
+    camera.position.lerpVectors(entry.position, entryPosition, aim);
+    camera.lookAt(entryTarget);
+    camera.quaternion.slerp(entry.quaternion, 1 - aim);
+    const fov = lerp(entry.fov, getBaseFov(), aim);
+    const fovChanged = camera.fov !== fov;
+    camera.fov = fov;
+    if (aim < 1 && (entry.lensX || entry.lensY)) {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      camera.setViewOffset(width, height, entry.lensX * width * (1 - aim), entry.lensY * height * (1 - aim), width, height);
+    } else if (camera.view?.enabled) {
+      camera.clearViewOffset();
+    } else if (fovChanged) {
+      camera.updateProjectionMatrix();
+    }
+    camera.updateMatrixWorld(true);
+
+    const sprint = Math.sin(Math.PI * clamp((elapsed - 1.00) / .28, 0, 1));
+    entryRush.hidden = sprint < .015;
+    entryRush.style.opacity = String(sprint * (isNarrow ? .20 : .39));
+    const shade = 1 - .72 * smootherstep(clamp(elapsed / .65, 0, 1));
+    starUniforms.uEntryFade.value = lerp(1, .68, aim);
+    orbitRecords.forEach(({ line }, index) => {
+      line.material.opacity = entry.orbitOpacity[index] * shade;
+    });
+    if (entry.body.key !== 'sun') {
+      ambient.intensity = lerp(entry.ambientIntensity, .72, turn);
+      ambient.color.copy(entry.ambientColor).lerp(entryFillTint, turn);
+    }
+    return true;
+  }
+
+  function clearPlanetEntry() {
+    planetEntry = null;
+    starUniforms.uEntryFade.value = 1;
+    document.body.classList.remove('planet-entering', 'planet-entry-revealing');
+    entryRush.hidden = true;
+    entryFrame.hidden = true;
+    entryFrame.style.opacity = '';
+    entryFrame.width = entryFrame.height = 1;
+  }
+
+  function cancelPlanetEntry(message) {
+    const entry = planetEntry;
+    if (!entry) return;
+    clearPlanetEntry();
+    if (entry.phase !== 'revealing' || message) {
+      state.transitionLock = false;
+      state.activeFocus = entry.focus;
+      state.trackedFocus = entry.trackedFocus;
+      state.activeMode = entry.mode;
+      setViewClass(entry.view);
+      if (entry.view === 'works') {
+        renderIndexPanel();
+        setWorksExplorer(entry.exploring);
+      }
+      else if (entry.focus && entry.focus.key !== 'sun') renderProject(entry.focus);
+      observation = entry.observation;
+      if (observation?.flight) observation.flight.lastFrame = performance.now();
+      setDockActive(observation?.body.key ?? entry.focus?.key);
+      updateOrbitVisuals();
+      camera.position.copy(entry.position);
+      camera.quaternion.copy(entry.quaternion);
+      controls.target.copy(entry.target);
+      camera.fov = entry.fov;
+      camera.updateProjectionMatrix();
+      camera.updateMatrixWorld(true);
+      controls.enabled = entry.controlsEnabled;
+      UI.hud.inert = false;
+      const focus = entry.focusElement?.closest('#worksPreview') ? dockButtons.get(entry.body.key) : entry.focusElement;
+      focus?.focus?.({ preventScroll: true });
+    }
+    if (message) showToast(message);
+  }
+
+  function commitPlanetEntry(now) {
+    const entry = planetEntry;
+    const elapsed = now - entry.start;
+    if (elapsed < (entry.reduced ? 120 : 1340) || (!entry.ready && elapsed < 5500)) return;
+    entry.phase = 'revealing';
+    entry.revealStart = now;
+    // Copy the actual composited frame before any destination pauses WebGL.
+    const source = renderer.domElement;
+    try {
+      const scale = Math.min(1, 1600 / Math.max(source.width, source.height));
+      entryFrame.width = Math.max(1, Math.round(source.width * scale));
+      entryFrame.height = Math.max(1, Math.round(source.height * scale));
+      entryFrame.getContext('2d').drawImage(source, 0, 0, entryFrame.width, entryFrame.height);
+      entryFrame.style.opacity = '1';
+      entryFrame.hidden = false;
+    } catch {
+      entryFrame.hidden = true;
+    }
+    document.body.classList.toggle('planet-entry-revealing', !entryFrame.hidden);
+    document.body.classList.remove('planet-entering');
+    const body = entry.body;
+    state.transitionLock = false;
+    state.trackedFocus = state.activeFocus = body;
+    state.activeMode = body.key === 'earth' ? 'earth' : 'solar';
+    state.manualMode = false;
+    setViewClass('project');
+    setGalaxyForView(false);
+    setDockActive(body.key);
+    updateOrbitVisuals();
+    lensMix = lensDrift = 0;
+    camera.clearViewOffset();
+    camera.fov = getBaseFov();
+    camera.updateProjectionMatrix();
+    focusLimits(body);
+    const target = focusPosition(body, entryTarget);
+    camera.position.copy(target).addScaledVector(approachDirection(body), bodyViewDistance(body));
+    controls.target.copy(target);
+    camera.lookAt(target);
+    controls.update();
+    if (body.key === 'sun') {
+      UI.hud.inert = false;
+      controls.enabled = true;
+      renderSunPanel();
+      UI.sunBack.focus({ preventScroll: true });
+      return;
+    }
+    renderProject(body);
+    try {
+      if (entry.portal.open({ instant: true })) return;
+    } catch {
+      if (entry.portal.isActive()) entry.portal.requestClose();
+    }
+    cancelPlanetEntry('作品暂时无法打开，请重试。');
+  }
+
+  function updatePlanetReveal(now) {
+    const entry = planetEntry;
+    if (entry?.phase !== 'revealing') return;
+    const painted = entry.body.key === 'sun' ? !UI.sunPanel.hidden
+      : document.getElementById(entry.body.key + 'World')?.classList.contains('is-open');
+    if (!painted) {
+      if (now - entry.revealStart > 1800) {
+        if (entry.portal?.isActive()) entry.portal.requestClose();
+        cancelPlanetEntry('作品加载超时，请重试。');
+      }
+      return;
+    }
+    entry.readyFrames += 1;
+    if (entry.readyFrames < 2) return;
+    entry.fadeStart ??= now;
+    const blend = clamp((now - entry.fadeStart) / (entry.reduced ? 180 : 280), 0, 1);
+    entryFrame.style.opacity = String(1 - smootherstep(blend));
+    if (blend === 1) clearPlanetEntry();
+  }
+
+  window.addEventListener('popstate', () => cancelPlanetEntry());
+  window.addEventListener('hashchange', () => cancelPlanetEntry());
+  window.addEventListener('pagehide', () => cancelPlanetEntry());
+
   function openDossier() {
     const body = state.activeFocus;
     if (!body || body.key === 'sun' || !PROJECTS[body.key] || state.transitionLock) return;
@@ -11045,7 +11855,8 @@
   }
 
   let aboutCloseTimer = 0;
-  let aboutPlanetRuntime = null;
+  let aboutArchive = null;
+  let aboutReturnFocus = null;
 
   function openAbout() {
     if (state.transitionLock) return;
@@ -11056,20 +11867,23 @@
       aboutCloseTimer = 0;
       UI.aboutOverlay.classList.remove('is-closing');
     }
+    aboutArchive ??= window.createOrbitArchive(UI.aboutOverlay);
+    aboutReturnFocus = document.activeElement;
     setDrawerOpen('about', true);
+    UI.hud.inert = true;
     UI.aboutOverlay.hidden = false;
     UI.aboutOverlay.scrollTop = 0;
-    ensureAboutPlanet();
+    aboutArchive.refresh();
     controls.enabled = false;
     hideHoverLabel();
-    window.setTimeout(() => UI.aboutClose.focus(), 30);
+    UI.aboutClose.focus({ preventScroll: true });
   }
 
   function closeAbout(options = {}) {
     if (UI.aboutOverlay.hidden || UI.aboutOverlay.classList.contains('is-closing')) return;
     const restoreFocus = options.restoreFocus !== false;
     const afterClose = typeof options.afterClose === 'function' ? options.afterClose : null;
-    const delay = reducedMotionMq.matches ? 0 : 520;
+    const delay = reducedMotionMq.matches ? 0 : 320;
 
     UI.aboutOverlay.classList.add('is-closing');
 
@@ -11079,11 +11893,15 @@
       UI.aboutOverlay.classList.remove('is-closing');
       aboutCloseTimer = 0;
       setDrawerOpen('about', false);
+      UI.hud.inert = false;
       if (!state.transitionLock) controls.enabled = true;
       if (restoreFocus) {
         const targetButton = UI.navButtons.find((button) => button.dataset.nav === (state.view === 'welcome' ? 'welcome' : 'works'));
-        if (targetButton) targetButton.focus({ preventScroll: true });
+        const focus = aboutReturnFocus instanceof HTMLElement && aboutReturnFocus.getClientRects().length && UI.hud.contains(aboutReturnFocus)
+          ? aboutReturnFocus : targetButton;
+        focus?.focus({ preventScroll: true });
       }
+      aboutReturnFocus = null;
       if (afterClose) afterClose();
     };
 
@@ -11092,213 +11910,6 @@
     } else {
       finish();
     }
-  }
-
-  /* A single, quiet Saturn study for the About page. It reuses the
-     project's Solar System Scope texture and ring strip. */
-
-  function resizeAboutPlanet(runtime) {
-    const container = runtime.canvas.parentElement;
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    const width = Math.max(1, Math.round(rect.width));
-    const height = Math.max(1, Math.round(rect.height));
-    if (runtime.width === width && runtime.height === height) return;
-    runtime.width = width;
-    runtime.height = height;
-    runtime.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isNarrow ? 1.7 : 2));
-    runtime.renderer.setSize(width, height, false);
-    runtime.camera.aspect = width / height;
-    runtime.camera.updateProjectionMatrix();
-  }
-
-  function ensureAboutPlanet() {
-    if (aboutPlanetRuntime) return;
-    const canvas = document.getElementById('aboutPlanetCanvas');
-    if (!canvas) return;
-
-    let renderer;
-    try {
-      renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true,
-        powerPreference: 'high-performance'
-      });
-    } catch (error) {
-      console.warn('About planet unavailable:', error);
-      return;
-    }
-
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(31, 1, .1, 100);
-    camera.position.set(0.08, 0.16, 6.0);
-    camera.lookAt(0, 0.02, 0);
-
-    const saturnGroup = new THREE.Group();
-    saturnGroup.rotation.set(-0.42, 0.08, 0.17);
-    scene.add(saturnGroup);
-
-    const sourceMap = bodies.saturn && bodies.saturn.material ? bodies.saturn.material.map : null;
-    const planetMaterial = new THREE.MeshStandardMaterial({
-      map: sourceMap,
-      color: 0xf4ede4,
-      roughness: 1,
-      metalness: 0
-    });
-    const planet = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), planetMaterial);
-    planet.rotation.y = 1.2;
-    saturnGroup.add(planet);
-
-    const rimMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uColor: { value: new THREE.Color('#f0d3a5') },
-        uLightDir: { value: new THREE.Vector3(-3.6, 2.6, -5.0).normalize() },
-        uIntensity: { value: .52 }
-      },
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      vertexShader: `
-        varying vec3 vN;
-        varying vec3 vW;
-        void main() {
-          vN = normalize(mat3(modelMatrix) * normal);
-          vW = (modelMatrix * vec4(position, 1.0)).xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uColor;
-        uniform vec3 uLightDir;
-        uniform float uIntensity;
-        varying vec3 vN;
-        varying vec3 vW;
-        void main() {
-          vec3 N = normalize(vN);
-          vec3 V = normalize(cameraPosition - vW);
-          float fres = pow(1.0 - max(dot(N, V), 0.0), 4.2);
-          float lit = smoothstep(-0.24, 0.58, dot(N, uLightDir));
-          float alpha = fres * lit * uIntensity;
-          if (alpha < 0.002) discard;
-          gl_FragColor = vec4(uColor, alpha);
-          #include <colorspace_fragment>
-        }
-      `
-    });
-    const rim = new THREE.Mesh(new THREE.SphereGeometry(1.008, 96, 72), rimMaterial);
-    rim.renderOrder = 4;
-    saturnGroup.add(rim);
-
-    const ringFallback = bodies.saturn && bodies.saturn.ring
-      ? bodies.saturn.ring.uniforms.uMap.value
-      : null;
-    const ringUniforms = {
-      uMap: { value: ringFallback },
-      uTint: { value: new THREE.Color('#d2b78e') },
-      uOpacity: { value: .64 }
-    };
-    const ringMaterial = new THREE.ShaderMaterial({
-      uniforms: ringUniforms,
-      transparent: true,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-      depthTest: true,
-      toneMapped: false,
-      vertexShader: `
-        attribute float aRadial;
-        varying float vRadial;
-        void main() {
-          vRadial = aRadial;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D uMap;
-        uniform vec3 uTint;
-        uniform float uOpacity;
-        varying float vRadial;
-        void main() {
-          vec4 texel = texture2D(uMap, vec2(clamp(vRadial, 0.001, 0.999), 0.5));
-          float edge = smoothstep(0.0, 0.022, vRadial) * (1.0 - smoothstep(0.958, 1.0, vRadial));
-          float ringlets = 0.78 + 0.22 * sin(vRadial * 268.0 + sin(vRadial * 41.0) * 2.0);
-          float cAssini = 1.0 - 0.62 * smoothstep(0.002, 0.01, abs(vRadial - 0.635));
-          float alpha = texel.a * uOpacity * edge * ringlets * cAssini;
-          if (alpha < 0.003) discard;
-          vec3 color = mix(texel.rgb, uTint, 0.5);
-          color *= 0.9 + 0.1 * sin(vRadial * 177.0 + 1.4);
-          gl_FragColor = vec4(color, alpha);
-          #include <colorspace_fragment>
-        }
-      `
-    });
-    const ring = new THREE.Mesh(createRadialRingGeometry(1.22, 2.32, 320), ringMaterial);
-    ring.renderOrder = 2;
-    saturnGroup.add(ring);
-
-    const key = new THREE.DirectionalLight(0xffd7aa, 3.6);
-    key.position.set(-3.8, 2.8, -4.4);
-    scene.add(key);
-    const fill = new THREE.DirectionalLight(0xc4b8a8, 0.5);
-    fill.position.set(4.0, 1.0, 5.8);
-    scene.add(fill);
-    const bounce = new THREE.DirectionalLight(0xb48155, 0.3);
-    bounce.position.set(3.4, -2.6, 2.0);
-    scene.add(bounce);
-    scene.add(new THREE.AmbientLight(0x17140f, 0.56));
-
-    const loader = new THREE.TextureLoader();
-    loader.setCrossOrigin('anonymous');
-    loader.load(
-      TEX.saturn,
-      (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-        planetMaterial.map = texture;
-        planetMaterial.needsUpdate = true;
-      },
-      undefined,
-      () => {}
-    );
-    loader.load(
-      TEX.saturnRing,
-      (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-        texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
-        ringUniforms.uMap.value = texture;
-        ringMaterial.needsUpdate = true;
-      },
-      undefined,
-      () => {}
-    );
-
-    aboutPlanetRuntime = {
-      canvas,
-      renderer,
-      scene,
-      camera,
-      planet,
-      width: 0,
-      height: 0
-    };
-    resizeAboutPlanet(aboutPlanetRuntime);
-  }
-
-  function renderAboutPlanet(dt) {
-    const runtime = aboutPlanetRuntime;
-    if (!runtime) return;
-    resizeAboutPlanet(runtime);
-    if (!reducedMotionMq.matches) {
-      runtime.planet.rotation.y += dt * 0.022;
-    }
-    runtime.renderer.render(runtime.scene, runtime.camera);
   }
 
   function navigateToEarth() {
@@ -11373,15 +11984,63 @@
   }
 
   function updateSunEffects() {
-    const time = state.ambientTime;
+    const overview = state.view === 'works';
+    const time = overview && reducedMotionMq.matches ? 0 : state.ambientTime;
     const pulse = 1 + 0.018 * Math.sin(time * 0.85 + 0.4);
-    sunHaloInner.scale.setScalar(SUN_HALO_BASE.inner * pulse);
-    sunHaloOuter.scale.setScalar(SUN_HALO_BASE.outer * (1 + 0.01 * Math.sin(time * 0.3)));
+    sunHaloInner.scale.setScalar((overview ? 52 : SUN_HALO_BASE.inner) * pulse);
+    sunHaloOuter.scale.setScalar((overview ? 110 : SUN_HALO_BASE.outer) * (1 + 0.01 * Math.sin(time * 0.3)));
     sunRays.scale.setScalar(SUN_HALO_BASE.rays * (1 + 0.014 * Math.sin(time * 0.5 + 1.2)));
     sunRays.material.rotation = time * 0.0034;
-    sunRays.material.opacity = 0.12 + 0.022 * Math.sin(time * 0.52 + 0.8);
-    sunHaloInner.material.opacity = 0.23 + 0.02 * Math.sin(time * 0.92 + 1.9);
-    sunHaloOuter.material.opacity = 0.07 + 0.008 * Math.sin(time * 0.41);
+    sunRays.material.opacity = (overview ? 0.026 : 0.12) + (overview ? 0.008 : 0.022) * Math.sin(time * 0.52 + 0.8);
+    sunHaloInner.material.opacity = (overview ? 0.27 : 0.23) + 0.02 * Math.sin(time * 0.92 + 1.9);
+    sunHaloOuter.material.opacity = (overview ? 0.10 : 0.07) + 0.008 * Math.sin(time * 0.41);
+  }
+
+  function updateWorksLens(now, dt) {
+    const overview = state.view === 'works';
+    const entry = state.activeFlight?.kind === 'worksEntry' ? state.activeFlight : null;
+    const target = overview ? 1 : entry
+      ? smootherstep(clamp(((now - entry.startTime) / 1000 / entry.duration - 0.5) * 2, 0, 1))
+      : 0;
+    const idle = overview && !state.paused && !state.overlay && !state.transitionLock &&
+      !previewBody && !observation && activePointers.size === 0 && now - lastWorksInput > 1800;
+    const drift = idle ? Math.sin(state.ambientTime * 0.15) * 0.002 : 0;
+    lensMix = overview || entry || reducedMotionMq.matches ? target : lerp(lensMix, 0, Math.min(dt * 8, 1));
+    lensDrift = reducedMotionMq.matches ? 0 : lerp(lensDrift, drift, Math.min(dt * 1.2, 1));
+    if (lensMix < 0.001) {
+      if (camera.view?.enabled) camera.clearViewOffset();
+      return;
+    }
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const x = -width * (isNarrow ? lensDrift : 0.122 * lensMix + lensDrift);
+    const y = -height * (isNarrow ? 0.115 * lensMix : 0.018 * lensMix);
+    if (!camera.view?.enabled || camera.view.offsetX !== x || camera.view.offsetY !== y ||
+        camera.view.fullWidth !== width || camera.view.fullHeight !== height) {
+      camera.setViewOffset(width, height, x, y, width, height);
+    }
+  }
+
+  function updateWorksHighlights(dt) {
+    if (state.view !== 'works') return;
+    const blend = 1 - Math.exp(-dt * 10);
+    for (const [index, { key, line }] of orbitRecords.entries()) {
+      const active = previewBody?.key === key || observation?.body.key === key;
+      const color = bodies[key].material.color;
+      color.setScalar(lerp(color.r, active ? 1.19 : 1, blend));
+      line.material.opacity = lerp(line.material.opacity, worksOrbitOpacity(index) + (active ? 0.19 : 0), blend);
+    }
+    updateSunTint(observation?.body.key === 'sun' ? 1.02 : previewBody?.key === 'sun' ? 1.08 : 1, blend);
+  }
+
+  function updateSunTint(amount, blend) {
+    const base = sunMaterial.map === sunFallback ? sunFallbackTint : sunTextureTint;
+    const color = sunMaterial.color;
+    color.setRGB(
+      lerp(color.r, base.r * amount, blend),
+      lerp(color.g, base.g * amount, blend),
+      lerp(color.b, base.b * amount, blend)
+    );
   }
 
   const galaxyMarkerWorld = new THREE.Vector3(0, 0, 0);
@@ -11404,6 +12063,11 @@
       const raw = clamp(((performance.now() - entry.startTime) / 1000) / entry.duration, 0, 1);
       const recede = smootherstep(clamp((raw - 0.24) / 0.42, 0, 1));
       goal = 0.92 * (1 - recede);
+    }
+    if (state.activeFlight && state.activeFlight.kind === 'galaxyExit') {
+      const exit = state.activeFlight;
+      const raw = clamp(((performance.now() - exit.startTime) / 1000) / exit.duration, 0, 1);
+      goal = 0.92 * smootherstep(clamp((raw - 0.18) / 0.68, 0, 1));
     }
     state.galaxyFade += (goal - state.galaxyFade) * Math.min(1, dt * 5.2);
     if (state.galaxyFade < 0.0015) state.galaxyFade = 0;
@@ -11440,6 +12104,164 @@
   const pointerNdc = new THREE.Vector2();
   const activePointers = new Map();
   let gesture = null;
+  const previewCopy = UI.worksPreview.querySelector('.preview-copy');
+  const previewSvg = UI.worksPreview.querySelector('svg');
+  const previewLeader = UI.worksPreview.querySelector('path');
+  const previewDot = UI.worksPreview.querySelector('circle');
+  const previewDirections = ['right', 'left', 'above', 'below'];
+  let renderedPreviewBody = null;
+  let previewSwitchTimer = 0;
+  let previewBounds;
+  let previewDirection = 'right';
+
+  function cancelPreviewDismiss() {
+    clearTimeout(previewTimer);
+    previewTimer = 0;
+  }
+
+  function deferPreviewDismiss() {
+    if (!previewBody || previewTimer || UI.worksPreview.contains(document.activeElement)) return;
+    if (previewBody === observation?.body && !previewTrigger) return;
+    previewTimer = window.setTimeout(() => {
+      if (observation && !observation.flight) showWorksPreview(observation.body, null);
+      else hideHoverLabel();
+    }, 400);
+  }
+
+  function setPreviewTarget(body, trigger) {
+    if (previewBody) dockButtons.get(previewBody.key)?.classList.remove('is-previewed');
+    previewTrigger?.removeAttribute('aria-describedby');
+    previewBody = body;
+    previewTrigger = trigger;
+    if (body) dockButtons.get(body.key)?.classList.add('is-previewed');
+    trigger?.setAttribute('aria-describedby', UI.worksPreview.id);
+  }
+
+  function renderWorksPreview() {
+    previewSwitchTimer = 0;
+    const body = previewBody;
+    if (!body) return;
+    renderedPreviewBody = body;
+    const project = PROJECTS[body.key];
+    const sun = body.key === 'sun';
+    const preview = UI.worksPreview;
+    preview.querySelector('.preview-code').textContent = `${project?.no ?? 'SOL'} / ${body.info.en}`;
+    preview.querySelector('strong').textContent = `${body.info.cn} · ${project?.title ?? '恒光'}`;
+    preview.querySelector('p').textContent = sun ? '访客留言 / 为偶然经过的人留一束光'
+      : body.key === 'earth' ? '摄影 / 那些被留下的瞬间'
+      : body.key === 'mercury' ? 'Python 编程 / 交互实验'
+      : project.category;
+    preview.querySelector('button').textContent = sun ? '进入恒光留言 ↗' : '探索这颗行星 ↗';
+    previewDirection = 'right';
+    measureWorksPreview();
+    preview.classList.remove('is-switching', 'is-positioned');
+    preview.classList.add('is-on');
+  }
+
+  function showWorksPreview(body, trigger) {
+    if (!state.started || state.transitionLock || state.overlay || uiHidden || state.view !== 'works') return;
+    if (observation?.flight && (!observation.flight.revealed || observation.body !== body)) return;
+    cancelPreviewDismiss();
+    if (body === previewBody && trigger === previewTrigger) return;
+    setPreviewTarget(body, trigger);
+    lastWorksInput = performance.now();
+    ensureHighRes(body.key);
+    if (previewSwitchTimer || body === renderedPreviewBody) return;
+
+    const preview = UI.worksPreview;
+    if (!reducedMotionMq.matches && preview.classList.contains('is-on') &&
+        preview.classList.contains('is-positioned')) {
+      preview.inert = true;
+      preview.classList.add('is-switching');
+      preview.classList.remove('is-on');
+      previewSwitchTimer = window.setTimeout(renderWorksPreview, 140);
+    } else {
+      renderWorksPreview();
+    }
+  }
+
+  function measureWorksPreview() {
+    previewBounds = {
+      width: previewCopy.offsetWidth,
+      height: previewCopy.offsetHeight,
+      left: 16,
+      right: window.innerWidth - 16,
+      top: $('.main-nav').getBoundingClientRect().bottom + 16,
+      bottom: UI.planetDock.getBoundingClientRect().top - 12,
+      title: UI.indexPanel.getBoundingClientRect(),
+      settings: UI.settingsToggle.getBoundingClientRect()
+    };
+    previewSvg.style.setProperty('--leader-top', `${previewBounds.top}px`);
+    previewSvg.style.setProperty('--leader-bottom', `${window.innerHeight - previewBounds.bottom}px`);
+  }
+
+  function projectWorksBody(body) {
+    const center = body.node.getWorldPosition(tempVecC).applyMatrix4(camera.matrixWorldInverse);
+    if (center.z >= -camera.near) return null;
+    const scale = body.key === 'sun' ? WORKS_SUN_SCALE : body.tiltNode.scale.x;
+    const pixelsPerUnit = camera.projectionMatrix.elements[5] * window.innerHeight / (-2 * center.z);
+    center.applyMatrix4(camera.projectionMatrix);
+    return {
+      x: (center.x + 1) * window.innerWidth / 2,
+      y: (1 - center.y) * window.innerHeight / 2,
+      radius: body.radius * scale * pixelsPerUnit,
+      extent: (body.ringOuter ?? body.radius) * scale * pixelsPerUnit
+    };
+  }
+
+  function placeWorksPreview(anchor, sun) {
+    const bounds = previewBounds;
+    const { width, height } = bounds;
+    const x = clamp(anchor.x, 0, window.innerWidth);
+    const y = clamp(anchor.y, 0, window.innerHeight);
+    const clearance = Math.max(12, anchor.extent) + 24;
+    const overlaps = (left, top, rect) => left < rect.right + 8 && left + width > rect.left - 8 &&
+      top < rect.bottom + 8 && top + height > rect.top - 8;
+    for (const direction of [previewDirection, ...previewDirections]) {
+      const horizontal = direction === 'right' || direction === 'left';
+      const left = horizontal ? (direction === 'right' ? x + clearance : x - clearance - width)
+        : clamp(x - width / 2, bounds.left, bounds.right - width);
+      let top = horizontal ? clamp(y - 8, bounds.top, bounds.bottom - height)
+        : direction === 'above' ? Math.min(y - clearance - height, bounds.bottom - height)
+        : Math.max(y + clearance, bounds.top);
+      if (!horizontal && overlaps(left, top, bounds.title)) {
+        top = direction === 'above' ? bounds.title.top - height - 8 : bounds.title.bottom + 8;
+      }
+      if (left < bounds.left || left + width > bounds.right || top < bounds.top || top + height > bounds.bottom ||
+          overlaps(left, top, bounds.title) || overlaps(left, top, bounds.settings)) continue;
+      if (sun && overlaps(left, top, {
+        left: sun.x - sun.radius, right: sun.x + sun.radius,
+        top: sun.y - sun.radius, bottom: sun.y + sun.radius
+      })) continue;
+
+      previewDirection = direction;
+      return {
+        left, top,
+        endX: horizontal ? (direction === 'right' ? left - 7 : left + width + 7) : left + width / 2,
+        endY: horizontal ? clamp(y, top + 8, top + height - 8) : direction === 'above' ? top + height + 7 : top - 7
+      };
+    }
+    return null;
+  }
+
+  function updateWorksPreview() {
+    if (!renderedPreviewBody) return;
+    const anchor = projectWorksBody(renderedPreviewBody);
+    const sun = renderedPreviewBody.key === 'sun' ? null : projectWorksBody(bodies.sun);
+    const placement = anchor && placeWorksPreview(anchor, sun);
+    const preview = UI.worksPreview;
+    preview.classList.toggle('is-positioned', Boolean(placement));
+    const inert = !placement || !preview.classList.contains('is-on');
+    if (preview.inert !== inert) preview.inert = inert;
+    if (!placement) return;
+    const { left, top, endX, endY } = placement;
+    const angle = Math.atan2(endY - anchor.y, endX - anchor.x);
+    const startX = anchor.x + Math.cos(angle) * anchor.radius;
+    const startY = anchor.y + Math.sin(angle) * anchor.radius;
+    previewCopy.style.transform = `translate(${left.toFixed(2)}px, ${top.toFixed(2)}px)`;
+    previewLeader.setAttribute('d', `M ${startX.toFixed(2)} ${startY.toFixed(2)} L ${endX.toFixed(2)} ${endY.toFixed(2)}`);
+    previewDot.setAttribute('transform', `translate(${startX.toFixed(2)} ${startY.toFixed(2)})`);
+  }
 
   function bodyFromClient(x, y) {
     const rect = renderer.domElement.getBoundingClientRect();
@@ -11463,7 +12285,7 @@
       openAbout();
       return;
     }
-    selectProject(body.key);
+    enterPlanet(body.key);
   }
 
   function updateHover(x, y) {
@@ -11479,7 +12301,18 @@
       return;
     }
     const body = bodyFromClient(x, y);
+    if (state.view === 'works' && body?.key !== 'moon') {
+      if (body) {
+        showWorksPreview(body, null);
+        renderer.domElement.classList.add('is-hovering');
+      } else {
+        renderer.domElement.classList.remove('is-hovering');
+        deferPreviewDismiss();
+      }
+      return;
+    }
     if (body) {
+      if (previewBody) hideHoverLabel();
       if (body.key === 'moon') {
         UI.hoverLabel.textContent = '关于 ORBIT · ABOUT';
       } else {
@@ -11523,6 +12356,7 @@
   });
 
   renderer.domElement.addEventListener('pointermove', (event) => {
+    if (state.view === 'works') lastWorksInput = performance.now();
     const previous = activePointers.get(event.pointerId);
     if (previous && gesture && event.pointerId === gesture.id) {
       if (Math.hypot(event.clientX - gesture.startX, event.clientY - gesture.startY) > 7) {
@@ -11551,7 +12385,9 @@
   renderer.domElement.addEventListener('pointerup', (event) => finishPointer(event, false));
   renderer.domElement.addEventListener('pointercancel', (event) => finishPointer(event, true));
   renderer.domElement.addEventListener('pointerleave', () => {
-    if (activePointers.size === 0) hideHoverLabel();
+    if (activePointers.size > 0) return;
+    if (previewBody) deferPreviewDismiss();
+    else hideHoverLabel();
   });
   renderer.domElement.addEventListener('wheel', () => {
     hideHoverLabel();
@@ -11559,6 +12395,7 @@
   renderer.domElement.addEventListener('contextmenu', (event) => event.preventDefault());
   renderer.domElement.addEventListener('webglcontextlost', (event) => {
     event.preventDefault();
+    cancelPlanetEntry();
     showFatal('WebGL 上下文已丢失。请刷新页面重新建立深空链路。');
   });
 
@@ -11592,12 +12429,43 @@
   UI.planetDock.addEventListener('click', (event) => {
     const button = event.target.closest('[data-target]');
     if (!button) return;
-    selectProject(button.dataset.target);
+    if (state.view === 'works') observeBody(bodies[button.dataset.target]);
+    else selectProject(button.dataset.target);
   });
 
   UI.planetDock.addEventListener('pointerover', (event) => {
     const button = event.target.closest('[data-target]');
-    if (button) ensureHighRes(button.dataset.target);
+    if (!button) return;
+    if (state.view === 'works' && event.pointerType === 'mouse' && !button.contains(event.relatedTarget)) {
+      showDockPreview(button);
+    } else {
+      ensureHighRes(button.dataset.target);
+    }
+  });
+
+  function showDockPreview(button) {
+    showWorksPreview(bodies[button.dataset.target], button);
+  }
+
+  UI.planetDock.addEventListener('pointerout', (event) => {
+    if (previewTrigger?.contains(event.target) && !previewTrigger.contains(event.relatedTarget) &&
+        previewTrigger !== document.activeElement) deferPreviewDismiss();
+  });
+  UI.planetDock.addEventListener('focusin', (event) => {
+    const button = event.target.closest('[data-target]');
+    if (button?.matches(':focus-visible')) showDockPreview(button);
+  });
+  UI.planetDock.addEventListener('focusout', (event) => {
+    if (event.target === previewTrigger && !UI.worksPreview.contains(event.relatedTarget)) deferPreviewDismiss();
+  });
+  previewCopy.addEventListener('pointerenter', cancelPreviewDismiss);
+  previewCopy.addEventListener('pointerleave', deferPreviewDismiss);
+  UI.worksPreview.addEventListener('focusin', cancelPreviewDismiss);
+  UI.worksPreview.addEventListener('focusout', (event) => {
+    if (!UI.worksPreview.contains(event.relatedTarget)) hideHoverLabel();
+  });
+  UI.worksPreview.querySelector('button').addEventListener('click', () => {
+    if (previewBody) enterPlanet(previewBody.key);
   });
 
   UI.worksList.addEventListener('click', (event) => {
@@ -11607,6 +12475,7 @@
   });
 
   UI.exploreToggle.addEventListener('click', () => {
+    hideHoverLabel();
     setWorksExplorer(!UI.indexPanel.classList.contains('is-exploring'));
   });
 
@@ -11621,10 +12490,7 @@
 
   UI.projectBack.addEventListener('click', () => showWorksIndex());
   UI.projectOpen.addEventListener('click', () => {
-    if (state.activeFocus && state.activeFocus.key === 'venus' && window.__venusSiteReady) {
-      if (window.__venusSiteReady.open()) return;
-    }
-    openDossier();
+    if (state.activeFocus) enterPlanet(state.activeFocus.key);
   });
 
   UI.sunBack.addEventListener('click', () => {
@@ -11668,10 +12534,6 @@
   });
 
   UI.aboutClose.addEventListener('click', () => closeAbout());
-  UI.aboutBackdrop.addEventListener('click', () => closeAbout());
-  UI.aboutOverlay.addEventListener('click', (event) => {
-    if (event.target === UI.aboutOverlay) closeAbout();
-  });
   UI.aboutEnterWorks.addEventListener('click', () => {
     closeAbout({ restoreFocus: false, afterClose: () => showWorksIndex() });
   });
@@ -11734,7 +12596,12 @@
 
   function handleKeydown(event) {
     if (!state.started) return;
-    if (venusWorldActive) return;
+    if (event.code === 'Escape' && planetEntry?.phase === 'dive') {
+      event.preventDefault();
+      cancelPlanetEntry();
+      return;
+    }
+    if (venusWorldActive || window.__earthSiteReady?.isActive() || window.__neptuneSiteReady?.isActive() || window.__saturnSiteReady?.isActive() || window.__mercurySiteReady?.isActive() || window.__marsSiteReady?.isActive() || window.__jupiterSiteReady?.isActive() || window.__uranusSiteReady?.isActive()) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     const target = event.target;
     if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
@@ -11749,6 +12616,11 @@
     }
 
     if (event.code === 'Escape') {
+      if (previewBody) {
+        if (UI.worksPreview.contains(document.activeElement)) previewTrigger?.focus();
+        hideHoverLabel();
+        return;
+      }
       if (UI.utilityCard && !UI.utilityCard.hidden) {
         setSettingsOpen(false);
         return;
@@ -11758,6 +12630,7 @@
     }
     if (state.transitionLock) return;
     if (event.code === 'Space') {
+      if (state.view === 'works' && target?.closest?.('button')) return;
       event.preventDefault();
       if (!event.repeat) setPaused(!state.paused);
       return;
@@ -11810,17 +12683,19 @@
     composer.setSize(width, height);
 
     camera.aspect = width / height;
-    if (!state.activeFlight) {
+    if (!state.activeFlight && !observation) {
       camera.fov = getBaseFov();
       camera.updateProjectionMatrix();
     }
 
     starUniforms.uPixelRatio.value = dpr;
     galaxyPointUniforms.uPixelRatio.value = dpr;
-    bloomPass.strength = isNarrow ? 0.28 : 0.38;
+    applyWorksScene();
     bloomPass.threshold = isNarrow ? 0.84 : 0.82;
     resizeAstraField();
-    hideHoverLabel();
+    if (observation) positionObservationIndicator(observation.body.key);
+    if (renderedPreviewBody) measureWorksPreview();
+    else hideHoverLabel();
   }
 
   window.addEventListener('resize', onResize, { passive: true });
@@ -11878,24 +12753,33 @@
     requestAnimationFrame(animate);
     const dt = clamp((now - lastFrameTime) / 1000, 0.0001, 0.05);
     lastFrameTime = now;
-    if (venusOrbitPaused) return;
+    updatePlanetReveal(now);
+    if (venusOrbitPaused || window.__earthSiteReady?.isOpen() || window.__neptuneSiteReady?.isOpen() || window.__saturnSiteReady?.isOpen() || window.__mercurySiteReady?.isOpen() || window.__marsSiteReady?.isOpen() || window.__jupiterSiteReady?.isOpen() || window.__uranusSiteReady?.isOpen()) return;
 
     updateSimulation(dt);
-    updateCamera(now);
+    const diving = updatePlanetDive(now);
+    if (!diving) updateCamera(now, dt);
     updateWelcomeLens(now);
+    if (!diving) {
+      updateWorksLens(now, dt);
+      updateWorksHighlights(dt);
+    }
+    updateWorksPreview();
     updateEarthUniforms();
     updateSunEffects();
+    if (diving && !planetEntry.reduced && planetEntry.body.key === 'sun') {
+      const transmission = 1 - smootherstep(clamp((planetEntry.progress - .62) / .38, 0, 1));
+      for (const sprite of [sunRays, sunHaloInner, sunHaloOuter]) sprite.material.opacity *= transmission;
+    }
     updateGalaxyFade(dt);
 
     starUniforms.uTime.value = state.ambientTime;
     galaxyPointUniforms.uTime.value = state.ambientTime;
 
-    if (UI.aboutOverlay && !UI.aboutOverlay.hidden) {
-      renderAboutPlanet(dt);
-      if (!UI.aboutOverlay.classList.contains('is-closing')) return;
-    }
+    if (!UI.aboutOverlay.hidden && !UI.aboutOverlay.classList.contains('is-closing')) return;
 
     composer.render();
+    if (diving) commitPlanetEntry(now);
   }
 
   requestAnimationFrame(animate);
@@ -12003,6 +12887,34 @@
   }
 
   function beginOpeningSequence() {
+    if (location.hash === '#/uranus' || location.hash.startsWith('#/uranus/idea/')) {
+      window.__uranusSiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash === '#/jupiter' || location.hash.startsWith('#/jupiter/work/')) {
+      window.__jupiterSiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash === '#/mars' || location.hash.startsWith('#/mars/record/')) {
+      window.__marsSiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash === '#/mercury' || location.hash.startsWith('#/mercury/entry/')) {
+      window.__mercurySiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash === '#/saturn' || location.hash.startsWith('#/saturn/record/')) {
+      window.__saturnSiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash === '#/neptune' || location.hash.startsWith('#/neptune/article/')) {
+      window.__neptuneSiteReady.openDeepLink();
+      return;
+    }
+    if (location.hash.startsWith('#/earth') && window.__earthSiteReady) {
+      window.__earthSiteReady.openDeepLink();
+      return;
+    }
     if (location.hash === '#/venus' && window.__venusSiteReady) {
       window.__venusSiteReady.openDeepLink();
       return;
@@ -13323,6 +14235,242 @@
 
   VenusSite.init();
   window.__venusSiteReady = VenusSite;
+
+  // Earth uses the existing ORBIT gate and flight; Venus implementation remains unchanged.
+  const earthGallery = window.createEarthGallery(window.ORBIT_PHOTOGRAPHY);
+  const earthGate = UI.hud.ownerDocument.getElementById('venusGate').cloneNode(true);
+  earthGate.id = 'earthGate';
+  earthGate.querySelector('.venus-gate-mark span').textContent = 'EARTH';
+  earthGate.querySelector('.venus-gate-mark span:last-child').textContent = 'PHOTOGRAPHY';
+  document.body.append(earthGate);
+  let earthReturn = null;
+  function prepareEarthSelection() {
+    const body = bodies.earth;
+    state.activeFlight = null; state.transitionLock = false;
+    state.activeFocus = body; state.trackedFocus = body; state.activeMode = 'earth'; state.manualMode = false;
+    setViewClass('project'); setGalaxyForView(false); setDockActive('earth');
+    updateOrbitVisuals(); ensureHighRes('earth'); focusLimits(body);
+    const target = focusPosition(body, new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body), bodyViewDistance(body));
+    controls.target.copy(target); controls.autoRotate = false; controls.update(); renderProject(body);
+  }
+  window.__earthSiteReady = window.createPlanetPortal({key:'earth',gallery:earthGallery,gate:earthGate,hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started && !state.transitionLock && !venusWorldActive && state.activeFocus?.key==='earth',
+    prepare(){
+      introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareEarthSelection();
+    },
+    save(){earthReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});
+      if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});
+    },
+    approach(){const body=bodies.earth;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareEarthSelection();if(earthReturn){camera.position.copy(earthReturn.position);controls.target.copy(earthReturn.target);camera.fov=earthReturn.fov;camera.updateProjectionMatrix();controls.update();}
+      controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  const neptuneReader = window.createNeptuneReader(window.ORBIT_WRITINGS);
+  const neptuneGate = document.getElementById('venusGate').cloneNode(true);
+  neptuneGate.id='neptuneGate';
+  neptuneGate.querySelector('.venus-gate-mark span').textContent='NEPTUNE';
+  neptuneGate.querySelector('.venus-gate-mark span:last-child').textContent='WRITINGS';
+  document.body.append(neptuneGate);
+  let neptuneReturn=null;
+  function prepareNeptuneSelection(){
+    const body=bodies.neptune;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('neptune');updateOrbitVisuals();ensureHighRes('neptune');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__neptuneSiteReady=window.createPlanetPortal({key:'neptune',gallery:neptuneReader,gate:neptuneGate,title:'深蓝。 · NEPTUNE / WRITINGS',detailSegment:'article',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&state.activeFocus?.key==='neptune',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareNeptuneSelection();},
+    save(){neptuneReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.neptune;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareNeptuneSelection();if(neptuneReturn){camera.position.copy(neptuneReturn.position);controls.target.copy(neptuneReturn.target);camera.fov=neptuneReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  // Saturn reuses the established portal, gate markup and camera flight.
+  const saturnChronicles=window.createSaturnChronicles(window.ORBIT_CHRONICLES);
+  const saturnGate=document.getElementById('venusGate').cloneNode(true);
+  saturnGate.id='saturnGate';
+  saturnGate.querySelector('.venus-gate-mark span').textContent='SATURN';
+  saturnGate.querySelector('.venus-gate-mark span:last-child').textContent='CHRONICLES';
+  document.body.append(saturnGate);
+  let saturnReturn=null;
+  function prepareSaturnSelection(){
+    const body=bodies.saturn;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('saturn');updateOrbitVisuals();ensureHighRes('saturn');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__saturnSiteReady=window.createPlanetPortal({key:'saturn',gallery:saturnChronicles,gate:saturnGate,title:'年轮。 · SATURN / CHRONICLES',detailSegment:'record',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&state.activeFocus?.key==='saturn',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareSaturnSelection();},
+    save(){saturnReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.saturn;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareSaturnSelection();if(saturnReturn){camera.position.copy(saturnReturn.position);controls.target.copy(saturnReturn.target);camera.fov=saturnReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  // Mercury shares the established portal and the original gate/flight lifecycle.
+  const mercuryLaboratory=window.createMercuryLaboratory(window.ORBIT_LABORATORY);
+  const mercuryGate=document.getElementById('venusGate').cloneNode(true);
+  mercuryGate.id='mercuryGate';
+  mercuryGate.querySelector('.venus-gate-mark span').textContent='MERCURY';
+  mercuryGate.querySelector('.venus-gate-mark span:last-child').textContent='CODE LABORATORY';
+  document.body.append(mercuryGate);
+  let mercuryReturn=null;
+  function prepareMercurySelection(){
+    const body=bodies.mercury;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('mercury');updateOrbitVisuals();ensureHighRes('mercury');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__mercurySiteReady=window.createPlanetPortal({key:'mercury',gallery:mercuryLaboratory,gate:mercuryGate,title:'初序。 · MERCURY / CODE LABORATORY',detailSegment:'entry',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&!window.__saturnSiteReady.isActive()&&state.activeFocus?.key==='mercury',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareMercurySelection();},
+    save(){mercuryReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.mercury;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareMercurySelection();if(mercuryReturn){camera.position.copy(mercuryReturn.position);controls.target.copy(mercuryReturn.target);camera.fov=mercuryReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  // Mars reuses the existing portal, entry gate and camera flight without changing other worlds.
+  const marsFrontier=window.createMarsFrontier(window.ORBIT_FRONTIER);
+  const marsGate=document.getElementById('venusGate').cloneNode(true);
+  marsGate.id='marsGate';
+  marsGate.querySelector('.venus-gate-mark span').textContent='MARS';
+  marsGate.querySelector('.venus-gate-mark span:last-child').textContent='EXPERIMENTAL FRONTIER';
+  document.body.append(marsGate);
+  let marsReturn=null;
+  function prepareMarsSelection(){
+    const body=bodies.mars;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('mars');updateOrbitVisuals();ensureHighRes('mars');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__marsSiteReady=window.createPlanetPortal({key:'mars',gallery:marsFrontier,gate:marsGate,title:'拓荒。 · MARS / EXPERIMENTAL FRONTIER',detailSegment:'record',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&!window.__saturnSiteReady.isActive()&&!window.__mercurySiteReady.isActive()&&state.activeFocus?.key==='mars',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareMarsSelection();},
+    save(){marsReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.mars;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareMarsSelection();if(marsReturn){camera.position.copy(marsReturn.position);controls.target.copy(marsReturn.target);camera.fov=marsReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  // Jupiter uses the same portal, transition gate and camera lifecycle as the established worlds.
+  const jupiterArchive=window.createJupiterArchive(window.ORBIT_GRAND_ARCHIVE);
+  const jupiterGate=document.getElementById('venusGate').cloneNode(true);
+  jupiterGate.id='jupiterGate';
+  jupiterGate.querySelector('.venus-gate-mark span').textContent='JUPITER';
+  jupiterGate.querySelector('.venus-gate-mark span:last-child').textContent='THE GRAND ARCHIVE';
+  document.body.append(jupiterGate);
+  let jupiterReturn=null;
+  function prepareJupiterSelection(){
+    const body=bodies.jupiter;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('jupiter');updateOrbitVisuals();ensureHighRes('jupiter');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__jupiterSiteReady=window.createPlanetPortal({key:'jupiter',gallery:jupiterArchive,gate:jupiterGate,title:'万象。 · JUPITER / THE GRAND ARCHIVE',detailSegment:'work',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&!window.__saturnSiteReady.isActive()&&!window.__mercurySiteReady.isActive()&&!window.__marsSiteReady.isActive()&&state.activeFocus?.key==='jupiter',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareJupiterSelection();},
+    save(){jupiterReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.jupiter;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareJupiterSelection();if(jupiterReturn){camera.position.copy(jupiterReturn.position);controls.target.copy(jupiterReturn.target);camera.fov=jupiterReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
+
+  // Uranus completes the independent worlds using the same portal, gate and camera lifecycle.
+  const uranusFuture=window.createUranusFuture(window.ORBIT_FUTURE);
+  const uranusGate=document.getElementById('venusGate').cloneNode(true);
+  uranusGate.id='uranusGate';
+  uranusGate.querySelector('.venus-gate-mark span').textContent='URANUS';
+  uranusGate.querySelector('.venus-gate-mark span:last-child').textContent='THE UNWRITTEN FUTURE';
+  document.body.append(uranusGate);
+  let uranusReturn=null;
+  function prepareUranusSelection(){
+    const body=bodies.uranus;
+    state.activeFlight=null;state.transitionLock=false;state.activeFocus=body;state.trackedFocus=body;
+    state.activeMode='solar';state.manualMode=false;setViewClass('project');setGalaxyForView(false);
+    setDockActive('uranus');updateOrbitVisuals();ensureHighRes('uranus');focusLimits(body);
+    const target=focusPosition(body,new THREE.Vector3());
+    camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
+    controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
+  }
+  window.__uranusSiteReady=window.createPlanetPortal({key:'uranus',gallery:uranusFuture,gate:uranusGate,title:'未央。 · URANUS / THE UNWRITTEN FUTURE',detailSegment:'idea',hooks:{
+    hud:UI.hud,
+    canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&!window.__saturnSiteReady.isActive()&&!window.__mercurySiteReady.isActive()&&!window.__marsSiteReady.isActive()&&!window.__jupiterSiteReady.isActive()&&state.activeFocus?.key==='uranus',
+    prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
+      UI.boot.classList.add('is-done');UI.boot.style.display='none';
+      document.body.classList.remove('intro-stage-1','intro-dust','intro-core','intro-arms','intro-copy');
+      document.body.classList.add('is-ready');state.started=true;state.bootRevealDone=true;
+      window.__orbitReady=true;clearTimeout(window.__orbitWatchdog);prepareUranusSelection();},
+    save(){uranusReturn={position:camera.position.clone(),target:controls.target.clone(),fov:camera.fov};},
+    enter(){controls.enabled=false;controls.autoRotate=false;state.transitionLock=true;closeHelp();setSettingsOpen(false);
+      if(!UI.projectDossier.hidden)closeDossier({restoreFocus:false});if(!UI.aboutOverlay.hidden)closeAbout({restoreFocus:false});},
+    approach(){const body=bodies.uranus;startFlight(body,{distance:Math.max(1.35,bodyViewDistance(body)*.4),direction:approachDirection(body),duration:1.45});},
+    shown(){state.activeFlight=null;state.transitionLock=false;UI.infoPanel.classList.remove('is-flying');controls.enabled=false;},
+    restore(){prepareUranusSelection();if(uranusReturn){camera.position.copy(uranusReturn.position);controls.target.copy(uranusReturn.target);camera.fov=uranusReturn.fov;camera.updateProjectionMatrix();controls.update();}controls.enabled=true;state.transitionLock=false;UI.projectOpen.focus({preventScroll:true});}
+  }});
 
   beginOpeningSequence();
 

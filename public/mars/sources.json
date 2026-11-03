@@ -1,0 +1,13 @@
+{
+  "title": "Mastcam Telephoto of a Martian Dune's Downwind Face",
+  "imageId": "PIA20283",
+  "credit": "Courtesy NASA/JPL-Caltech",
+  "page": "https://www.jpl.nasa.gov/images/pia20283-mastcam-telephoto-of-a-martian-dunes-downwind-face/",
+  "imageUsePolicy": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+  "original": "https://d2pn8kiwq2w21t.cloudfront.net/original_images/jpegPIA20283.jpg",
+  "webImage": "https://d2pn8kiwq2w21t.cloudfront.net/images/jpegPIA20283.width-1600.jpg",
+  "local": "./public/mars/images/namib-1600.jpg",
+  "width": 1600,
+  "height": 1806,
+  "note": "NASA/JPL 官方白平衡拼接影像，保留原有内容与色彩；不是作者摄影，也不是 AI 生成图像。"
+}
