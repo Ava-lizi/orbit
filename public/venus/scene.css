@@ -1,0 +1,356 @@
+#venusWorld.venus-immersive {
+  --sky-ink: #e7edf4;
+  --sky-muted: #a4b0c2;
+  --sky-blue: #a5c7ee;
+  --sky-gold: #cbb284;
+  --sky-header: 64px;
+  background: #030303;
+  color: var(--sky-ink);
+}
+.venus-immersive .venus-topbar {
+  height: var(--sky-header);
+  grid-template-columns: 1fr auto 1fr;
+  background: #030303;
+  border-bottom: 0;
+}
+.venus-immersive .venus-brand-cn,
+.venus-immersive .venus-brand-cn span,
+.venus-immersive .venus-return,
+.venus-immersive .venus-return-arrow { color: #ededed; }
+.venus-immersive .venus-brand-en { color: #777; }
+.venus-immersive .venus-nav { display: flex; }
+.venus-immersive .venus-nav button { color: #aaa; font-size: 12px; line-height: 16px; }
+.venus-immersive .venus-nav button:is([aria-current], :hover) { color: #fff; }
+.venus-immersive .venus-nav button::after { display: none; }
+.venus-immersive .venus-main { padding-top: var(--sky-header); }
+.venus-immersive:not([data-venus-mode="notes"]) .venus-main { max-width: none; }
+.venus-immersive:not([data-venus-mode="notes"]) :is(#venusNotes, .venus-footer),
+.venus-immersive:is([data-venus-mode="notes"], [data-venus-mode="preview"]) #venusOverture { display: none; }
+.venus-immersive[data-venus-mode="sky"] .venus-scroll { overflow: hidden; }
+.venus-immersive[data-venus-mode="preview"] .venus-scroll { overflow: hidden; }
+.venus-void-preview {
+  display: block;
+  width: 100%;
+  height: calc(100dvh - var(--sky-header));
+  border: 0;
+  background: #030303;
+}
+.venus-immersive[data-venus-mode="experiment"] .venus-scroll { scrollbar-width: none; }
+.venus-immersive[data-venus-mode="experiment"] .venus-scroll::-webkit-scrollbar { display: none; }
+.venus-immersive #venusOverture {
+  display: block;
+  position: relative;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+}
+.venus-immersive #venusOverture::before,
+.venus-immersive #venusOverture::after { content: none; }
+.venus-observatory {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: stretch;
+  height: calc(100dvh - var(--sky-header));
+  overflow: hidden;
+  background: #030303;
+  --camera-ease: cubic-bezier(.22, 1, .36, 1);
+}
+.venus-observatory[data-mode="experiment"] {
+  height: auto;
+  min-height: max(550px, calc(100dvh - var(--sky-header)));
+  padding: 40px clamp(24px, 6vw, 96px) 24px;
+}
+.venus-sky-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.venus-sky-camera {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100dvh - var(--sky-header));
+  overflow: hidden;
+  contain: layout paint;
+  z-index: 0;
+}
+.venus-immersive[data-venus-mode="sky"] .venus-main { padding-top: 0; }
+.venus-immersive[data-venus-mode="sky"] .venus-observatory { height: 100dvh; }
+.venus-observatory[data-mode="sky"]:not([data-singularity]) .venus-sky-camera { top: var(--sky-header); }
+.venus-singularity {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  isolation: isolate;
+}
+.venus-observatory[data-mode="sky"][data-singularity] .venus-singularity,
+.venus-singularity.is-standalone { visibility: visible; }
+.venus-singularity canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.venus-singularity .venus-singularity-hold,
+.venus-singularity .venus-singularity-pause {
+  position: absolute;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  color: #b6a696;
+  font: 400 12px/16px var(--vw-serif, Georgia, serif);
+  cursor: pointer;
+}
+.venus-singularity-hold {
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.venus-singularity-hold:disabled { cursor: default; }
+.venus-singularity-hold span {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  color: #e7d5be;
+  opacity: 0;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  transition: opacity .25s cubic-bezier(.22, 1, .36, 1);
+}
+.venus-singularity-hold:enabled:is(:focus-visible, [aria-pressed="true"]) span { opacity: .88; }
+@media (hover: hover) and (pointer: fine) {
+  .venus-singularity-hold:enabled:hover span { opacity: .88; }
+}
+.venus-singularity-pause {
+  right: clamp(16px, 4.2vw, 80px);
+  bottom: max(24px, env(safe-area-inset-bottom));
+  min-height: 44px;
+  padding: 8px 4px;
+  transition: color .25s cubic-bezier(.22, 1, .36, 1);
+}
+.venus-singularity-pause::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  bottom: 7px;
+  left: 4px;
+  height: 1px;
+  background: currentColor;
+  opacity: .28;
+}
+.venus-singularity .venus-singularity-pause:is(:hover, :focus-visible) { color: #f1e2cd; }
+.venus-singularity-pause:focus-visible,
+.venus-singularity-hold:focus-visible { outline: 1px solid #c7ae8d; outline-offset: 4px; }
+.venus-immersive.venus-singularity-ready[data-venus-mode="sky"] .venus-topbar { background: transparent; }
+.venus-singularity-ready[data-venus-mode="sky"] .venus-brand-cn,
+.venus-singularity-ready[data-venus-mode="sky"] .venus-brand-cn span,
+.venus-singularity-ready[data-venus-mode="sky"] .venus-nav button[aria-current] { color: #f2e7d8; }
+.venus-singularity-ready[data-venus-mode="sky"] .venus-brand-en { color: #a69a8c; }
+.venus-singularity-ready[data-venus-mode="sky"] .venus-return,
+.venus-singularity-ready[data-venus-mode="sky"] .venus-return-arrow { color: #d8cabb; }
+.venus-singularity-ready[data-venus-mode="sky"] :is(.venus-nav button, .venus-return) { min-height: 44px; }
+.venus-singularity-ready[data-venus-mode="sky"] .venus-nav button {
+  font-family: var(--vw-serif);
+  transition: color .25s cubic-bezier(.22, 1, .36, 1);
+}
+@media (min-width: 761px) {
+  .venus-singularity-ready[data-venus-mode="sky"] .venus-brand-cn { font-size: 24px; }
+  .venus-singularity-ready[data-venus-mode="sky"] .venus-nav button { font-size: 14px; line-height: 20px; }
+}
+.venus-singularity-ready[data-venus-mode="sky"] .venus-topbar :is(.venus-brand, .venus-nav, .venus-return) {
+  text-shadow: 0 1px 8px #050403;
+}
+.venus-observatory[data-singularity] .venus-sky-camera {
+  inset: 0;
+  z-index: 1;
+  height: 100%;
+  pointer-events: none;
+}
+.venus-observatory[data-singularity]:not([data-mode="sky"]) .venus-sky-camera,
+.venus-observatory[data-singularity] .venus-distant-formula { display: none; }
+.venus-immersive .venus-observatory[data-singularity] .venus-formula-node {
+  left: var(--anchor-x);
+  top: var(--anchor-y);
+  opacity: .77;
+  transform: translate(-50%, -50%) rotate(var(--anchor-angle));
+  pointer-events: auto;
+  color: #ead7bd;
+  font: 400 clamp(16px, 1.55vw, 24px)/1.1 "Cambria Math", "STIX Two Text", serif;
+  text-shadow: 0 1px 6px #0a0705;
+}
+.venus-immersive .venus-observatory[data-singularity] .venus-formula-node:is(:hover, :focus-visible) { opacity: 1; }
+.venus-observatory[data-singularity] .venus-formula-echo { display: none; }
+.venus-observatory[data-singularity] .venus-formula-ink { opacity: 1; }
+.venus-observatory[data-singularity][data-mode="experiment"] .venus-experiment { transition-delay: 0s; }
+.venus-observatory[data-singularity][data-mode="experiment"] [data-grid] { transition-delay: 0s; }
+.venus-depth-formula {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+  margin: 0;
+  white-space: nowrap;
+  color: #fff;
+  font: 400 28px/1.15 var(--vw-serif);
+  letter-spacing: .015em;
+  opacity: 0;
+  pointer-events: none;
+}
+.venus-depth-formula :is(sup, sub) { font-size: .58em; }
+.venus-formula-glyph { position: relative; display: inline-block; }
+.venus-formula-ink { position: relative; opacity: var(--ink-opacity, 1); }
+.venus-formula-echo {
+  position: absolute;
+  inset: 0;
+  opacity: var(--echo-opacity, 0);
+  transform: translateY(-.15em) scaleY(1.2);
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+.venus-fraction {
+  display: inline-grid;
+  vertical-align: middle;
+  text-align: center;
+  font-size: .73em;
+  line-height: 1.12;
+}
+.venus-fraction span:first-child { border-bottom: 1px solid currentColor; }
+.venus-immersive .venus-formula-node {
+  min-height: 52px;
+  padding: 10px 14px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+}
+.venus-formula-node.is-pickable { pointer-events: auto; }
+.venus-immersive .venus-formula-node:focus-visible { outline-color: #fff; }
+.venus-node-arrow {
+  position: absolute;
+  top: 10px;
+  left: calc(100% - 6px);
+  opacity: 0;
+  font: 12px/16px var(--sans);
+  transition: opacity .25s var(--camera-ease);
+}
+.venus-node-hint {
+  position: absolute;
+  top: 100%;
+  left: 14px;
+  opacity: 0;
+  color: #ddd;
+  font: 12px/16px var(--sans);
+  transition: opacity .25s var(--camera-ease);
+}
+.venus-formula-node:is(:hover, :focus-visible) :is(.venus-node-hint, .venus-node-arrow) { opacity: 1; }
+.venus-observatory[data-mode="sky"] .venus-experiment {
+  position: absolute;
+  inset: 40px clamp(24px, 6vw, 96px) 24px;
+  width: auto;
+  margin-inline: auto;
+}
+.venus-experiment {
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: auto minmax(290px, 1fr) auto;
+  gap: 16px;
+  max-width: 1180px;
+  width: 100%;
+  margin-inline: auto;
+  padding-bottom: 8px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .43s var(--camera-ease), visibility 0s .43s;
+}
+.venus-observatory[data-mode="experiment"] .venus-experiment {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity .65s .38s var(--camera-ease);
+}
+.venus-exp-head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 16px; }
+.venus-exp-title { margin: 8px 0; font: 600 36px/40px var(--sans); }
+.venus-exp-expression { margin: 0; color: var(--sky-blue); font: 400 24px/32px var(--vw-serif); }
+.venus-exp-return,
+.venus-exp-types button,
+.venus-zoom button,
+.venus-exp-reset {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 8px;
+  color: var(--sky-muted);
+  font: 500 14px/20px var(--sans);
+  transition: color .25s var(--camera-ease);
+}
+.venus-exp-return { justify-self: end; white-space: nowrap; }
+.venus-exp-types { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.venus-exp-types button[aria-pressed="true"] { color: var(--sky-gold); text-decoration: underline; text-underline-offset: 6px; }
+.venus-experiment button:hover { color: #fff; }
+.venus-exp-stage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: rgb(8 12 21 / .83);
+  border: 1px solid #29364a;
+}
+.venus-exp-stage svg { position: absolute; width: 100%; height: 100%; inset: 0; }
+.venus-exp-stage [data-grid] { opacity: 0; transition: opacity .35s var(--camera-ease); }
+.venus-observatory[data-mode="experiment"] [data-grid] { opacity: 1; transition-delay: .5s; }
+.venus-exp-stage [data-grid] path { stroke: #263348; stroke-width: 1; fill: none; }
+.venus-exp-stage [data-grid] path:last-of-type { stroke: #7185a0; }
+.venus-exp-stage text { fill: #a3b5cb; font: 12px var(--mono, monospace); }
+.venus-exp-stage [data-guide] { stroke: var(--sky-gold); fill: none; stroke-dasharray: 4 6; opacity: .65; }
+.venus-exp-stage [data-curve] { stroke: #b4d7ff; stroke-width: 2; fill: none; }
+.venus-exp-stage [data-marker] { fill: #e1edff; }
+.venus-exp-readout { position: absolute; bottom: 8px; left: 12px; margin: 0; color: var(--sky-blue); font: 12px/16px var(--mono, monospace); pointer-events: none; }
+.venus-zoom { position: absolute; display: flex; right: 8px; top: 8px; background: #080c15; }
+.venus-zoom button { min-width: 44px; }
+.venus-zoom button:disabled { opacity: .42; cursor: default; }
+.venus-exp-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 8px 24px; }
+.venus-exp-params { flex: 1 1 360px; display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 8px 24px; }
+.venus-exp-params label { display: grid; gap: 4px; font-size: 12px; line-height: 16px; }
+.venus-exp-params label > span { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--sky-muted); }
+.venus-exp-params output { color: var(--sky-ink); font-variant-numeric: tabular-nums; }
+.venus-exp-params input { width: 100%; min-height: 32px; margin: 0; accent-color: #a5c7ee; }
+.venus-exp-params input:focus-visible { outline: 1px solid var(--sky-gold); outline-offset: 2px; }
+.venus-exp-note { margin: 0; color: var(--sky-muted); font-size: 12px; line-height: 16px; }
+.venus-exp-note:empty { display: none; }
+
+@media (max-width: 760px) {
+  .venus-observatory[data-mode="experiment"] { min-height: max(570px, calc(100dvh - var(--sky-header))); padding: 24px 16px 16px; }
+  .venus-observatory[data-mode="sky"] .venus-experiment { inset: 24px 16px 16px; }
+  .venus-depth-formula { font-size: 22px; }
+  .venus-immersive .venus-formula-node { font-size: 25px; }
+  .venus-experiment { gap: 8px; grid-template-rows: auto minmax(255px, 1fr) auto; }
+  .venus-exp-title { font-size: 24px; line-height: 32px; margin: 4px 0; }
+  .venus-exp-expression { font-size: 20px; line-height: 28px; }
+  .venus-exp-controls { gap: 4px 8px; }
+  .venus-exp-params { gap: 4px 8px; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); }
+}
+@media (max-width: 480px) {
+  .venus-immersive .venus-topbar { padding-inline: 12px; }
+  .venus-immersive .venus-brand-en { display: none; }
+  .venus-immersive .venus-nav { gap: 12px; }
+  .venus-immersive .venus-return-arrow { margin-right: 4px; }
+  .venus-immersive.venus-singularity-ready[data-venus-mode="sky"] .venus-brand-en { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .venus-singularity :is(.venus-singularity-hold, .venus-singularity-pause) { display: none; }
+  .venus-observatory .venus-experiment,
+  .venus-observatory[data-mode="experiment"] .venus-experiment { transition: opacity .15s var(--camera-ease); }
+  .venus-observatory[data-mode="experiment"] [data-grid] { transition-delay: 0s; }
+  .venus-formula-echo { display: none; }
+  .venus-node-hint, .venus-node-arrow { transition: none; }
+}

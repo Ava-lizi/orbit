@@ -1,1 +1,1870 @@
-.neptune-world{--night:#06101d;--midnight:#10243a;--mist:#809ab2;--ink:#e6e8e6;position:fixed;inset:0;z-index:940;background:var(--night);color:var(--ink);overflow:auto;overscroll-behavior:contain;user-select:text;-webkit-user-select:text;font-family:"Noto Serif SC","Songti SC","SimSun",serif;opacity:0;transition:opacity .5s cubic-bezier(.22,1,.36,1);color-scheme:dark}.neptune-world.is-open{opacity:1}.neptune-world *{box-sizing:border-box}.neptune-world button,.neptune-world a{color:inherit;font:inherit}.neptune-world button{padding:12px;min-height:44px}.neptune-world button:hover,.neptune-world a:hover{color:#fff}.neptune-world button:focus-visible,.neptune-world a:focus-visible{outline:2px solid var(--mist);outline-offset:4px}.neptune-world button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--mist)}.neptune-world .nep-caption{font-family:Manrope,"Microsoft YaHei",sans-serif;font-size:12px;line-height:20px;letter-spacing:.08em;color:var(--mist)}.neptune-header{padding:24px 48px;display:flex;justify-content:space-between;align-items:center;gap:24px;font-family:Manrope,"Microsoft YaHei",sans-serif}.neptune-brand{display:flex;align-items:baseline;gap:24px}.neptune-brand strong{font-family:"Songti SC","SimSun",serif;font-size:24px;line-height:32px;font-weight:400}.neptune-header nav{display:flex;gap:16px;font-size:14px;line-height:20px}.neptune-foyer{max-width:1200px;margin:auto;padding:96px 48px 80px;min-height:calc(100vh - 96px);display:grid;grid-template-columns:1.2fr 1fr;align-content:center;gap:80px}.neptune-foyer h1{font-size:96px;line-height:1.1;font-weight:400;margin:32px 0;letter-spacing:.06em}.neptune-subtitle{font-size:20px;line-height:32px;margin:32px 0;color:#c3d1db;text-wrap:balance}.neptune-intro{align-self:end;padding:0 0 24px}.neptune-intro p{font-size:18px;line-height:36px;margin:0 0 32px;color:#a6b8c7;white-space:pre-line}.neptune-start{border-bottom:1px solid var(--mist);font-size:16px;line-height:24px;text-decoration:none;padding:12px 0!important}.neptune-volume{margin-top:80px;display:flex;gap:24px;align-items:center}.neptune-volume::before{content:"";display:block;width:64px;height:1px;background:var(--mist)}.neptune-directory{padding:64px 48px 96px;max-width:1200px;margin:auto;scroll-margin:24px}.neptune-directory-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:48px}.neptune-directory h2{font-size:36px;line-height:48px;font-weight:400;margin:12px 0 0}.neptune-filters{display:flex;gap:8px;flex-wrap:wrap}.neptune-filters button{font-size:14px;line-height:20px;color:var(--mist);border-bottom:1px solid transparent}.neptune-row{padding:32px 0;display:grid;grid-template-columns:64px 1fr 120px;gap:24px;border-top:1px solid #193047;align-items:start}.neptune-row h3{font-size:24px;line-height:36px;font-weight:400;margin:0 0 12px}.neptune-row h3 a{text-decoration:none}.neptune-row p{font-size:16px;line-height:28px;color:#a6b8c7;margin:12px 0 0;max-width:42em;text-wrap:pretty}.neptune-row aside{text-align:right}.neptune-row aside span{display:block}.neptune-row .nep-read{font-size:14px;line-height:24px;margin-top:24px;display:inline-block;text-underline-offset:8px}.neptune-empty{padding:48px 0;font-size:18px;line-height:32px}.neptune-footer{padding:40px 48px;background:var(--midnight);color:#a6b8c7;display:flex;justify-content:space-between;align-items:center;gap:32px;font-size:14px;line-height:28px}.neptune-reader{max-width:776px;padding:48px 48px 96px;margin:auto}.neptune-reader-toolbar{display:flex;justify-content:space-between;gap:24px;margin-bottom:64px;font-family:Manrope,"Microsoft YaHei",sans-serif;font-size:14px;line-height:24px}.neptune-reader-toolbar button{border:1px solid #294158;background:var(--night)}.neptune-article-header{margin-bottom:48px}.neptune-article-header h1{font-size:48px;line-height:1.4;font-weight:400;letter-spacing:.03em;margin:24px 0;text-wrap:balance}.neptune-demo{color:#a6b8c7;font-size:14px;line-height:24px;margin:24px 0}.neptune-prose{font-size:18px;line-height:2;color:var(--ink);overflow-wrap:anywhere}.neptune-prose p{margin:0 0 32px;text-wrap:pretty}.neptune-prose h2{font-size:24px;line-height:36px;margin:64px 0 24px;font-weight:400}.neptune-prose h3{font-size:20px;line-height:32px;margin:40px 0 24px;font-weight:400}.neptune-prose blockquote{margin:40px 0;padding:24px 32px;background:var(--midnight);color:#c4d2dd;font-size:20px;line-height:36px}.neptune-prose figure{margin:40px 0}.neptune-prose img{display:block;width:100%;height:auto;background:var(--midnight)}.neptune-prose figcaption{margin-top:12px}.neptune-related{padding:32px 0;font-size:16px;line-height:28px}.neptune-related a{display:block;margin:16px 0;text-underline-offset:8px}.neptune-article-nav{display:flex;justify-content:space-between;gap:32px;margin-top:64px;padding-top:32px;border-top:1px solid #294158;font-size:16px;line-height:28px}.neptune-article-nav button{max-width:48%;text-align:left}.neptune-article-nav button:last-child{text-align:right}.neptune-article-nav small{display:block;color:var(--mist);font-size:12px}.neptune-world.is-focused .neptune-header,.neptune-world.is-focused .neptune-footer,.neptune-world.is-focused .neptune-related,.neptune-world.is-focused .neptune-reader-toolbar [data-catalog]{display:none}.neptune-world.is-focused .neptune-reader{padding-top:24px}.neptune-world.is-focused .neptune-reader-toolbar{position:sticky;top:0;padding:12px 0;background:var(--night);justify-content:flex-end;z-index:1;margin-bottom:48px}.neptune-world [hidden]{display:none!important}body.neptune-world-open .hud,body.neptune-transitioning .hud{opacity:0!important;pointer-events:none!important}@media(max-width:700px){.neptune-header{padding:16px 24px;gap:8px}.neptune-brand{gap:8px}.neptune-brand .nep-caption{display:none}.neptune-header nav{gap:0;font-size:12px}.neptune-header button{padding:8px}.neptune-foyer{display:block;padding:64px 24px;min-height:calc(100svh - 80px)}.neptune-foyer h1{font-size:72px;margin:32px 0}.neptune-subtitle{font-size:18px;line-height:32px;margin:24px 0 40px}.neptune-intro p{font-size:16px;line-height:32px;margin-bottom:24px}.neptune-volume{margin-top:48px}.neptune-directory{padding:32px 24px 64px}.neptune-directory-head{display:block;margin-bottom:32px}.neptune-directory h2{font-size:30px;line-height:40px}.neptune-filters{margin-top:24px;gap:0}.neptune-filters button{padding:8px}.neptune-row{grid-template-columns:24px 1fr;gap:16px;padding:24px 0}.neptune-row h3{font-size:20px;line-height:32px}.neptune-row aside{grid-column:2;text-align:left;display:flex;gap:16px}.neptune-row p{font-size:16px;line-height:28px}.neptune-row .nep-read{margin-top:16px}.neptune-footer{padding:32px 24px;display:block}.neptune-footer button{padding-left:0}.neptune-reader{padding:24px 24px 64px}.neptune-reader-toolbar{margin-bottom:40px;gap:8px}.neptune-article-header h1{font-size:36px;line-height:1.5}.neptune-prose{font-size:18px;line-height:2}.neptune-prose blockquote{padding:24px;font-size:18px;line-height:32px}.neptune-article-nav{gap:16px}.neptune-article-nav button{font-size:14px;line-height:28px;padding:8px}.neptune-reader-toolbar button{font-size:12px;padding:8px}}@media(prefers-reduced-motion:reduce){.neptune-world{transition:none}.neptune-world *{scroll-behavior:auto!important}}
+.neptune-world {
+  --neptune-paper: #0f2132;
+  --neptune-sea: #162f41;
+  --neptune-title: #e8e2d8;
+  --neptune-text: #cbd1d5;
+  --neptune-muted: #a2b2bf;
+  --neptune-accent: #b8cbd8;
+  --neptune-line: rgb(213 222 230 / 16%);
+  --neptune-serif: "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", STSong, SimSun, Georgia, serif;
+  --neptune-sans: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --neptune-literary-title: #e1eaf3;
+  --neptune-literary-text: #bdcbd9;
+  --neptune-literary-muted: #8198ae;
+  --neptune-prose-leading: 1.95;
+  --neptune-prose-gap: 1.25em;
+  --neptune-heading-leading: 1.5;
+  --neptune-quote-inset: 1.15em;
+  --neptune-gutter: clamp(1.5rem, 5.6vw, 5rem);
+  --neptune-frame: 68rem;
+  --neptune-motion: cubic-bezier(.22, 1, .36, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 940;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: #496174 var(--neptune-paper);
+  scrollbar-width: thin;
+  color-scheme: dark;
+  background: linear-gradient(155deg, var(--neptune-paper), var(--neptune-sea));
+  color: var(--neptune-text);
+  font-family: var(--neptune-serif);
+  letter-spacing: .02em;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.neptune-world:has(> .neptune-reader:not([hidden])) {
+  --neptune-paper: #112435;
+  --neptune-sea: #152a3a;
+}
+
+.neptune-world:has(> .neptune-index:not([hidden]) > .neptune-directory:not([hidden])) {
+  --neptune-paper: #0B1C2B;
+  --neptune-sea: #142B3D;
+  --neptune-night: #071421;
+  --neptune-title: #E1EAF3;
+  --neptune-text: #BDCBD9;
+  --neptune-muted: #8198AE;
+  --neptune-accent: var(--neptune-title);
+  --neptune-line: rgba(174, 199, 221, .18);
+  --neptune-frame: 77.5rem;
+  --neptune-menu: var(--neptune-sea);
+  background: linear-gradient(155deg, var(--neptune-paper) 16%, var(--neptune-sea) 115%);
+  scrollbar-color: color-mix(in srgb, var(--neptune-muted) 60%, var(--neptune-night)) var(--neptune-night);
+}
+
+.neptune-world [hidden] {
+  display: none !important;
+}
+
+.neptune-world ::selection {
+  background: #324759;
+  color: var(--neptune-title);
+}
+
+.neptune-world:has(> .neptune-index:not([hidden]) > .neptune-directory:not([hidden])) ::selection {
+  background: var(--neptune-sea);
+}
+
+.neptune-world button,
+.neptune-world a {
+  color: inherit;
+  font: inherit;
+  transition: color .24s var(--neptune-motion);
+}
+
+.neptune-world button {
+  min-height: 44px;
+}
+
+.neptune-world button:not(:disabled):hover,
+.neptune-world a:hover {
+  color: var(--neptune-title);
+}
+
+.neptune-world :is(button, a):focus-visible {
+  outline: 1px solid var(--neptune-accent);
+  outline-offset: 4px;
+}
+
+.neptune-world .neptune-skip {
+  position: fixed;
+  inset: max(.75rem, env(safe-area-inset-top)) auto auto var(--neptune-gutter);
+  z-index: 4;
+  padding: .75rem 1rem;
+  background: var(--neptune-paper);
+  color: var(--neptune-title);
+  font-family: var(--neptune-sans);
+  font-size: .875rem;
+}
+
+.neptune-skip:not(:focus) {
+  clip-path: inset(50%);
+}
+
+.neptune-world .nep-caption {
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.neptune-header,
+.neptune-index,
+.neptune-footer {
+  width: calc(100% - 2 * var(--neptune-gutter));
+  max-width: var(--neptune-frame);
+  margin-inline: auto;
+}
+
+.neptune-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 5.5rem;
+  padding-block-start: env(safe-area-inset-top);
+  border-bottom: 1px solid var(--neptune-line);
+  color: var(--neptune-muted);
+}
+
+.neptune-header nav {
+  display: flex;
+  gap: 1.75rem;
+  color: var(--neptune-text);
+  font-family: var(--neptune-sans);
+  font-size: .875rem;
+}
+
+.neptune-return {
+  position: relative;
+}
+
+.neptune-return-choices {
+  position: absolute;
+  inset: calc(100% + .25rem) 0 auto auto;
+  z-index: 2;
+  width: max-content;
+  min-width: 9rem;
+  padding: .25rem .5rem;
+  border: 1px solid var(--neptune-line);
+  background: var(--neptune-menu, #1b3346);
+}
+
+.neptune-return-choices button {
+  display: block;
+  width: 100%;
+  padding-inline: .75rem;
+  text-align: start;
+}
+
+.neptune-return-choices button + button {
+  border-top: 1px solid var(--neptune-line);
+}
+
+.neptune-return-choices button:is(:hover, :focus-visible) {
+  background: rgb(213 222 230 / 7%);
+  outline-offset: -2px;
+}
+
+.neptune-header .neptune-brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .75rem;
+  letter-spacing: .17em;
+  text-align: left;
+}
+
+.neptune-header [aria-current="page"] {
+  color: var(--neptune-title);
+  text-decoration: underline;
+  text-underline-offset: .5em;
+  text-decoration-color: var(--neptune-muted);
+}
+
+.neptune-foyer {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-content: center;
+  min-height: calc(100svh - 5.5rem);
+  padding-block: 4rem 6rem;
+}
+
+.neptune-cover-title h1,
+.neptune-directory-head h1,
+.neptune-article-header h1 {
+  margin: 0;
+  color: var(--neptune-title);
+  font-weight: 400;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.neptune-cover-title h1 {
+  font-size: clamp(4.5rem, 8vw, 6rem);
+  line-height: 1.1;
+  letter-spacing: .035em;
+}
+
+.neptune-subtitle {
+  margin: 2rem 0 0;
+  color: var(--neptune-title);
+  font-size: 1.25rem;
+  line-height: 1.8;
+  letter-spacing: .065em;
+}
+
+.neptune-intro {
+  align-self: start;
+  margin-top: clamp(3rem, 8vh, 5rem);
+  font-size: 1.125rem;
+  line-height: 2;
+}
+
+.neptune-intro p {
+  margin: 0 0 1.5rem;
+  line-break: strict;
+}
+
+.neptune-intro .neptune-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: .5rem;
+  border-bottom: 1px solid var(--neptune-muted);
+  color: var(--neptune-accent);
+  font-size: 1rem;
+  letter-spacing: .08em;
+}
+
+.neptune-start [aria-hidden="true"] {
+  transition: transform .3s var(--neptune-motion);
+}
+
+.neptune-start:hover [aria-hidden="true"] {
+  transform: translateX(.25rem);
+}
+
+.neptune-directory {
+  --archive-index: 4rem;
+  --archive-meta: 11.875rem;
+  --archive-gap: clamp(1.125rem, 2.6vw, 2.25rem);
+  padding-block: clamp(3rem, 6.5vw, 6rem) 4rem;
+}
+
+.neptune-directory-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
+  align-items: end;
+  gap: 1.25rem var(--archive-gap);
+  padding-bottom: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.neptune-directory-label {
+  display: flex;
+  align-items: baseline;
+  gap: .65em;
+  margin: 0 0 1rem;
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .75rem;
+  line-height: 1.5;
+  letter-spacing: .12em;
+}
+
+.neptune-directory-head h1 {
+  font-size: clamp(3.5rem, 7.5vw, 7rem);
+  line-height: 1.05;
+  letter-spacing: .015em;
+  text-wrap: nowrap;
+}
+
+.neptune-directory-head h1:focus { outline: none; }
+
+.neptune-directory-tools {
+  padding-inline-start: 1.25rem;
+  border-inline-start: 1px solid var(--neptune-line);
+}
+
+.neptune-directory-tools p {
+  margin: 0;
+  color: var(--neptune-muted);
+  font-size: clamp(.9375rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+}
+
+.neptune-directory-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1rem;
+  border-block: 1px solid var(--neptune-line);
+}
+
+.neptune-directory-bar [data-count] {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.neptune-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(.75rem, 2vw, 1.875rem);
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .875rem;
+}
+
+.neptune-filters button {
+  min-inline-size: 2.75rem;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+.neptune-filters button[aria-pressed="true"] {
+  color: var(--neptune-title);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .55em;
+}
+
+.neptune-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--archive-index) minmax(0, 1fr) var(--archive-meta);
+  align-items: baseline;
+  gap: 0 var(--archive-gap);
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--neptune-line);
+}
+
+.neptune-row:first-child { padding-block: clamp(1.875rem, 4vw, 3.25rem); }
+.neptune-row:first-child h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+
+.neptune-row .neptune-number {
+  letter-spacing: .12em;
+}
+
+.neptune-row h2 {
+  margin: 0;
+  color: var(--neptune-title);
+  font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+
+.neptune-row h2 a {
+  text-decoration: none;
+  text-underline-offset: .24em;
+  text-decoration-thickness: 1px;
+}
+
+.neptune-row h2 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid var(--neptune-muted);
+  opacity: 0;
+  transition: opacity .2s var(--neptune-motion);
+}
+
+.neptune-directory .neptune-row:hover h2 a {
+  color: var(--neptune-text);
+}
+
+.neptune-row h2 a:focus-visible {
+  text-decoration-line: underline;
+}
+
+.neptune-row:is(:hover, :focus-within) h2 a::after { opacity: .65; }
+
+.neptune-row p {
+  max-width: 40em;
+  margin: .625rem 0 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+.neptune-row-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .25rem 1rem;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.neptune-row-meta time {
+  white-space: nowrap;
+}
+
+.neptune-row-meta > span:not(:first-child) {
+  grid-column: 1 / -1;
+}
+
+.neptune-empty {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) var(--archive-meta);
+  align-items: baseline;
+  gap: .75rem var(--archive-gap);
+  padding-block: clamp(2.75rem, 8vw, 6rem);
+  border-bottom: 1px solid var(--neptune-line);
+}
+
+.neptune-empty-label { margin: 0; }
+
+.neptune-empty-copy h2 {
+  margin: 0;
+  color: var(--neptune-title);
+  font-size: clamp(1.75rem, 4.3vw, 3.625rem);
+  font-weight: 400;
+  line-height: 1.22;
+  text-wrap: balance;
+}
+
+.neptune-empty-copy p {
+  margin: 1rem 0 0;
+  color: var(--neptune-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.neptune-empty-copy button {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 1rem;
+  padding-inline: 0;
+  color: var(--neptune-text);
+  font: .875rem var(--neptune-sans);
+  text-decoration: underline;
+  text-underline-offset: .45em;
+}
+
+.neptune-empty-copy button span { transition: transform .2s var(--neptune-motion); }
+.neptune-empty-copy button:is(:hover, :focus-visible) span { transform: translateX(3px); }
+
+.neptune-footer {
+  padding-bottom: max(4rem, env(safe-area-inset-bottom));
+}
+
+.neptune-footer p {
+  margin: 0;
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .75rem;
+  line-height: 1.8;
+}
+
+.neptune-reader {
+  --neptune-title: var(--neptune-literary-title);
+  --neptune-text: var(--neptune-literary-text);
+  --neptune-muted: var(--neptune-literary-muted);
+  --neptune-type: 1.25rem;
+  width: calc(100% - 2 * var(--neptune-gutter));
+  max-width: 42.5rem;
+  margin-inline: auto;
+  padding-bottom: max(5rem, env(safe-area-inset-bottom));
+}
+
+.neptune-reader[data-size="small"] { --neptune-type: 1.125rem; }
+.neptune-reader[data-size="large"] { --neptune-type: 1.5rem; }
+
+.neptune-reader-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .25rem;
+  margin-bottom: clamp(3rem, 8vh, 5rem);
+  padding-block: max(.75rem, env(safe-area-inset-top)) .75rem;
+  border-bottom: 1px solid var(--neptune-line);
+  background: var(--neptune-paper);
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+.neptune-reader-tools,
+.neptune-type-controls {
+  display: flex;
+  align-items: center;
+}
+
+.neptune-reader-tools {
+  gap: .75rem;
+  margin-inline-start: auto;
+}
+
+.neptune-type-controls {
+  position: relative;
+  padding-inline-start: .25rem;
+}
+
+.neptune-type-controls::before {
+  content: "";
+  position: absolute;
+  inset: 30% auto 30% 0;
+  border-inline-start: 1px solid var(--neptune-line);
+}
+
+.neptune-type-controls button {
+  min-width: 44px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.neptune-world.is-focused :is(.neptune-header, .neptune-footer, .neptune-related) {
+  display: none;
+}
+
+.neptune-world.is-focused :is(.neptune-type-controls, .neptune-reader-toolbar [data-catalog]) {
+  display: none;
+}
+
+.neptune-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 3;
+  height: 2px;
+  pointer-events: none;
+  background: var(--neptune-line);
+}
+
+.neptune-progress span {
+  display: block;
+  height: 100%;
+  background: var(--neptune-accent);
+  transform: scaleX(var(--neptune-progress, 0));
+  transform-origin: left center;
+}
+
+.neptune-article-header {
+  margin-bottom: clamp(2.5rem, 6vh, 4rem);
+}
+
+.neptune-article-header .nep-caption[data-category] {
+  margin: 0 0 1rem;
+  color: var(--neptune-accent);
+}
+
+.neptune-article-header h1 {
+  font-size: clamp(1.875rem, 5vw, 3rem);
+  line-height: 1.38;
+  letter-spacing: .03em;
+}
+
+/* The heading receives programmatic focus on navigation; it is not a control. */
+.neptune-article-header h1:focus { outline: none; }
+
+.neptune-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.neptune-article-meta time {
+  white-space: nowrap;
+}
+
+.neptune-prose {
+  color: var(--neptune-text);
+  font-family: var(--neptune-serif);
+  font-size: var(--neptune-type);
+  line-height: var(--neptune-prose-leading);
+  line-break: strict;
+  overflow-wrap: anywhere;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.neptune-prose > :first-child {
+  margin-top: 0;
+}
+
+.neptune-prose > :last-child {
+  margin-bottom: 0;
+}
+
+.neptune-prose p {
+  margin: 0 0 var(--neptune-prose-gap);
+  white-space: pre-wrap;
+}
+
+.neptune-prose :is(h2, h3) {
+  margin: 2em 0 .7em;
+  color: var(--neptune-title);
+  font-weight: 400;
+  line-height: var(--neptune-heading-leading);
+  text-wrap: balance;
+}
+
+.neptune-prose h2 { font-size: 1.3em; }
+.neptune-prose h3 { font-size: 1.12em; }
+
+.neptune-prose blockquote {
+  margin: 1.6em 0;
+  padding-inline-start: var(--neptune-quote-inset);
+  border-inline-start: 1px solid var(--neptune-muted);
+  color: var(--neptune-accent);
+  white-space: pre-wrap;
+}
+
+.neptune-prose figure {
+  margin: 2em 0;
+}
+
+.neptune-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.neptune-prose figcaption {
+  margin-top: .75rem;
+}
+
+.neptune-related {
+  margin-top: 2.5rem;
+  color: var(--neptune-accent);
+  font-size: .875rem;
+  line-height: 1.7;
+}
+
+.neptune-related a {
+  display: block;
+  padding-block: .75rem;
+  text-decoration-color: var(--neptune-muted);
+  text-underline-offset: .24em;
+}
+
+.neptune-article-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--neptune-line);
+}
+
+.neptune-article-nav button {
+  display: grid;
+  gap: .25rem;
+  align-content: start;
+  padding-block: .5rem;
+  color: var(--neptune-accent);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.neptune-article-nav [data-next] {
+  grid-column: 2;
+  text-align: right;
+}
+
+.neptune-article-nav small {
+  color: var(--neptune-muted);
+  font-family: var(--neptune-sans);
+  font-size: .75rem;
+}
+
+#neptuneGate {
+  z-index: 939;
+  background: #0f2132;
+  transition: opacity .65s cubic-bezier(.22, 1, .36, 1), visibility 0s .65s;
+}
+
+#neptuneGate.is-active {
+  transition-delay: 0s;
+}
+
+#neptuneGate .venus-gate-veil {
+  display: none;
+}
+
+#neptuneGate .venus-gate-mark {
+  gap: .75rem;
+  color: #a2b2bf;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .75rem;
+  letter-spacing: .16em;
+}
+
+#neptuneGate .venus-gate-mark i {
+  width: 1.5rem;
+  background: rgb(210 220 230 / 25%);
+}
+
+body.neptune-world-open .hud,
+body.neptune-transitioning .hud {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 760px) {
+  .neptune-header {
+    min-height: 4rem;
+  }
+
+  .neptune-header nav {
+    gap: .875rem;
+    font-size: .75rem;
+  }
+
+  .neptune-header .neptune-brand {
+    font-size: .75rem;
+    letter-spacing: .09em;
+  }
+
+  .neptune-foyer {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 2rem;
+    min-height: calc(100svh - 4rem);
+    padding-block: clamp(2.5rem, 8vh, 4rem) 4rem;
+  }
+
+  .neptune-cover-title h1 {
+    font-size: 4.5rem;
+  }
+
+  .neptune-subtitle {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+  }
+
+  .neptune-intro {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+
+  .neptune-intro p {
+    margin-bottom: 1rem;
+  }
+
+  .neptune-directory {
+    --archive-index: 1.5rem;
+    --archive-gap: .75rem;
+    padding-top: 3rem;
+  }
+
+  .neptune-directory-head { grid-template-columns: minmax(0, 1fr); }
+  .neptune-directory-tools { padding-inline-start: 0; border-inline-start: 0; }
+
+  .neptune-filters {
+    gap: 0 .5rem;
+  }
+
+  .neptune-row {
+    grid-template-columns: var(--archive-index) minmax(0, 1fr);
+    gap: .625rem .75rem;
+    min-block-size: auto;
+    padding-block: 1.375rem;
+  }
+
+  .neptune-row h2 {
+    font-size: 1.5rem;
+  }
+
+  .neptune-row p {
+    margin-top: .25rem;
+    font-size: .9375rem;
+  }
+
+  .neptune-row-meta {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .75rem;
+    text-align: left;
+  }
+
+  .neptune-empty { grid-template-columns: minmax(0, 1fr); }
+
+  .neptune-reader {
+    --neptune-type: 1.125rem;
+  }
+
+  .neptune-reader[data-size="small"] { --neptune-type: 1rem; }
+  .neptune-reader[data-size="large"] { --neptune-type: 1.25rem; }
+
+  .neptune-reader-toolbar {
+    padding-block: max(.5rem, env(safe-area-inset-top)) .5rem;
+    font-size: .75rem;
+  }
+
+  .neptune-reader-tools {
+    gap: .5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .neptune-world {
+    --neptune-gutter: 1.25rem;
+  }
+
+  .neptune-header {
+    gap: .5rem;
+  }
+
+  .neptune-header .neptune-brand {
+    letter-spacing: .045em;
+  }
+
+  .neptune-header nav {
+    gap: .5rem;
+  }
+
+  .neptune-cover-title h1 {
+    font-size: 3.75rem;
+  }
+
+  .neptune-filters {
+    font-size: .8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #neptuneGate {
+    transition: none;
+  }
+
+  .neptune-world *,
+  .neptune-world *::before,
+  .neptune-world *::after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.neptune-directory-tools [data-local-author] {
+  display: block;
+  padding-inline: 0;
+  color: var(--neptune-text);
+  font: .875rem var(--neptune-sans);
+  text-decoration: underline;
+  text-underline-offset: .4em;
+}
+
+.neptune-file-editor {
+  --desk-paper: #0b1c2b;
+  --desk-rail: #10283a;
+  --desk-header: #071421;
+  --desk-line: rgb(174 199 221 / 14%);
+  --desk-muted: var(--neptune-literary-muted);
+  --desk-accent: var(--neptune-literary-title);
+  --neptune-title: var(--neptune-literary-title);
+  --neptune-text: var(--neptune-literary-text);
+  --neptune-accent: var(--desk-accent);
+  --desk-pad: clamp(1.25rem, 3.5vw, 3.5rem);
+  position: fixed;
+  inset: 0;
+  width: min(1420px, calc(100vw - 96px));
+  max-width: none;
+  height: min(850px, calc(100dvh - 80px));
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--desk-line);
+  border-radius: 22px;
+  background: var(--desk-paper);
+  color: var(--neptune-text);
+  font: .875rem/1.55 var(--neptune-sans);
+  letter-spacing: 0;
+}
+
+.neptune-file-editor[open] {
+  display: flex;
+  flex-direction: column;
+  animation: neptune-desk-enter .26s var(--neptune-motion);
+}
+
+.neptune-file-editor::backdrop {
+  background: rgb(4 13 21 / 55%);
+  animation: neptune-desk-backdrop-in .26s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor[open].is-closing {
+  pointer-events: none;
+  animation: neptune-desk-exit .24s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+.neptune-file-editor.is-closing::backdrop {
+  animation: neptune-desk-backdrop-out .24s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+@keyframes neptune-desk-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.985);
+  }
+}
+
+@keyframes neptune-desk-exit {
+  to { opacity: 0; transform: translateY(12px) scale(.985); }
+}
+
+@keyframes neptune-desk-backdrop-in {
+  from { opacity: 0; }
+}
+
+@keyframes neptune-desk-backdrop-out {
+  to { opacity: 0; }
+}
+
+.neptune-desk-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: max(.75rem, env(safe-area-inset-top)) 1.5rem .75rem;
+  border-bottom: 1px solid var(--desk-line);
+  background: var(--desk-header);
+}
+
+.neptune-desk-header h2 {
+  margin: 0;
+  color: var(--neptune-title);
+  font: 400 1.375rem/1.35 var(--neptune-serif);
+  white-space: nowrap;
+}
+
+.neptune-desk-header h2 span {
+  color: var(--desk-muted);
+  font: .8125rem var(--neptune-sans);
+}
+
+.neptune-desk-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+}
+
+.neptune-desk-actions [data-author-notice] {
+  margin: 0 .75rem 0 0;
+  color: var(--desk-muted);
+  font-size: .75rem;
+  overflow-wrap: anywhere;
+}
+
+.neptune-file-editor button {
+  padding: .5rem .75rem;
+  border: 0;
+  border-radius: .3rem;
+  color: var(--neptune-text);
+  font-size: .8125rem;
+  transition: color .18s cubic-bezier(.22, 1, .36, 1), background-color .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor button:disabled {
+  opacity: .48;
+  cursor: default;
+}
+
+.neptune-file-editor button:not(:disabled):hover {
+  color: var(--desk-accent);
+  background: #1a354a;
+}
+
+.neptune-file-editor button:focus-visible {
+  outline: 2px solid var(--desk-accent);
+  outline-offset: 3px;
+}
+
+.neptune-file-editor button:not(:disabled):active {
+  background: var(--desk-paper);
+  color: var(--desk-accent);
+}
+
+.neptune-file-editor [data-author-draft] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .375rem;
+}
+
+.neptune-desk-save-icon:empty { display: none; }
+.neptune-file-editor [data-save-state="saving"] .neptune-desk-save-icon {
+  display: inline-block;
+  width: .75rem;
+  height: .75rem;
+  border: 1.5px solid var(--desk-muted);
+  border-top-color: var(--desk-accent);
+  border-radius: 50%;
+  animation: neptune-save-spin .7s linear infinite;
+}
+.neptune-file-editor [data-save-state="saved"] .neptune-desk-save-icon,
+.neptune-file-editor [data-save-state="error"] .neptune-desk-save-icon {
+  display: inline-block;
+  color: var(--desk-accent);
+  font-size: 1rem;
+  line-height: 1;
+  animation: neptune-save-done .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes neptune-save-spin { to { transform: rotate(360deg); } }
+@keyframes neptune-save-done { from { opacity: 0; transform: translateY(2px); } }
+
+.neptune-desk-actions button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.neptune-file-editor [data-author-write] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding-inline: 1rem;
+  background: var(--desk-accent);
+  color: var(--desk-paper);
+  transition: background-color .18s cubic-bezier(.22, 1, .36, 1), transform .16s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor [data-author-write]:not(:disabled):hover {
+  background: var(--neptune-text);
+  color: var(--desk-paper);
+}
+
+.neptune-file-editor [data-author-write]:not(:disabled):active {
+  transform: scale(.98);
+}
+
+.neptune-desk-grid {
+  position: relative;
+  display: grid;
+  flex: 1;
+  grid-template-columns: 230px minmax(0, 1fr) 260px;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  margin: 0;
+  transition: grid-template-columns .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-desk-grid > [data-author-panel] {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: #496174 var(--desk-paper);
+  scrollbar-width: thin;
+}
+
+.neptune-desk-library,
+.neptune-desk-metadata {
+  padding: 1.5rem 1.125rem max(1.5rem, env(safe-area-inset-bottom));
+  background: var(--desk-rail);
+  transition: opacity .26s cubic-bezier(.22, 1, .36, 1), visibility 0s;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-desk-grid {
+  grid-template-columns: 0 minmax(0, 1fr) 0;
+}
+
+.neptune-file-editor.is-writing-focus :is(.neptune-desk-library, .neptune-desk-metadata) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .26s cubic-bezier(.22, 1, .36, 1), visibility 0s .26s;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-desk-actions :is([data-author-draft], [data-author-write], [data-author-close]) {
+  display: none;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-desk-switcher {
+  display: none;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-desk-manuscript {
+  max-width: 45rem;
+}
+
+.neptune-focus-status { display: none; }
+.neptune-file-editor.is-writing-focus [data-author-notice] { display: none; }
+.neptune-file-editor.is-writing-focus .neptune-focus-status {
+  display: inline;
+  color: var(--desk-muted);
+  font-size: .75rem;
+}
+
+/* Keep field names available to assistive technology without interrupting prose. */
+.neptune-file-editor.is-writing-focus :is(.neptune-desk-title-label, .neptune-desk-block-label) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-desk-title { margin-bottom: 3rem; }
+.neptune-file-editor.is-writing-focus .neptune-desk-title textarea:focus-visible {
+  outline: 1px solid var(--desk-muted);
+  outline-offset: .3rem;
+  box-shadow: none;
+}
+.neptune-file-editor.is-writing-focus .neptune-file-block { margin-bottom: var(--neptune-prose-gap); }
+.neptune-file-editor.is-writing-focus .neptune-file-block[data-kind="heading"] { margin-block: 2em .7em; }
+.neptune-file-editor.is-writing-focus .neptune-file-block[data-kind="quote"] { margin-block: 1.6em; }
+.neptune-file-editor.is-writing-focus .neptune-file-block textarea {
+  min-height: 3rem;
+  padding-block: .3rem;
+}
+
+.neptune-focus-count {
+  display: none;
+  margin: 3rem 0 0;
+  color: var(--desk-muted);
+  font-size: .75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.neptune-file-editor.is-writing-focus .neptune-focus-count {
+  display: block;
+}
+
+.neptune-desk-library {
+  border-inline-end: 1px solid var(--desk-line);
+}
+
+.neptune-desk-metadata {
+  border-inline-start: 1px solid var(--desk-line);
+}
+
+.neptune-desk-grid h3 {
+  margin: 0 0 1.25rem;
+  color: var(--neptune-title);
+  font: 400 1.125rem/1.5 var(--neptune-serif);
+}
+
+.neptune-file-editor label {
+  display: block;
+  margin: 0 0 1rem;
+  color: var(--desk-muted);
+  font-size: .75rem;
+}
+
+.neptune-file-editor :is(input:not([type="file"]), select, textarea) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin-top: .375rem;
+  padding: .5rem .625rem;
+  border: 0;
+  border-block-end: 1px solid var(--desk-line);
+  border-radius: 0;
+  background: var(--desk-paper);
+  color: var(--neptune-title);
+  font: .875rem/1.55 var(--neptune-sans);
+}
+
+.neptune-file-editor :is(input, textarea)::placeholder {
+  color: var(--desk-muted);
+  opacity: .85;
+}
+
+.neptune-file-editor :is(input, select, textarea):focus-visible {
+  outline: 1px solid var(--desk-accent);
+  outline-offset: 2px;
+}
+
+.neptune-file-editor textarea {
+  resize: none;
+}
+
+.neptune-desk-library [data-author-new] {
+  width: 100%;
+  margin-bottom: 1rem;
+  text-align: start;
+  color: var(--desk-accent);
+}
+
+.neptune-file-editor [data-author-search] {
+  border: 0;
+  border-radius: .5rem;
+}
+
+.neptune-file-editor [data-author-new]:not(:disabled):active {
+  background: var(--desk-paper);
+}
+
+.neptune-file-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.neptune-file-list li {
+  border-top: 1px solid var(--desk-line);
+}
+
+.neptune-file-list button {
+  position: relative;
+  display: grid;
+  gap: .25rem;
+  width: 100%;
+  padding: .75rem .625rem;
+  border: 0;
+  color: var(--neptune-title);
+  font: 400 1rem/1.4 var(--neptune-serif);
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+.neptune-file-list button::before {
+  content: "";
+  position: absolute;
+  inset: .375rem auto .375rem 0;
+  width: 2px;
+  background: var(--desk-accent);
+  opacity: 0;
+  transition: opacity .16s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-list button > span {
+  transition: transform .16s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor .neptune-file-list button:is(:hover, :focus-visible, [aria-current="true"]) {
+  background: var(--desk-paper);
+}
+
+.neptune-file-list button:is(:hover, :focus-visible, [aria-current="true"])::before {
+  opacity: 1;
+}
+
+.neptune-file-list button:is(:hover, :focus-visible) > span {
+  transform: translateX(3px);
+}
+
+.neptune-file-list small {
+  color: var(--desk-muted);
+  font: .75rem/1.5 var(--neptune-sans);
+}
+
+.neptune-file-note {
+  margin: 1rem 0 0;
+  color: var(--desk-muted);
+  font-size: .75rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.neptune-desk-compose {
+  padding: clamp(1.5rem, 4vw, 3.75rem) var(--desk-pad) max(3rem, env(safe-area-inset-bottom));
+}
+
+.neptune-desk-manuscript {
+  max-width: 42.5rem;
+  margin-inline: auto;
+}
+
+.neptune-file-editor .neptune-desk-title {
+  margin-bottom: 2.5rem;
+}
+
+.neptune-file-editor .neptune-desk-title textarea {
+  padding: .5rem 0 .75rem;
+  border: 0;
+  background: transparent;
+  field-sizing: content;
+  resize: none;
+  font: 400 clamp(1.75rem, 3vw, 2.5rem)/1.35 var(--neptune-serif);
+}
+
+.neptune-file-block {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.neptune-file-block.is-entering {
+  animation: neptune-block-in .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes neptune-block-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.neptune-file-block label {
+  margin: 0;
+}
+
+.neptune-desk-block-label {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline-end: 9rem;
+  transition: color .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-block:focus-within .neptune-desk-block-label {
+  color: var(--neptune-text);
+}
+
+.neptune-file-editor .neptune-file-block textarea {
+  min-height: 8rem;
+  margin-top: 0;
+  padding: .75rem 0;
+  background: transparent;
+  border-bottom-color: transparent;
+  caret-color: var(--desk-accent);
+  field-sizing: content;
+  color: var(--neptune-text);
+  font: 400 1.0625rem/var(--neptune-prose-leading) var(--neptune-serif);
+  transition: color .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor .neptune-file-block textarea:focus {
+  color: var(--desk-accent);
+}
+
+.neptune-file-editor .neptune-file-block textarea:focus-visible,
+.neptune-file-editor .neptune-desk-title textarea:focus-visible {
+  outline: 0;
+  box-shadow: 0 1px var(--desk-muted);
+}
+
+.neptune-file-editor .neptune-file-block[data-kind="heading"] textarea {
+  min-height: 3.75rem;
+  font-size: 1.375rem;
+  line-height: var(--neptune-heading-leading);
+}
+
+.neptune-file-editor .neptune-file-block[data-kind="quote"] textarea {
+  min-height: 5rem;
+  padding-inline-start: var(--neptune-quote-inset);
+  border-inline-start: 1px solid var(--desk-line);
+}
+
+.neptune-file-block[data-kind="image"] small {
+  display: block;
+  padding-block: .75rem;
+  border-block-end: 1px solid var(--desk-line);
+  overflow-wrap: anywhere;
+}
+
+.neptune-file-editor .neptune-file-block > button {
+  position: absolute;
+  inset: 0 0 auto auto;
+  border-color: transparent;
+  color: var(--desk-muted);
+  font-size: .75rem;
+}
+
+.neptune-file-editor .neptune-file-block > [data-block-menu-trigger] {
+  inset: 0 auto auto -2.75rem;
+  min-width: 44px;
+  opacity: 0;
+  color: var(--desk-muted);
+  font-size: 1rem;
+  transition: opacity .18s cubic-bezier(.22, 1, .36, 1), color .18s cubic-bezier(.22, 1, .36, 1), background-color .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor .neptune-file-block:is(:hover, :focus-within) > [data-block-menu-trigger],
+.neptune-file-editor .neptune-file-block > [data-block-menu-trigger][aria-expanded="true"] {
+  opacity: 1;
+}
+
+.neptune-block-menu {
+  position: absolute;
+  z-index: 5;
+  inset: 2.5rem auto auto 0;
+  width: max-content;
+  min-width: 10rem;
+  padding: .375rem;
+  border: 1px solid var(--desk-line);
+  border-radius: .5rem;
+  background: #1a354a;
+  animation: neptune-insert-enter .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor .neptune-block-menu button {
+  display: block;
+  width: 100%;
+  text-align: start;
+}
+
+.neptune-file-editor .neptune-block-menu button:focus-visible {
+  outline-offset: -2px;
+}
+
+.neptune-file-editor .neptune-file-block:focus-within > button {
+  color: var(--neptune-text);
+}
+
+.neptune-file-editor .neptune-file-block > [data-author-inline-insert] {
+  inset-inline-end: 5rem;
+  opacity: .45;
+  transition: opacity .18s cubic-bezier(.22, 1, .36, 1), color .18s cubic-bezier(.22, 1, .36, 1), background-color .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor .neptune-file-block:is(:focus-within, :hover) > [data-author-inline-insert],
+.neptune-file-editor .neptune-file-block > [data-author-inline-insert][aria-expanded="true"] {
+  opacity: 1;
+}
+
+.neptune-desk-add {
+  position: relative;
+  width: fit-content;
+}
+
+.neptune-file-editor [data-author-insert] {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  margin-inline-start: -.75rem;
+  padding-inline: .75rem .875rem;
+  border: 1px solid var(--desk-line);
+  border-radius: .5rem;
+  background: var(--desk-rail);
+  color: var(--neptune-text);
+}
+
+.neptune-file-editor [data-author-insert][aria-expanded="true"] {
+  background: #1a354a;
+  color: var(--desk-accent);
+}
+
+.neptune-desk-manuscript:has(.neptune-file-block textarea:focus) [data-author-insert] {
+  background: #1a354a;
+  color: var(--desk-accent);
+}
+
+.neptune-file-editor [data-author-insert] span,
+.neptune-file-editor [data-author-new] span {
+  display: inline-block;
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: transform .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-file-editor [data-author-insert]:hover span,
+.neptune-file-editor [data-author-new]:hover span {
+  transform: translateX(3px);
+}
+
+.neptune-desk-insert-options {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(100% + .375rem);
+  inset-inline-start: -.25rem;
+  min-width: 9rem;
+  padding: .375rem;
+  border: 1px solid var(--desk-line);
+  border-radius: .5rem;
+  background: #1a354a;
+  animation: neptune-insert-enter .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-desk-insert-options.is-inline {
+  bottom: auto;
+  top: 2.75rem;
+  inset-inline-start: auto;
+  inset-inline-end: 5rem;
+}
+
+.neptune-file-editor .neptune-desk-insert-options button {
+  display: block;
+  width: 100%;
+  text-align: start;
+}
+
+.neptune-file-editor .neptune-desk-insert-options button:not(:disabled):hover,
+.neptune-file-editor .neptune-desk-insert-options button:focus-visible {
+  background: var(--desk-rail);
+}
+
+.neptune-file-editor .neptune-desk-insert-options button:focus-visible {
+  outline-offset: -2px;
+}
+
+@keyframes neptune-insert-enter {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.neptune-desk-facts {
+  display: grid;
+  gap: .625rem;
+  margin: 1.25rem 0 0;
+  padding: 1rem 0;
+  border-block: 1px solid var(--desk-line);
+  font-size: .75rem;
+}
+
+.neptune-desk-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.neptune-desk-facts dt {
+  flex-shrink: 0;
+  color: var(--desk-muted);
+}
+
+.neptune-desk-facts dd {
+  margin: 0;
+  color: var(--desk-accent);
+  text-align: end;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.neptune-desk-document-actions {
+  display: grid;
+  justify-items: start;
+  gap: .25rem;
+  margin-top: 1rem;
+}
+
+.neptune-desk-category {
+  min-width: 0;
+  margin: 0 0 1.375rem;
+  padding: 0;
+  border: 0;
+}
+
+.neptune-desk-category legend,
+.neptune-desk-field-label {
+  display: block;
+  margin-bottom: .625rem;
+  color: var(--desk-muted);
+  font-size: .75rem;
+}
+
+.neptune-desk-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+}
+
+.neptune-file-editor .neptune-desk-tags button {
+  min-height: 36px;
+  padding: .25rem .625rem;
+  border: 1px solid var(--desk-line);
+  border-radius: 999px;
+  color: var(--neptune-text);
+  overflow-wrap: anywhere;
+}
+
+.neptune-file-editor .neptune-desk-tags button[aria-pressed="true"] {
+  border-color: var(--desk-muted);
+  background: #1a354a;
+  color: var(--desk-accent);
+}
+
+.neptune-file-editor .neptune-desk-custom-toggle {
+  min-height: 36px;
+  margin-top: .375rem;
+  padding-inline: .375rem;
+  color: var(--desk-muted);
+}
+
+.neptune-file-editor .neptune-desk-category-input { margin-top: .5rem; }
+.neptune-desk-date { position: relative; margin-bottom: 1.375rem; }
+
+.neptune-file-editor .neptune-desk-date-trigger {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  width: 100%;
+  padding-inline: .5rem;
+  color: var(--neptune-text);
+  text-align: left;
+}
+
+.neptune-desk-date-trigger [data-author-date-label] { flex: 1; font-variant-numeric: tabular-nums; }
+.neptune-desk-date-trigger span:first-child { font-size: 1rem; color: var(--desk-muted); }
+
+.neptune-calendar {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + .25rem);
+  inset-inline-end: 0;
+  width: min(15rem, 100%);
+  padding: .625rem;
+  border: 1px solid var(--desk-line);
+  border-radius: .75rem;
+  background: var(--desk-paper);
+  animation: neptune-insert-enter .18s cubic-bezier(.22, 1, .36, 1);
+}
+
+.neptune-calendar-head {
+  display: grid;
+  grid-template-columns: repeat(2, 28px) minmax(0, 1fr) repeat(2, 28px);
+  align-items: center;
+  text-align: center;
+  font-size: .75rem;
+  white-space: nowrap;
+}
+
+.neptune-file-editor .neptune-calendar-head button {
+  min-height: 36px;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.neptune-calendar-week,
+.neptune-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  text-align: center;
+}
+
+.neptune-calendar-week { padding-block: .5rem .25rem; color: var(--desk-muted); font-size: .6875rem; }
+.neptune-file-editor .neptune-calendar-days button { min-height: 30px; padding: 0; font-size: .75rem; }
+.neptune-file-editor .neptune-calendar-days button[aria-pressed="true"] { background: #1a354a; color: var(--desk-accent); }
+.neptune-file-editor .neptune-calendar-days button:focus-visible { outline-offset: -2px; }
+.neptune-file-editor .neptune-calendar-clear { min-height: 36px; margin-top: .5rem; color: var(--desk-muted); }
+
+.neptune-desk-summary { margin-bottom: 1rem; }
+.neptune-file-editor .neptune-desk-summary-preview {
+  display: block;
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.neptune-desk-summary-preview > span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: pre-line;
+}
+.neptune-desk-summary-preview small {
+  display: block;
+  margin-top: .375rem;
+  color: var(--desk-muted);
+  opacity: .65;
+  transition: opacity .18s cubic-bezier(.22, 1, .36, 1);
+}
+.neptune-desk-summary-preview:is(:hover, :focus-visible) small { opacity: 1; }
+.neptune-desk-summary-editor { animation: neptune-insert-enter .2s cubic-bezier(.22, 1, .36, 1); }
+.neptune-file-editor .neptune-desk-sr { margin: 0; font-size: 0; }
+.neptune-file-editor .neptune-desk-sr textarea { border-radius: .5rem; }
+.neptune-file-editor .neptune-desk-sr textarea:focus-visible {
+  outline: 0;
+  box-shadow: 0 1px var(--desk-muted);
+}
+
+.neptune-file-editor [data-author-delete] {
+  color: var(--neptune-text);
+  text-decoration: underline;
+  text-decoration-color: var(--desk-muted);
+  text-underline-offset: .35em;
+}
+
+.neptune-desk-switcher,
+.neptune-file-editor .neptune-desk-back {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .neptune-desk-grid {
+    --desk-library-width: clamp(10rem, 19vw, 13.75rem);
+    grid-template-columns: var(--desk-library-width) minmax(0, 1fr);
+  }
+
+  .neptune-desk-compose {
+    padding-top: 0;
+  }
+
+  .neptune-desk-metadata {
+    position: absolute;
+    z-index: 1;
+    inset: 3.75rem 0 0 auto;
+    display: none;
+    width: min(19.5rem, calc(100% - var(--desk-library-width)));
+    border-block-start: 1px solid var(--desk-line);
+  }
+
+  .neptune-file-editor[data-panel="metadata"] .neptune-desk-metadata,
+  .neptune-desk-metadata .neptune-desk-back {
+    display: block;
+  }
+
+  .neptune-desk-switcher {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 3.75rem;
+    margin: 0 0 1.25rem;
+    background: var(--desk-paper);
+  }
+
+  .neptune-desk-switcher [data-author-toggle="library"] {
+    display: none;
+  }
+
+  .neptune-file-editor [data-author-toggle][aria-expanded="true"] {
+    border-color: var(--desk-accent);
+  }
+}
+
+@media (max-width: 760px) {
+  .neptune-file-editor {
+    --desk-pad: 1.25rem;
+    width: 100%;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .neptune-desk-header {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    gap: .375rem .5rem;
+    padding: max(.5rem, env(safe-area-inset-top)) var(--desk-pad) .625rem;
+  }
+
+  .neptune-desk-actions {
+    display: contents;
+  }
+
+  .neptune-desk-actions [data-author-notice] {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin: 0;
+  }
+
+  .neptune-desk-actions [data-author-close] {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .neptune-desk-actions [data-author-draft] {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .neptune-desk-actions [data-author-write] {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+
+  .neptune-desk-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .neptune-file-editor.is-writing-focus .neptune-desk-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .neptune-file-editor.is-writing-focus .neptune-desk-header {
+    display: flex;
+  }
+
+  .neptune-file-editor.is-writing-focus .neptune-desk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+  }
+
+  .neptune-file-editor.is-writing-focus .neptune-desk-actions [data-author-notice] {
+    max-width: 9rem;
+  }
+
+  .neptune-file-editor .neptune-file-block > [data-block-menu-trigger] {
+    inset-inline-start: -1.25rem;
+  }
+
+  .neptune-desk-grid > [data-author-panel] {
+    grid-area: 1 / 1;
+  }
+
+  .neptune-desk-library,
+  .neptune-desk-metadata {
+    position: static;
+    display: none;
+    width: auto;
+    padding-inline: var(--desk-pad);
+    border: 0;
+  }
+
+  .neptune-file-editor[data-panel="library"] .neptune-desk-library {
+    display: block;
+  }
+
+  .neptune-file-editor[data-panel] .neptune-desk-compose {
+    display: none;
+  }
+
+  .neptune-file-editor .neptune-desk-back {
+    display: inline-block;
+    margin-bottom: .875rem;
+    padding-inline-start: 0;
+    border-color: transparent;
+  }
+
+  .neptune-desk-switcher {
+    justify-content: space-between;
+    gap: .5rem;
+  }
+
+  .neptune-desk-switcher [data-author-toggle="library"] {
+    display: block;
+  }
+
+  .neptune-file-editor :is(input:not([type="file"]), select, textarea) {
+    font-size: 1rem;
+  }
+
+  .neptune-file-editor .neptune-desk-title textarea {
+    font-size: 1.75rem;
+  }
+}
+
+@media (hover: none) {
+  .neptune-file-editor .neptune-file-block > [data-block-menu-trigger] { opacity: .7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neptune-file-editor[open],
+  .neptune-file-editor[open].is-closing,
+  .neptune-file-editor::backdrop {
+    animation: none;
+  }
+  .neptune-file-editor .neptune-desk-insert-options { animation: none; }
+  .neptune-file-editor .neptune-block-menu { animation: none; }
+  .neptune-file-editor .neptune-calendar,
+  .neptune-file-editor .neptune-desk-summary-editor { animation: none; }
+  .neptune-file-editor .neptune-file-block.is-entering { animation: none; }
+  .neptune-file-editor [data-save-state="saving"] .neptune-desk-save-icon,
+  .neptune-file-editor [data-save-state="saved"] .neptune-desk-save-icon,
+  .neptune-file-editor [data-save-state="error"] .neptune-desk-save-icon { animation: none; }
+  .neptune-file-editor button,
+  .neptune-file-editor button span,
+  .neptune-file-editor .neptune-file-block textarea,
+  .neptune-file-editor .neptune-desk-block-label,
+  .neptune-file-editor .neptune-file-list button::before { transition: none; }
+  .neptune-file-editor .neptune-desk-grid,
+  .neptune-file-editor .neptune-desk-library,
+  .neptune-file-editor .neptune-desk-metadata { transition: none; }
+  .neptune-file-editor .neptune-file-list button:is(:hover, :focus-visible) > span,
+  .neptune-file-editor [data-author-insert]:hover span,
+  .neptune-file-editor [data-author-new]:hover span { transform: none; }
+  .neptune-file-editor [data-author-write]:not(:disabled):active { transform: none; }
+}

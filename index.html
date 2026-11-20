@@ -7439,6 +7439,7 @@
 <link rel="stylesheet" href="./public/mars/frontier.css">
 <link rel="stylesheet" href="./public/jupiter/archive.css">
 <link rel="stylesheet" href="./public/uranus/future.css">
+<link rel="stylesheet" href="./public/uranus/inner-sky.css?v=6.5">
 </head>
 <body class="view-welcome">
   <div id="stage" aria-hidden="true"></div>
@@ -7975,29 +7976,980 @@
       }
     }());
   </script>
-  <script src="./public/earth/data.js"></script>
-  <script src="./public/earth/gallery.js"></script>
-  <script src="./public/planet-portal.js"></script>
-  <script src="./public/about/archive-data.js"></script>
-  <script src="./public/about/manifesto.js"></script>
-  <script src="./public/about/archive.js"></script>
-  <script src="./public/neptune/data.js"></script>
-  <script src="./public/neptune/reader.js"></script>
-  <script src="./public/saturn/data.js"></script>
-  <script src="./public/saturn/chronicles.js"></script>
-  <script src="./public/mercury/core.js"></script>
-  <script src="./public/mercury/data.js"></script>
-  <script src="./public/mercury/experiments.js"></script>
-  <script src="./public/mercury/laboratory.js"></script>
-  <script src="./public/mars/data.js"></script>
-  <script src="./public/mars/frontier.js"></script>
-  <script src="./public/jupiter/core.js"></script>
-  <script src="./public/jupiter/data.js"></script>
-  <script src="./public/jupiter/archive.js"></script>
-  <script src="./public/uranus/core.js"></script>
-  <script src="./public/uranus/data.js"></script>
-  <script src="./public/uranus/future.js"></script>
-  <script src="./public/config.js"></script>
+  <script defer src="./public/earth/data.js"></script>
+  <script defer src="./public/earth/gallery.js"></script>
+  <script defer src="./public/planet-portal.js"></script>
+  <script defer src="./public/about/archive-data.js"></script>
+  <script defer src="./public/about/manifesto.js"></script>
+  <script defer src="./public/about/archive.js"></script>
+  <script id="neptune-file-writings" type="application/json">null</script>
+  <template id="neptune-file-editor">
+    <dialog class="neptune-file-editor" aria-labelledby="neptune-file-title">
+      <header class="neptune-desk-header">
+        <h2 id="neptune-file-title">深蓝。<span data-author-mode-label> / 写作台</span></h2>
+        <div class="neptune-desk-actions">
+          <p data-author-notice role="status" aria-live="polite">未编辑</p>
+          <span class="neptune-focus-status" data-author-focus-status aria-live="polite">未保存</span>
+          <button type="button" data-author-writing-focus aria-pressed="false">↗ 专注写作</button>
+          <button type="submit" form="neptune-desk-form" value="draft" data-author-draft data-save-state="idle"><span class="neptune-desk-save-icon" data-author-save-icon aria-hidden="true"></span><span data-author-draft-label>保存草稿</span></button>
+          <button type="button" data-author-write><span aria-hidden="true">↓</span> <span data-author-write-label>写入本地 HTML</span></button>
+          <button type="button" data-author-close>关闭</button>
+          <input type="file" data-author-source accept=".html,.htm" hidden>
+        </div>
+      </header>
+      <form id="neptune-desk-form" class="neptune-desk-grid" data-author-form novalidate>
+        <aside class="neptune-desk-library" id="neptune-desk-library" data-author-panel="library" aria-labelledby="neptune-desk-library-title">
+          <button type="button" class="neptune-desk-back" data-author-back>← 返回正文</button>
+          <h3 id="neptune-desk-library-title" tabindex="-1">文稿目录</h3>
+          <label>搜索文稿<input type="search" data-author-search placeholder="标题、摘要或分类"></label>
+          <button type="button" data-author-new><span aria-hidden="true">＋</span> 新建篇章</button>
+          <ul class="neptune-file-list" data-author-list></ul>
+          <p class="neptune-file-note" data-author-empty>暂无文稿。</p>
+        </aside>
+        <section class="neptune-desk-compose" data-author-panel="compose" aria-label="正文编辑">
+          <nav class="neptune-desk-switcher" aria-label="切换写作区域">
+            <button type="button" data-author-toggle="library" aria-controls="neptune-desk-library" aria-expanded="false">文稿目录</button>
+            <button type="button" data-author-toggle="metadata" aria-controls="neptune-desk-metadata" aria-expanded="false">文稿信息</button>
+          </nav>
+          <div class="neptune-desk-manuscript">
+            <label class="neptune-desk-title"><span class="neptune-desk-title-label">标题</span><textarea data-author-title required maxlength="200" rows="3" placeholder="篇章标题"></textarea></label>
+            <div data-author-blocks></div>
+            <div class="neptune-block-menu" id="neptune-block-menu" data-author-block-menu role="group" aria-label="内容块操作" hidden>
+              <button type="button" data-block-action="before">在上方插入</button>
+              <button type="button" data-block-action="after">在下方插入</button>
+              <button type="button" data-block-action="paragraph">改为正文</button>
+              <button type="button" data-block-action="heading">改为小标题</button>
+              <button type="button" data-block-action="quote">改为引用</button>
+              <button type="button" data-block-action="delete">删除内容块</button>
+            </div>
+            <div class="neptune-desk-add">
+              <button type="button" data-author-insert aria-expanded="false" aria-controls="neptune-insert-options"><span aria-hidden="true">＋</span> 插入内容</button>
+              <div class="neptune-desk-insert-options" id="neptune-insert-options" data-author-insert-options role="group" aria-label="插入内容" hidden>
+                <button type="button" data-author-add="paragraph">正文</button>
+                <button type="button" data-author-add="heading">小标题</button>
+                <button type="button" data-author-add="quote">引用</button>
+              </div>
+            </div>
+            <p class="neptune-focus-count" data-author-focus-count aria-live="off"></p>
+          </div>
+        </section>
+        <aside class="neptune-desk-metadata" id="neptune-desk-metadata" data-author-panel="metadata" aria-labelledby="neptune-desk-metadata-title">
+          <button type="button" class="neptune-desk-back" data-author-back>← 返回正文</button>
+          <h3 id="neptune-desk-metadata-title" tabindex="-1">文稿信息</h3>
+          <fieldset class="neptune-desk-category">
+            <legend>分类</legend>
+            <div class="neptune-desk-tags" data-author-category-tags aria-label="选择分类"></div>
+            <button type="button" class="neptune-desk-custom-toggle" data-author-category-custom aria-expanded="false">＋ 自定义分类</button>
+            <label class="neptune-desk-category-input" data-author-category-wrap hidden>自定义分类<input type="text" data-author-category list="neptune-desk-categories" placeholder="输入分类名称" required></label>
+          </fieldset>
+          <datalist id="neptune-desk-categories" data-author-categories></datalist>
+          <div class="neptune-desk-date">
+            <span class="neptune-desk-field-label">创作日期</span>
+            <input type="date" data-author-date hidden>
+            <button type="button" class="neptune-desk-date-trigger" data-author-date-toggle aria-expanded="false" aria-controls="neptune-calendar">
+              <span aria-hidden="true">▦</span><span data-author-date-label>选择日期</span><span aria-hidden="true">⌄</span>
+            </button>
+            <div id="neptune-calendar" class="neptune-calendar" data-author-calendar hidden aria-label="选择创作日期">
+              <div class="neptune-calendar-head">
+                <button type="button" data-calendar-prev-year aria-label="上一年">«</button>
+                <button type="button" data-calendar-prev-month aria-label="上个月">‹</button>
+                <span data-calendar-caption aria-live="polite"></span>
+                <button type="button" data-calendar-next-month aria-label="下个月">›</button>
+                <button type="button" data-calendar-next-year aria-label="下一年">»</button>
+              </div>
+              <div class="neptune-calendar-week" aria-hidden="true"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+              <div class="neptune-calendar-days" data-calendar-days role="group" aria-label="日期"></div>
+              <button type="button" class="neptune-calendar-clear" data-calendar-clear>清除日期</button>
+            </div>
+          </div>
+          <div class="neptune-desk-summary">
+            <span class="neptune-desk-field-label">摘要</span>
+            <button type="button" class="neptune-desk-summary-preview" data-author-summary-toggle aria-expanded="false" aria-controls="neptune-summary-editor"><span data-author-summary-preview>添加摘要</span><small>编辑</small></button>
+            <div class="neptune-desk-summary-editor" id="neptune-summary-editor" data-author-summary-wrap hidden>
+              <label class="neptune-desk-sr">摘要<textarea data-author-summary rows="4" maxlength="2000" placeholder="写下简短摘要"></textarea></label>
+            </div>
+          </div>
+          <dl class="neptune-desk-facts">
+            <div><dt>正文字数</dt><dd data-author-count>0</dd></div>
+            <div><dt>文稿状态</dt><dd data-author-state>未保存</dd></div>
+          </dl>
+          <div class="neptune-desk-document-actions">
+            <button type="submit" value="published" data-author-preview>发布到预览</button>
+            <button type="button" data-author-delete hidden>删除文稿</button>
+          </div>
+          <p class="neptune-file-note">草稿保存在当前浏览器。写入 HTML 只更新已发布文稿。</p>
+        </aside>
+      </form>
+    </dialog>
+  </template>
+  <script id="neptune-file-editor-script">
+    window.OrbitNeptuneFile = (() => {
+      const marker = /(<script id="neptune-file-writings" type="application\/json">)([\s\S]*?)(<\/script>)/;
+      const statuses = {paragraph: '正文', heading: '小标题', quote: '引用', image: '配图'};
+      const published = articles => articles.filter(article => article.status === 'published');
+      const parse = text => {
+        const value = JSON.parse(text);
+        if (value === null || (Array.isArray(value) && value.every(article => article?.status === 'published'))) return value;
+        throw new Error('HTML 中的文稿数据格式不正确。');
+      };
+      function embedded() {
+        try {
+          return parse(document.getElementById('neptune-file-writings').textContent);
+        } catch {
+          return null;
+        }
+      }
+      const today = new Intl.DateTimeFormat('sv-SE', {timeZone: 'Asia/Shanghai'});
+
+      function updateHtml(html, baseline, articles) {
+        const match = html.match(marker);
+        if (!match) throw new Error('请选择当前 ORBIT 的 HTML 文件。');
+        if (JSON.stringify(parse(match[2])) !== baseline) throw new Error('文件中的文稿已有变化，请重新打开 HTML 后再写入。');
+        const data = JSON.stringify(published(articles), null, 2).replace(/</g, '\\u003c');
+        return html.replace(marker, (_, start, previous, end) => start + '\n' + data + '\n' + end);
+      }
+
+      function mount({root, trigger, categories, fallback, onChange}) {
+        if (location.protocol !== 'file:') return null;
+        const dialog = document.getElementById('neptune-file-editor').content.firstElementChild.cloneNode(true);
+        root.append(dialog);
+        trigger.hidden = false;
+        const $ = key => dialog.querySelector('[data-author-' + key + ']');
+        const form = $('form');
+        const sourceInput = $('source');
+        const notice = $('notice');
+        const insertOptions = $('insert-options');
+        const insertButton = $('insert');
+        const insertHome = insertOptions.parentElement;
+        const blockMenu = $('block-menu');
+        const blockMenuHome = blockMenu.parentElement;
+        const compose = dialog.querySelector('.neptune-desk-compose');
+        const manuscript = dialog.querySelector('.neptune-desk-manuscript');
+        const mobile = matchMedia('(max-width: 760px)');
+        const compact = matchMedia('(max-width: 1100px)');
+        const blocks = new Map();
+        const number = new Intl.NumberFormat('zh-CN');
+        const filename = decodeURIComponent(location.pathname.split('/').at(-1));
+        const key = 'orbit.neptune.file:' + location.pathname;
+        const initial = embedded();
+        let baseline = JSON.stringify(initial);
+        let articles = initial ?? fallback;
+        let current = null;
+        let dirty = false;
+        let saving = false;
+        let closing = false;
+        let activeBlock = null;
+        let activeInsertButton = insertButton;
+        let calendarDay = '';
+        let insertBefore = false;
+        let menuBlock = null;
+        let lastEditorSelection = null;
+        let focusMode = false;
+
+        try {
+          const saved = JSON.parse(localStorage.getItem(key));
+          if (Array.isArray(saved?.articles)) {
+            if (saved.baseline === baseline) articles = saved.articles;
+            else articles = [...articles, ...saved.articles.filter(a => a.status === 'draft' && !articles.some(b => b.id === a.id))];
+          }
+        } catch {
+          // The HTML remains readable when browser storage is unavailable.
+        }
+
+        function remember(nextArticles = articles) {
+          try {
+            localStorage.setItem(key, JSON.stringify({baseline, articles: nextArticles}));
+            return true;
+          } catch {
+            return false;
+          }
+        }
+
+        function setPanel(panel, focus = true) {
+          closeInsert();
+          closeBlockMenu();
+          closeCalendar();
+          const previous = dialog.dataset.panel;
+          if (panel) dialog.dataset.panel = panel;
+          else delete dialog.dataset.panel;
+          manuscript.inert = panel === 'metadata';
+          for (const toggle of dialog.querySelectorAll('[data-author-toggle]')) {
+            toggle.setAttribute('aria-expanded', String(toggle.dataset.authorToggle === panel));
+          }
+          if (!focus) return;
+          if (panel) dialog.querySelector('[data-author-panel="' + panel + '"] h3').focus();
+          else {
+            const toggle = dialog.querySelector('[data-author-toggle="' + previous + '"]');
+            (toggle?.getClientRects().length ? toggle : $('title')).focus({preventScroll: true});
+          }
+        }
+
+        function updatePanels() {
+          const panel = dialog.dataset.panel;
+          if ((panel === 'library' && !mobile.matches) || (panel === 'metadata' && !compact.matches)) {
+            setPanel(null, dialog.open);
+          } else if (dialog.open && !dialog.contains(document.activeElement)) {
+            $('title').focus({preventScroll: true});
+          }
+        }
+
+        function closeInsert(restoreFocus = false) {
+          if (insertOptions.hidden) return;
+          insertOptions.hidden = true;
+          activeInsertButton.setAttribute('aria-expanded', 'false');
+          insertOptions.classList.remove('is-inline');
+          insertHome.append(insertOptions);
+          if (restoreFocus) activeInsertButton.focus({preventScroll: true});
+          activeInsertButton = insertButton;
+          insertBefore = false;
+        }
+
+        function openInsert(button, row = null, before = false) {
+          if (!insertOptions.hidden && activeInsertButton === button) {
+            closeInsert(true);
+            return;
+          }
+          closeInsert();
+          if (row) {
+            activeBlock = row;
+            row.append(insertOptions);
+            insertOptions.classList.add('is-inline');
+          }
+          insertBefore = before;
+          activeInsertButton = button;
+          insertOptions.hidden = false;
+          button.setAttribute('aria-expanded', 'true');
+          insertOptions.querySelector('button').focus({preventScroll: true});
+        }
+
+        function closeBlockMenu(restoreFocus = false) {
+          if (blockMenu.hidden) return;
+          const button = menuBlock?.querySelector('[data-block-menu-trigger]');
+          blockMenu.hidden = true;
+          button?.setAttribute('aria-expanded', 'false');
+          blockMenuHome.append(blockMenu);
+          if (restoreFocus) button?.focus({preventScroll: true});
+          menuBlock = null;
+        }
+
+        function captureSelection(event) {
+          const field = event?.target || document.activeElement;
+          if (field === $('title') || (field?.matches('textarea') && $('blocks').contains(field))) {
+            lastEditorSelection = {field, start: field.selectionStart, end: field.selectionEnd, direction: field.selectionDirection};
+          }
+        }
+
+        function writingFocus(on) {
+          captureSelection();
+          closeInsert();
+          closeBlockMenu();
+          closeCalendar();
+          closeSummary();
+          setPanel(null, false);
+          const oldScroll = compose.scrollTop;
+          focusMode = on;
+          dialog.classList.toggle('is-writing-focus', on);
+          $('writing-focus').setAttribute('aria-pressed', String(on));
+          $('writing-focus').textContent = on ? '↙ 退出专注' : '↗ 专注写作';
+          $('mode-label').textContent = on ? ' / 专注写作' : ' / 写作台';
+          dialog.querySelectorAll('.neptune-desk-library, .neptune-desk-metadata').forEach(panel => { panel.inert = on; });
+          const saved = lastEditorSelection;
+          if (saved?.field.isConnected) {
+            saved.field.focus({preventScroll: true});
+            saved.field.setSelectionRange(saved.start, saved.end, saved.direction);
+          } else if (!on) $('writing-focus').focus({preventScroll: true});
+          compose.scrollTop = oldScroll;
+        }
+
+        function wordCount(value) {
+          return [...value.replace(/\s/gu, '')].length;
+        }
+
+        function updateCount() {
+          let total = 0;
+          for (const block of blocks.values()) total += block.count;
+          $('count').textContent = number.format(total);
+          $('focus-count').textContent = number.format(total) + ' 字';
+        }
+
+        function updateState() {
+          $('state').textContent = dirty ? '有未保存修改'
+            : current?.status === 'published' ? '已发布到预览'
+            : current ? '草稿' : '新篇章';
+        }
+
+        function markDirty() {
+          if (dirty && $('draft').dataset.saveState !== 'error') return;
+          dirty = true;
+          setSaveState('dirty');
+          notice.textContent = '有未保存修改';
+          updateState();
+        }
+
+        function renderList() {
+          const query = $('search').value.trim().toLocaleLowerCase('zh-CN');
+          const list = $('list');
+          list.replaceChildren();
+          for (const article of articles) {
+            const searchable = [article.title, article.summary, article.category].join(' ').toLocaleLowerCase('zh-CN');
+            if (!searchable.includes(query)) continue;
+            const row = document.createElement('li');
+            const button = document.createElement('button');
+            const title = document.createElement('span');
+            const meta = document.createElement('small');
+            button.type = 'button';
+            title.textContent = article.title || '未命名篇章';
+            meta.textContent = [article.status === 'published' ? '已发布' : '草稿', article.publishedAt].filter(Boolean).join(' · ');
+            button.append(title, meta);
+            if (article === current) button.setAttribute('aria-current', 'true');
+            button.onclick = () => {
+              if (article === current) {
+                if (dialog.dataset.panel) setPanel(null);
+              } else if (canLeave()) edit(article, true);
+            };
+            row.append(button);
+            list.append(row);
+          }
+          $('empty').hidden = !!list.childElementCount;
+          $('empty').textContent = query ? '没有匹配的文稿。' : '暂无文稿。';
+        }
+
+        function updateCategorySuggestions() {
+          const labels = new Set([...categories, ...articles.map(article => article.category), $('category').value.trim()].filter(Boolean));
+          $('categories').replaceChildren(...Array.from(labels, label => new Option(label, label)));
+          $('category-tags').replaceChildren(...Array.from(labels, label => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = label;
+            button.setAttribute('aria-pressed', String(label === $('category').value.trim()));
+            button.onclick = () => {
+              $('category').value = label;
+              $('category').dispatchEvent(new Event('input', {bubbles: true}));
+              $('category-wrap').hidden = true;
+              $('category-custom').setAttribute('aria-expanded', 'false');
+              updateCategorySuggestions();
+              [...$('category-tags').children].find(item => item.textContent === label)?.focus();
+            };
+            return button;
+          }));
+        }
+
+        function syncSummary() {
+          $('summary-preview').textContent = $('summary').value.trim() || '添加摘要';
+        }
+
+        function closeSummary(restoreFocus = false) {
+          if ($('summary-wrap').hidden) return;
+          syncSummary();
+          $('summary-wrap').hidden = true;
+          $('summary-toggle').hidden = false;
+          $('summary-toggle').setAttribute('aria-expanded', 'false');
+          if (restoreFocus) $('summary-toggle').focus({preventScroll: true});
+        }
+
+        function dateObject(value) {
+          const [year, month, day] = value.split('-').map(Number);
+          const date = new Date(0);
+          date.setUTCHours(0, 0, 0, 0);
+          date.setUTCFullYear(year, month - 1, day);
+          return date;
+        }
+
+        function dateString(date) {
+          return String(date.getUTCFullYear()).padStart(4, '0') + '-' +
+            String(date.getUTCMonth() + 1).padStart(2, '0') + '-' + String(date.getUTCDate()).padStart(2, '0');
+        }
+
+        function syncDate() {
+          const value = $('date').value;
+          $('date-label').textContent = value ? value.replaceAll('-', '.') : '选择日期';
+        }
+
+        function closeCalendar(restoreFocus = false) {
+          if ($('calendar').hidden) return;
+          $('calendar').hidden = true;
+          $('date-toggle').setAttribute('aria-expanded', 'false');
+          if (restoreFocus) $('date-toggle').focus({preventScroll: true});
+        }
+
+        function renderCalendar(focus = false) {
+          const chosen = dateObject(calendarDay);
+          const year = chosen.getUTCFullYear();
+          const month = chosen.getUTCMonth();
+          const first = dateObject(String(year).padStart(4, '0') + '-' + String(month + 1).padStart(2, '0') + '-01');
+          const monthEnd = new Date(first);
+          monthEnd.setUTCMonth(month + 1, 0);
+          $('calendar').querySelector('[data-calendar-caption]').textContent = year + ' 年 ' + (month + 1) + ' 月';
+          const cells = [];
+          for (let i = 0; i < first.getUTCDay(); i++) cells.push(document.createElement('span'));
+          for (let day = 1; day <= monthEnd.getUTCDate(); day++) {
+            const date = new Date(first);
+            date.setUTCDate(day);
+            const value = dateString(date);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = String(day);
+            button.dataset.date = value;
+            button.setAttribute('aria-label', year + '年' + (month + 1) + '月' + day + '日');
+            button.setAttribute('aria-pressed', String(value === $('date').value));
+            button.tabIndex = value === calendarDay ? 0 : -1;
+            button.onclick = () => {
+              $('date').value = value;
+              $('date').dispatchEvent(new Event('input', {bubbles: true}));
+              closeCalendar(true);
+            };
+            cells.push(button);
+          }
+          $('calendar').querySelector('[data-calendar-days]').replaceChildren(...cells);
+          if (focus) $('calendar').querySelector('[data-date="' + calendarDay + '"]')?.focus();
+        }
+
+        function moveCalendar(months, focus = true) {
+          const date = dateObject(calendarDay);
+          const day = date.getUTCDate();
+          date.setUTCDate(1);
+          date.setUTCMonth(date.getUTCMonth() + months);
+          if (date.getUTCFullYear() < 1 || date.getUTCFullYear() > 9999) return;
+          const last = new Date(date);
+          last.setUTCMonth(last.getUTCMonth() + 1, 0);
+          date.setUTCDate(Math.min(day, last.getUTCDate()));
+          calendarDay = dateString(date);
+          renderCalendar(focus);
+        }
+
+        function addBlock(block, focus = false) {
+          block = {...block};
+          const row = document.createElement('div');
+          row.className = 'neptune-file-block';
+          row.dataset.kind = block.type;
+          if (focus && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            row.classList.add('is-entering');
+            row.addEventListener('animationend', () => row.classList.remove('is-entering'), {once: true});
+            row.addEventListener('animationcancel', () => row.classList.remove('is-entering'), {once: true});
+          }
+          const label = document.createElement('label');
+          const blockLabel = document.createElement('span');
+          blockLabel.className = 'neptune-desk-block-label';
+          blockLabel.textContent = statuses[block.type];
+          label.append(blockLabel);
+          let input;
+          if (block.type === 'image') {
+            const caption = document.createElement('small');
+            caption.textContent = block.caption || block.alt || block.src;
+            label.append(caption);
+          } else {
+            input = document.createElement('textarea');
+            input.rows = block.type === 'paragraph' ? 8 : 2;
+            input.placeholder = block.type === 'paragraph' ? '从这里写下正文' : statuses[block.type];
+            input.value = block.text ?? '';
+            label.append(input);
+          }
+          const actions = document.createElement('button');
+          actions.type = 'button';
+          actions.dataset.blockMenuTrigger = '';
+          actions.setAttribute('aria-label', statuses[block.type] + '的内容块操作');
+          actions.setAttribute('aria-expanded', 'false');
+          actions.setAttribute('aria-controls', 'neptune-block-menu');
+          actions.textContent = '＋';
+          actions.onclick = () => {
+            if (!blockMenu.hidden && menuBlock === row) { closeBlockMenu(true); return; }
+            closeInsert();
+            closeBlockMenu();
+            menuBlock = row;
+            activeBlock = row;
+            row.append(blockMenu);
+            blockMenu.hidden = false;
+            actions.setAttribute('aria-expanded', 'true');
+            for (const button of blockMenu.querySelectorAll('[data-block-action="paragraph"], [data-block-action="heading"], [data-block-action="quote"]')) {
+              button.disabled = !input;
+            }
+            blockMenu.querySelector('button').focus({preventScroll: true});
+            blockMenu.scrollIntoView({block: 'nearest', inline: 'nearest'});
+          };
+          row.append(label, actions);
+          if (focus && activeBlock?.isConnected && insertBefore) activeBlock.before(row);
+          else if (focus && activeBlock?.isConnected) activeBlock.after(row);
+          else $('blocks').append(row);
+          blocks.set(row, {block, input, count: input ? wordCount(input.value) : 0});
+          if (focus) {
+            const ordered = Array.from($('blocks').children, element => [element, blocks.get(element)]);
+            blocks.clear();
+            for (const [element, data] of ordered) blocks.set(element, data);
+          }
+          if (focus) input?.focus();
+        }
+
+        function edit(article, focus = false) {
+          closeInsert();
+          closeBlockMenu();
+          lastEditorSelection = null;
+          closeCalendar();
+          closeSummary();
+          current = article;
+          dirty = false;
+          $('title').value = article?.title ?? '';
+          $('category').value = article?.category ?? '';
+          $('date').value = article?.publishedAt ?? '';
+          $('summary').value = article?.summary ?? '';
+          $('category-wrap').hidden = true;
+          $('category-custom').setAttribute('aria-expanded', 'false');
+          syncDate();
+          syncSummary();
+          $('delete').hidden = !article;
+          setSaveState(article?.status === 'draft' ? 'saved' : 'idle');
+          blocks.clear();
+          activeBlock = null;
+          $('blocks').replaceChildren();
+          for (const block of article?.content?.length ? article.content : [{type: 'paragraph'}]) addBlock(block);
+          renderList();
+          updateCategorySuggestions();
+          updateCount();
+          updateState();
+          notice.textContent = article?.status === 'published' ? '已发布到预览' : article ? '已保存草稿' : '未编辑';
+          if (focus) {
+            setPanel(null, false);
+            compose.scrollTop = 0;
+            $('title').focus({preventScroll: true});
+          }
+        }
+
+        // Saving should update the document state without replacing live textareas:
+        // their native undo history and any in-progress editing belong to the user.
+        function reflectSavedArticle(article) {
+          current = article;
+          dirty = false;
+          $('delete').hidden = false;
+          for (const [key, value] of [['title', article.title], ['category', article.category], ['summary', article.summary]]) {
+            if ($(key).value !== value) $(key).value = value;
+          }
+          syncSummary();
+          if ($('date').value !== article.publishedAt) {
+            $('date').value = article.publishedAt;
+            syncDate();
+          }
+          setSaveState(article.status === 'draft' ? 'saved' : 'idle');
+          renderList();
+          updateCategorySuggestions();
+          updateCount();
+          updateState();
+        }
+
+        function canLeave() {
+          return !dirty || confirm('放弃尚未保存的修改？');
+        }
+
+        function changed(message) {
+          onChange(published(articles));
+          notice.textContent = remember() ? message : '浏览器存储不可用。已发布的内容请立即写入 HTML。';
+        }
+
+        function setSaveState(state) {
+          const button = $('draft');
+          button.dataset.saveState = state;
+          $('focus-status').textContent = state === 'saving' ? '正在保存' : state === 'error' ? '保存失败'
+            : state === 'saved' ? '已保存' : state === 'dirty' ? '未保存' : current?.status === 'published' ? '已发布' : '未保存';
+          $('save-icon').textContent = state === 'saved' ? '✓' : state === 'error' ? '!' : '';
+          $('draft-label').textContent = state === 'saving' ? '保存中'
+            : state === 'saved' ? '已保存'
+            : state === 'error' ? '保存失败'
+            : current?.status === 'published' ? '转为草稿' : '保存草稿';
+        }
+
+        function setSaving(value) {
+          saving = value;
+          form.inert = value;
+          $('draft').disabled = value;
+          $('write').disabled = value;
+          $('close').disabled = value;
+          form.setAttribute('aria-busy', String(value));
+        }
+
+        function close(force = false) {
+          if (saving && !force) return;
+          if (!dialog.open || (!force && !canLeave())) return;
+          if (closing && !force) return;
+          closeInsert();
+          closeBlockMenu();
+          if (!force && dirty) edit(current);
+          function finish() {
+            if (!closing) return;
+            closing = false;
+            dialog.classList.remove('is-closing');
+            if (dialog.open) {
+              dialog.close();
+              if (trigger.getClientRects().length) trigger.focus({preventScroll: true});
+            }
+          }
+          if (force) {
+            closing = false;
+            dialog.classList.remove('is-closing');
+            dialog.close();
+            return;
+          }
+          closing = true;
+          dialog.classList.add('is-closing');
+          const animation = dialog.getAnimations().find(item => item.animationName === 'neptune-desk-exit');
+          if (animation) animation.finished.then(finish, finish);
+          else finish();
+        }
+
+        mobile.addEventListener('change', updatePanels);
+        compact.addEventListener('change', updatePanels);
+        dialog.addEventListener('cancel', event => {
+          event.preventDefault();
+          escape();
+        });
+        function escape() {
+          if (!insertOptions.hidden) closeInsert(true);
+          else if (!blockMenu.hidden) closeBlockMenu(true);
+          else if (!$('calendar').hidden) closeCalendar(true);
+          else if (!$('summary-wrap').hidden) closeSummary(true);
+          else if (dialog.dataset.panel) setPanel(null);
+          else if (focusMode) writingFocus(false);
+          else close();
+        }
+        dialog.addEventListener('focusout', captureSelection);
+        $('writing-focus').onclick = () => writingFocus(!focusMode);
+        dialog.querySelectorAll('[data-author-toggle]').forEach(button => {
+          button.onclick = () => setPanel(button.dataset.authorToggle === dialog.dataset.panel ? null : button.dataset.authorToggle);
+        });
+        dialog.querySelectorAll('[data-author-back]').forEach(button => {
+          button.onclick = () => setPanel(null);
+        });
+        $('close').onclick = () => close();
+        $('new').onclick = () => {
+          if (!canLeave()) return;
+          const id = crypto.randomUUID();
+          const article = {id, slug: 'article-' + id, title: '', category: '', summary: '', publishedAt: '', status: 'draft', content: []};
+          const nextArticles = [article, ...articles];
+          if (!remember(nextArticles)) {
+            notice.textContent = '草稿创建失败。请检查浏览器存储空间或权限后重试。';
+            return;
+          }
+          articles = nextArticles;
+          edit(article, true);
+          notice.textContent = '新草稿已创建。';
+        };
+        $('category-custom').onclick = () => {
+          const show = $('category-wrap').hidden;
+          $('category-wrap').hidden = !show;
+          $('category-custom').setAttribute('aria-expanded', String(show));
+          if (show) $('category').focus();
+        };
+        $('date-toggle').onclick = () => {
+          if (!$('calendar').hidden) { closeCalendar(true); return; }
+          closeInsert();
+          calendarDay = $('date').value || today.format(new Date());
+          $('calendar').hidden = false;
+          $('date-toggle').setAttribute('aria-expanded', 'true');
+          renderCalendar(true);
+          $('calendar').scrollIntoView({block: 'nearest', inline: 'nearest'});
+        };
+        for (const [selector, months] of [['prev-year', -12], ['prev-month', -1], ['next-month', 1], ['next-year', 12]]) {
+          $('calendar').querySelector('[data-calendar-' + selector + ']').onclick = () => moveCalendar(months);
+        }
+        $('calendar').querySelector('[data-calendar-clear]').onclick = () => {
+          $('date').value = '';
+          $('date').dispatchEvent(new Event('input', {bubbles: true}));
+          closeCalendar(true);
+        };
+        $('calendar').addEventListener('keydown', event => {
+          if (!event.target.matches('[data-date]')) return;
+          if (event.key === 'PageUp' || event.key === 'PageDown') {
+            event.preventDefault();
+            moveCalendar((event.key === 'PageUp' ? -1 : 1) * (event.shiftKey ? 12 : 1));
+            return;
+          }
+          const offsets = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7};
+          if (!(event.key in offsets)) return;
+          event.preventDefault();
+          const date = dateObject(event.target.dataset.date);
+          date.setUTCDate(date.getUTCDate() + offsets[event.key]);
+          if (date.getUTCFullYear() < 1 || date.getUTCFullYear() > 9999) return;
+          calendarDay = dateString(date);
+          renderCalendar(true);
+        });
+        $('summary-toggle').onclick = () => {
+          $('summary-toggle').hidden = true;
+          $('summary-wrap').hidden = false;
+          $('summary-toggle').setAttribute('aria-expanded', 'true');
+          $('summary').focus({preventScroll: true});
+        };
+        $('summary').addEventListener('blur', () => closeSummary());
+        $('title').addEventListener('keydown', event => {
+          if (event.key === 'Enter' && !event.isComposing) event.preventDefault();
+        });
+        $('search').oninput = renderList;
+        $('search').onkeydown = event => { if (event.key === 'Enter') event.preventDefault(); };
+        $('blocks').addEventListener('focusin', event => {
+          const row = event.target.closest('.neptune-file-block');
+          if (row && blocks.has(row)) activeBlock = row;
+        });
+        insertButton.onclick = () => openInsert(insertButton);
+        dialog.addEventListener('pointerdown', event => {
+          if (!insertOptions.contains(event.target) && event.target !== insertButton && !event.target.closest('[data-author-inline-insert]')) closeInsert();
+          if (!blockMenu.contains(event.target) && !event.target.closest('[data-block-menu-trigger]')) closeBlockMenu();
+          if (!$('calendar').contains(event.target) && !$('date-toggle').contains(event.target)) closeCalendar();
+        });
+        insertOptions.addEventListener('keydown', event => {
+          const options = [...insertOptions.querySelectorAll('button')];
+          const current = options.indexOf(document.activeElement);
+          let next;
+          if (event.key === 'ArrowDown') next = (current + 1) % options.length;
+          else if (event.key === 'ArrowUp') next = (current + options.length - 1) % options.length;
+          else if (event.key === 'Home') next = 0;
+          else if (event.key === 'End') next = options.length - 1;
+          else return;
+          event.preventDefault();
+          options[next].focus();
+        });
+        insertOptions.addEventListener('focusout', event => {
+          if (event.relatedTarget && !insertOptions.contains(event.relatedTarget) && event.relatedTarget !== activeInsertButton) closeInsert();
+        });
+        blockMenu.addEventListener('keydown', event => {
+          const options = [...blockMenu.querySelectorAll('button:not(:disabled)')];
+          const current = options.indexOf(document.activeElement);
+          let next;
+          if (event.key === 'ArrowDown') next = (current + 1) % options.length;
+          else if (event.key === 'ArrowUp') next = (current + options.length - 1) % options.length;
+          else if (event.key === 'Home') next = 0;
+          else if (event.key === 'End') next = options.length - 1;
+          else return;
+          event.preventDefault();
+          options[next].focus();
+        });
+        blockMenu.addEventListener('focusout', event => {
+          if (event.relatedTarget && !blockMenu.contains(event.relatedTarget) && event.relatedTarget !== menuBlock?.querySelector('[data-block-menu-trigger]')) closeBlockMenu();
+        });
+        blockMenu.querySelectorAll('[data-block-action]').forEach(button => {
+          button.onclick = () => {
+            const row = menuBlock;
+            const entry = blocks.get(row);
+            if (!entry) return;
+            const action = button.dataset.blockAction;
+            if (action === 'before' || action === 'after') {
+              const trigger = row.querySelector('[data-block-menu-trigger]');
+              closeBlockMenu();
+              openInsert(trigger, row, action === 'before');
+              return;
+            }
+            if (action === 'delete') {
+              if ((entry.input?.value.trim() || entry.block.type === 'image') && !confirm('删除这个内容块？')) return;
+              closeBlockMenu();
+              const next = row.nextElementSibling?.querySelector('textarea') || row.previousElementSibling?.querySelector('textarea');
+              if (activeBlock === row) activeBlock = null;
+              if (lastEditorSelection?.field === entry.input) lastEditorSelection = null;
+              blocks.delete(row);
+              row.remove();
+              markDirty();
+              updateCount();
+              (next || insertButton).focus({preventScroll: true});
+              return;
+            }
+            if (!entry.input || entry.block.type === action) { closeBlockMenu(true); return; }
+            entry.block.type = action;
+            if (action === 'heading') entry.block.level ||= 2;
+            else delete entry.block.level;
+            row.dataset.kind = action;
+            row.querySelector('.neptune-desk-block-label').textContent = statuses[action];
+            row.querySelector('[data-block-menu-trigger]').setAttribute('aria-label', statuses[action] + '的内容块操作');
+            entry.input.placeholder = action === 'paragraph' ? '从这里写下正文' : statuses[action];
+            markDirty();
+            closeBlockMenu();
+            entry.input.focus({preventScroll: true});
+          };
+        });
+        form.oninput = event => {
+          if (event.target === $('search')) return;
+          if (event.target === $('category')) updateCategorySuggestions();
+          if (event.target === $('date')) syncDate();
+          if (event.target === $('summary')) syncSummary();
+          markDirty();
+          const block = blocks.get(event.target.closest('.neptune-file-block'));
+          if (block?.input === event.target) {
+            block.count = wordCount(block.input.value);
+            updateCount();
+          }
+        };
+        form.querySelectorAll('[data-author-add]').forEach(button => {
+          button.onclick = () => {
+            const before = insertBefore;
+            closeInsert();
+            insertBefore = before;
+            addBlock({type: button.dataset.authorAdd}, true);
+            insertBefore = false;
+            markDirty();
+          };
+        });
+        $('delete').onclick = () => {
+          if (!current || !confirm('删除「' + current.title + '」？')) return;
+          articles = articles.filter(article => article !== current);
+          edit(null, true);
+          changed('文稿已删除。点击「写入本地 HTML」保存文件中的改动。');
+        };
+        form.onsubmit = async event => {
+          event.preventDefault();
+          if (saving || closing) return;
+          const title = $('title').value.replace(/[\r\n]+/g, ' ').trim();
+          const category = $('category').value.trim();
+          const status = event.submitter?.value ?? 'draft';
+          const content = Array.from(blocks.values(), ({block, input}) => {
+            if (!input) return block;
+            const text = input.value;
+            return text.trim() ? {...block, text} : null;
+          }).filter(Boolean);
+          const invalid = !title ? $('title') : !category ? $('category') : !$('date').validity.valid ? $('date') : null;
+          if (invalid) {
+            setPanel(invalid === $('title') || !compact.matches ? null : 'metadata', false);
+            if (invalid === $('category')) {
+              $('category-wrap').hidden = false;
+              $('category-custom').setAttribute('aria-expanded', 'true');
+            }
+            notice.textContent = '请填写标题和分类，并检查创作日期。';
+            invalid.focus();
+            return;
+          }
+          if (status === 'published' && !content.length) {
+            setPanel(null, false);
+            notice.textContent = '请在发布前写好正文。';
+            ($('blocks').querySelector('textarea') ?? insertButton).focus();
+            return;
+          }
+          const id = current?.id ?? crypto.randomUUID();
+          const article = {
+            ...current, id, slug: current?.slug ?? 'article-' + id, title, status, content,
+            category, summary: $('summary').value.trim(),
+            publishedAt: $('date').value || (status === 'published' ? today.format(new Date()) : '')
+          };
+          const nextArticles = current ? articles.map(item => item === current ? article : item) : [article, ...articles];
+          if (status === 'draft') {
+            setSaving(true);
+            setSaveState('saving');
+            notice.textContent = '正在保存草稿…';
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            if (!remember(nextArticles)) {
+              setSaving(false);
+              setSaveState('error');
+              notice.textContent = '草稿保存失败。请检查浏览器存储空间或权限后重试。';
+              return;
+            }
+            articles = nextArticles;
+            setSaving(false);
+            reflectSavedArticle(article);
+            onChange(published(articles));
+            notice.textContent = '草稿已保存到当前浏览器。';
+            return;
+          }
+          articles = nextArticles;
+          reflectSavedArticle(article);
+          changed(status === 'published' ? '本地预览已更新。点击「写入本地 HTML」保存到文件。' : '草稿已保存到当前浏览器。');
+        };
+
+        async function writeFile() {
+          if (dirty) {
+            notice.textContent = '请先保存当前编辑，再写入 HTML。';
+            return;
+          }
+          if (!window.showOpenFilePicker) {
+            sourceInput.click();
+            return;
+          }
+          $('write').disabled = true;
+          try {
+            const [handle] = await window.showOpenFilePicker({
+              types: [{description: 'ORBIT HTML', accept: {'text/html': ['.html', '.htm']}}]
+            });
+            const file = await handle.getFile();
+            if (file.name !== filename) throw new Error('请选择当前打开的 HTML 文件。');
+            const snapshot = published(articles);
+            const html = updateHtml(await file.text(), baseline, snapshot);
+            const writer = await handle.createWritable();
+            try {
+              await writer.write(html);
+              await writer.close();
+            } catch (error) {
+              await writer.abort().catch(() => {});
+              throw error;
+            }
+            baseline = JSON.stringify(snapshot);
+            remember();
+            notice.textContent = '已写入 ' + filename + '。';
+          } catch (error) {
+            if (error.name === 'AbortError') return;
+            if (['SecurityError', 'NotAllowedError', 'NotReadableError'].includes(error.name)) {
+              notice.textContent = '浏览器无法覆盖原文件。选择当前 HTML 后可下载更新副本。';
+              $('write').onclick = () => sourceInput.click();
+              $('write-label').textContent = '下载 HTML 副本';
+            } else notice.textContent = error.message || 'HTML 写入失败。';
+          } finally {
+            $('write').disabled = false;
+          }
+        }
+
+        sourceInput.onchange = async () => {
+          const file = sourceInput.files[0];
+          sourceInput.value = '';
+          if (!file) return;
+          if (dirty) {
+            notice.textContent = '请先保存当前编辑，再写入 HTML。';
+            return;
+          }
+          try {
+            if (file.name !== filename) throw new Error('请选择当前打开的 HTML 文件。');
+            const html = updateHtml(await file.text(), baseline, articles);
+            const url = URL.createObjectURL(new Blob([html], {type: 'text/html;charset=utf-8'}));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            notice.textContent = '已下载更新后的 HTML。将它放回项目目录并替换原文件。';
+          } catch (error) {
+            notice.textContent = error.message || '无法生成 HTML 副本。';
+          }
+        };
+        $('write').onclick = writeFile;
+        if (!window.showOpenFilePicker) $('write-label').textContent = '下载 HTML 副本';
+        trigger.onclick = () => {
+          if (!dialog.open) {
+            if (focusMode) writingFocus(false);
+            setPanel(null, false);
+            dialog.showModal();
+          }
+          $('title').focus();
+        };
+        edit(null);
+        onChange(published(articles));
+        return {close, escape, isOpen: () => dialog.open};
+      }
+
+      return {embedded, mount};
+    })();
+  </script>
+  <script defer src="./public/neptune/data.js"></script>
+  <script defer src="./public/neptune/reader.js"></script>
+  <script defer src="./public/saturn/data.js"></script>
+  <script defer src="./public/saturn/chronicles.js"></script>
+  <script defer src="./public/mercury/core.js"></script>
+  <script defer src="./public/mercury/data.js"></script>
+  <script defer src="./public/mercury/experiments.js"></script>
+  <script defer src="./public/mercury/laboratory.js"></script>
+  <script defer src="./public/mars/data.js"></script>
+  <script defer src="./public/mars/frontier.js"></script>
+  <script defer src="./public/jupiter/core.js"></script>
+  <script defer src="./public/jupiter/data.js"></script>
+  <script defer src="./public/jupiter/archive.js"></script>
+  <script defer src="./public/uranus/core.js"></script>
+  <script defer src="./public/uranus/data.js"></script>
+  <script defer src="./public/uranus/future.js"></script>
+  <template id="uranusLandscape">
+    <canvas class="sky-landscape" aria-hidden="true"></canvas>
+  </template>
+  <script defer src="./public/uranus/inner-sky-landscape.js?v=6.4.1"></script>
+  <script defer src="./public/uranus/inner-sky-store.js"></script>
+  <script defer src="./public/uranus/inner-sky-scene.js?v=6.5"></script>
+  <script defer src="./public/uranus/inner-sky.js"></script>
+  <script defer src="./public/config.js"></script>
   <script type="module">
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -8349,12 +9301,12 @@
       tags: ['Chronicles', 'Learning', 'Reflection']
     },
     uranus: {
-      no: '07', title: '未央', en: 'URANUS / THE UNWRITTEN FUTURE', category: '未来构想 / 创意蓝图', shortCategory: '未来构想馆',
-      year: 'V1', role: '想象 · 酝酿 · 记录', medium: 'Ideas / Blueprints',
-      tagline: '写给尚未抵达的明天。',
-      desc: '有些想法尚未成形，有些故事还没有开始。而未来，仍然留有无限可能。',
-      longDesc: '「未央」是 ORBIT 的天王星未来构想馆，收藏尚未实现的灵感、蓝图与可能。故事尚未写完，未来仍有回响。当前档案留白，等待作者真实的构想。',
-      tags: ['Ideas', 'Blueprints', 'Possibilities']
+      no: '07', title: '未央', en: 'URANUS / THE INNER SKY', category: '灵感 / 私人记录', shortCategory: '思绪星海',
+      year: 'V1.0', role: '灵感 · 思考 · 记录', medium: 'Ideas / Inner Sky',
+      tagline: '每一个想法，都是一颗独一无二的星。',
+      desc: '把灵感、零散念头和未来构想，留在自己的星空里。',
+      longDesc: '「未央」是 ORBIT 的思绪星海。每条想法点亮一颗星，坐标和正文保存在当前浏览器。',
+      tags: ['Ideas', 'Reflection', 'Inner Sky']
     },
     neptune: {
       no: '08', title: '深蓝', en: 'NEPTUNE / WRITINGS', category: '文学 / 随笔', shortCategory: '私人文学馆',
@@ -9168,13 +10120,8 @@
   const bodies = {};
   const pickables = [];
   const orbitRecords = [];
-  const hitMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0,
-    colorWrite: false,
-    depthWrite: false
-  });
+  // Raycaster still intersects these meshes. The renderer can skip their material entirely.
+  const hitMaterial = new THREE.MeshBasicMaterial({ visible: false });
   const planetGlowTexture = makeGlowTexture(128, [
     [0, 'rgba(255,255,255,.8)'],
     [0.2, 'rgba(255,255,255,.28)'],
@@ -9234,7 +10181,7 @@
   const sunGroup = new THREE.Group();
   solarSystem.add(sunGroup);
 
-  const sunFallback = makeSunFallback();
+  let sunFallback = makeSunFallback();
   const sunMaterial = new THREE.MeshBasicMaterial({
     map: sunFallback,
     color: new THREE.Color().setRGB(1.65, 1.36, 1.02),
@@ -9444,7 +10391,7 @@
     earthLayers.lowNight = nightUniforms.uNightMap.value;
     earthLayers.lowClouds = cloudMaterial.map;
 
-    return { material: surfaceMaterial, mesh: surface, fallback: earthFallback };
+    return { material: surfaceMaterial, mesh: surface };
   }
 
   function createMoon(earthPivot) {
@@ -9650,15 +10597,6 @@
   const maxAnisotropy = Math.min(16, renderer.capabilities.getMaxAnisotropy());
   const textureLoader = new THREE.TextureLoader();
   textureLoader.setCrossOrigin('anonymous');
-  let assetsTotal = 0;
-  let assetsDone = 0;
-  let bootIsDone = false;
-
-  function refreshBootProgress() {
-    // Asset completion is tracked for the intro readiness gate only.
-    // The opening deliberately shows no percentage or progress UI.
-  }
-  refreshBootProgress();
 
   function configureTexture(texture, colorSpace, repeat) {
     texture.colorSpace = colorSpace;
@@ -9673,29 +10611,21 @@
   }
 
   function loadTexture(url, options = {}) {
-    assetsTotal += 1;
-    refreshBootProgress();
     return new Promise((resolve) => {
       textureLoader.load(
         url,
         (texture) => {
           configureTexture(texture, options.colorSpace ?? THREE.SRGBColorSpace, options.repeat !== false);
-          assetsDone += 1;
-          refreshBootProgress();
           resolve(texture);
         },
         undefined,
         () => {
           console.warn('ORBIT · texture unavailable, keeping procedural fallback:', url);
-          assetsDone += 1;
-          refreshBootProgress();
           resolve(null);
         }
       );
     });
   }
-
-  const bootEssentials = [];
 
   function assignTexture(promise, apply) {
     return promise.then((texture) => {
@@ -9708,12 +10638,14 @@
     const record = bodies[def.key];
     if (def.key === 'earth') return;
     assignTexture(loadTexture(def.texture), (texture) => {
+      const previous = record.lowTexture;
       record.lowTexture = texture;
       if (!record.usingHiRes) {
         record.material.map = texture;
         record.material.color.set(0xffffff);
         record.material.needsUpdate = true;
       }
+      previous.dispose();
     });
   });
 
@@ -9726,26 +10658,32 @@
   const moonTexturePromise = loadTexture(TEX.moon);
   const ringTexturePromise = loadTexture(TEX.saturnRing, { repeat: false });
 
-  bootEssentials.push(earthDayPromise, earthNightPromise, earthCloudsPromise, sunTexturePromise);
-
   assignTexture(earthDayPromise, (texture) => {
+    const previous = earthLayers.lowDay;
     earthLayers.lowDay = texture;
-    if (!earthLayers.usingHiRes) {
+    if (earthLayers.surfaceMaterial.map === previous) {
       earthLayers.surfaceMaterial.map = texture;
       earthLayers.surfaceMaterial.color.set(0xffffff);
       earthLayers.surfaceMaterial.needsUpdate = true;
     }
+    previous.dispose();
   });
   assignTexture(earthNightPromise, (texture) => {
+    const previous = earthLayers.lowNight;
     earthLayers.lowNight = texture;
-    if (!earthLayers.usingHiRes) earthLayers.nightUniforms.uNightMap.value = texture;
+    if (earthLayers.nightUniforms.uNightMap.value === previous) {
+      earthLayers.nightUniforms.uNightMap.value = texture;
+    }
+    previous.dispose();
   });
   assignTexture(earthCloudsPromise, (texture) => {
+    const previous = earthLayers.lowClouds;
     earthLayers.lowClouds = texture;
-    if (!earthLayers.usingHiRes) {
+    if (earthLayers.cloudMaterial.map === previous) {
       earthLayers.cloudMaterial.map = texture;
       earthLayers.cloudMaterial.needsUpdate = true;
     }
+    previous.dispose();
   });
   assignTexture(earthNormalPromise, (texture) => {
     earthLayers.surfaceMaterial.normalMap = texture;
@@ -9763,17 +10701,24 @@
       sunMaterial.color.setRGB(1.32, 1.18, 1.02);
       sunMaterial.needsUpdate = true;
     }
+    sunFallback.dispose();
+    sunFallback = null;
   });
   assignTexture(moonTexturePromise, (texture) => {
+    const previous = bodies.moon.lowTexture;
     bodies.moon.lowTexture = texture;
     if (!bodies.moon.usingHiRes) {
       bodies.moon.material.map = texture;
       bodies.moon.material.color.set(0xffffff);
       bodies.moon.material.needsUpdate = true;
     }
+    previous.dispose();
   });
   assignTexture(ringTexturePromise, (texture) => {
-    bodies.saturn.ring.uniforms.uMap.value = texture;
+    const map = bodies.saturn.ring.uniforms.uMap;
+    const previous = map.value;
+    map.value = texture;
+    previous.dispose();
   });
 
   /* ── 4K orbital maps, loaded when a world is opened ──────────── */
@@ -9782,7 +10727,10 @@
   hiResLoader.setCrossOrigin('anonymous');
   const hiResCache = new Map();
   const HI_RES_CACHE_LIMIT = isNarrow ? 1 : 3;
+  const HI_RES_LOAD_LIMIT = 3;
   let hiResClock = 0;
+  let hiResLoading = 0;
+  let queuedHover = null;
 
   function configureHiTexture(texture) {
     if (!texture) return null;
@@ -9868,7 +10816,6 @@
         earthLayers.cloudMaterial.map = clouds;
         earthLayers.cloudMaterial.needsUpdate = true;
       }
-      earthLayers.usingHiRes = Boolean(day || night || clouds);
       return;
     }
     const texture = Array.isArray(textures) ? textures[0] : textures;
@@ -9895,7 +10842,6 @@
       if (earthLayers.lowClouds) earthLayers.cloudMaterial.map = earthLayers.lowClouds;
       earthLayers.surfaceMaterial.needsUpdate = true;
       earthLayers.cloudMaterial.needsUpdate = true;
-      earthLayers.usingHiRes = false;
       return;
     }
     if (key === 'sun') {
@@ -9924,58 +10870,62 @@
     const ready = Array.from(hiResCache.entries()).filter(([, entry]) => entry.status === 'ready');
     while (ready.length > HI_RES_CACHE_LIMIT) {
       ready.sort((a, b) => a[1].lastUsed - b[1].lastUsed);
-      const victim = ready.find(([key]) => key !== keepKey);
+      const focusedKey = planetEntry?.body.key ?? observation?.body.key ?? state.activeFocus?.key;
+      const victim = ready.find(([key]) => key !== keepKey && key !== focusedKey);
       if (!victim) break;
       evictHiRes(victim[0]);
       ready.splice(ready.indexOf(victim), 1);
     }
   }
 
-  function ensureHighRes(key) {
-    if (isNarrow || !state.started || !INFO[key]) return;
-    const existing = hiResCache.get(key);
-    if (existing) {
-      existing.lastUsed = ++hiResClock;
-      return;
-    }
-    const entry = { status: 'loading', lastUsed: ++hiResClock, textures: [] };
-    hiResCache.set(key, entry);
+  function loadHighResEntry(key, entry) {
+    entry.status = 'loading';
+    hiResLoading += 1;
     loadHiSet(key).then((result) => {
-      if (!entry || hiResCache.get(key) !== entry) {
-        const stale = Array.isArray(result) ? result : [result];
-        stale.forEach((texture) => { if (texture) texture.dispose(); });
-        return;
-      }
-      const textures = result ? (Array.isArray(result) ? result : [result]) : [];
-      if (!textures.some(Boolean)) {
+      const textures = Array.isArray(result) ? result : [result];
+      if (textures.some(Boolean)) {
+        entry.status = 'ready';
+        entry.textures = textures;
+        applyHiSet(key, textures);
+        trimHiResCache(key);
+      } else {
         entry.status = 'error';
-        return;
       }
-      entry.status = 'ready';
-      entry.textures = textures;
-      entry.lastUsed = ++hiResClock;
-      applyHiSet(key, textures);
-      trimHiResCache(key);
+    }).finally(() => {
+      hiResLoading -= 1;
+      scheduleHighRes();
     });
   }
 
-  function warmHighResNetwork() {
-    if (isNarrow || !navigator.onLine) return;
-    const urls = [
-      HIRES.sun, HIRES.mercury, HIRES.venus, HIRES.mars,
-      HIRES.jupiter, HIRES.saturn, HIRES.earthDay,
-      HIRES.earthNight, HIRES.earthClouds, HIRES.moon
-    ];
-    let cursor = 0;
-    const next = () => {
-      if (cursor >= urls.length) return;
-      const image = new Image();
-      image.crossOrigin = 'anonymous';
-      image.onload = image.onerror = () => window.setTimeout(next, 120);
-      image.src = urls[cursor++];
-    };
-    next();
-    window.setTimeout(next, 300);
+  function scheduleHighRes() {
+    if (isNarrow || hiResLoading >= HI_RES_LOAD_LIMIT) return;
+    const priority = Array.from(hiResCache.entries())
+      .filter(([, entry]) => entry.status === 'queued')
+      .sort((a, b) => b[1].lastUsed - a[1].lastUsed)[0];
+    if (priority) {
+      loadHighResEntry(...priority);
+    } else if (queuedHover && hiResLoading < HI_RES_LOAD_LIMIT - 1) {
+      // Keep one slot available for a selection or entry while previews are loading.
+      const key = queuedHover;
+      queuedHover = null;
+      const entry = { status: 'queued', lastUsed: ++hiResClock };
+      hiResCache.set(key, entry);
+      loadHighResEntry(key, entry);
+    }
+  }
+
+  function ensureHighRes(key, priority = true) {
+    if (isNarrow || !state.started || !INFO[key]) return;
+    if (!priority || queuedHover === key) queuedHover = null;
+    const existing = hiResCache.get(key);
+    if (existing) {
+      existing.lastUsed = ++hiResClock;
+    } else if (priority) {
+      hiResCache.set(key, { status: 'queued', lastUsed: ++hiResClock });
+    } else {
+      queuedHover = key;
+    }
+    scheduleHighRes();
   }
 
   /* ── navigation dock is generated from the same archive ─────── */
@@ -11239,6 +12189,7 @@
     }
     const rig = observation;
     rig.body = body;
+    ensureHighRes(body.key);
     state.trackedFocus = null;
     lastWorksInput = performance.now();
     setDockActive(body.key);
@@ -11602,6 +12553,7 @@
       endDistance: visualRadius * frameDistance + camera.near,
       turn: new THREE.Quaternion(),
       quaternion: camera.quaternion.clone(), target: controls.target.clone(), fov: camera.fov,
+      cameraView: camera.view?.enabled ? { ...camera.view } : null,
       lensX: camera.view?.enabled ? camera.view.offsetX / camera.view.fullWidth : 0,
       lensY: camera.view?.enabled ? camera.view.offsetY / camera.view.fullHeight : 0,
       view: state.view, focus: state.activeFocus, trackedFocus: state.trackedFocus, mode: state.activeMode,
@@ -11722,7 +12674,12 @@
       camera.quaternion.copy(entry.quaternion);
       controls.target.copy(entry.target);
       camera.fov = entry.fov;
-      camera.updateProjectionMatrix();
+      const view = entry.cameraView;
+      if (view) {
+        camera.setViewOffset(view.fullWidth, view.fullHeight, view.offsetX, view.offsetY, view.width, view.height);
+      } else {
+        camera.clearViewOffset();
+      }
       camera.updateMatrixWorld(true);
       controls.enabled = entry.controlsEnabled;
       UI.hud.inert = false;
@@ -11790,6 +12747,10 @@
   function updatePlanetReveal(now) {
     const entry = planetEntry;
     if (entry?.phase !== 'revealing') return;
+    if (entry.portal && !entry.portal.isActive()) {
+      clearPlanetEntry();
+      return;
+    }
     const painted = entry.body.key === 'sun' ? !UI.sunPanel.hidden
       : document.getElementById(entry.body.key + 'World')?.classList.contains('is-open');
     if (!painted) {
@@ -11893,16 +12854,19 @@
       UI.aboutOverlay.classList.remove('is-closing');
       aboutCloseTimer = 0;
       setDrawerOpen('about', false);
-      UI.hud.inert = false;
-      if (!state.transitionLock) controls.enabled = true;
-      if (restoreFocus) {
+      const canRestoreOrbit = !state.overlay && !state.transitionLock && !planetEntry && !isPlanetWorldOpen();
+      if (canRestoreOrbit) {
+        UI.hud.inert = false;
+        controls.enabled = true;
+      }
+      if (canRestoreOrbit && restoreFocus) {
         const targetButton = UI.navButtons.find((button) => button.dataset.nav === (state.view === 'welcome' ? 'welcome' : 'works'));
         const focus = aboutReturnFocus instanceof HTMLElement && aboutReturnFocus.getClientRects().length && UI.hud.contains(aboutReturnFocus)
           ? aboutReturnFocus : targetButton;
         focus?.focus({ preventScroll: true });
       }
       aboutReturnFocus = null;
-      if (afterClose) afterClose();
+      if (canRestoreOrbit && afterClose) afterClose();
     };
 
     if (delay > 0) {
@@ -12165,7 +13129,7 @@
     if (body === previewBody && trigger === previewTrigger) return;
     setPreviewTarget(body, trigger);
     lastWorksInput = performance.now();
-    ensureHighRes(body.key);
+    ensureHighRes(body.key, observation?.body === body);
     if (previewSwitchTimer || body === renderedPreviewBody) return;
 
     const preview = UI.worksPreview;
@@ -12285,7 +13249,8 @@
       openAbout();
       return;
     }
-    enterPlanet(body.key);
+    if (state.view === 'project' && state.activeFocus === body) return;
+    selectProject(body.key);
   }
 
   function updateHover(x, y) {
@@ -12322,7 +13287,7 @@
           : project
             ? `${body.info.cn} · ${project.title}`
             : body.info.cn;
-        ensureHighRes(body.key);
+        ensureHighRes(body.key, false);
       }
       UI.hoverLabel.style.left = `${x}px`;
       UI.hoverLabel.style.top = `${y}px`;
@@ -12439,7 +13404,7 @@
     if (state.view === 'works' && event.pointerType === 'mouse' && !button.contains(event.relatedTarget)) {
       showDockPreview(button);
     } else {
-      ensureHighRes(button.dataset.target);
+      ensureHighRes(button.dataset.target, false);
     }
   });
 
@@ -12485,7 +13450,7 @@
 
   UI.worksList.addEventListener('pointerover', (event) => {
     const row = event.target.closest('[data-work]');
-    if (row) ensureHighRes(row.dataset.work);
+    if (row) ensureHighRes(row.dataset.work, false);
   });
 
   UI.projectBack.addEventListener('click', () => showWorksIndex());
@@ -12677,9 +13642,12 @@
     const height = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, isNarrow ? 1.7 : 2);
 
-    renderer.setPixelRatio(dpr);
+    // Both pixel-ratio setters resize their targets immediately.
+    if (renderer.getPixelRatio() !== dpr) {
+      renderer.setPixelRatio(dpr);
+      composer.setPixelRatio(dpr);
+    }
     renderer.setSize(width, height);
-    composer.setPixelRatio(dpr);
     composer.setSize(width, height);
 
     camera.aspect = width / height;
@@ -12723,14 +13691,41 @@
     applySpeed(1);
     setPaused(false, false);
     UI.infoPanel.classList.remove('is-flying');
-    refreshBootProgress();
   }
 
   setInitialView();
 
   /* ── frame loop ───────────────────────────────────────────────── */
 
-  let lastFrameTime = performance.now();
+  let lastFrameTime = 0;
+  let animationFrame = 0;
+
+  function isPlanetWorldOpen() {
+    return venusOrbitPaused || DOCK_ORDER.some((key) => key !== 'venus' && window[`__${key}SiteReady`]?.isOpen());
+  }
+
+  function isArchiveCoveringScene() {
+    return !UI.aboutOverlay.hidden && !UI.aboutOverlay.classList.contains('is-closing');
+  }
+
+  function needsAnimationFrame() {
+    if (document.hidden) return false;
+    // Continue ticking the reveal snapshot while the destination owns the screen.
+    if (planetEntry) return true;
+    if (isPlanetWorldOpen()) return false;
+    return !isArchiveCoveringScene() || Boolean(state.activeFlight || observation?.flight);
+  }
+
+  function syncAnimationFrame() {
+    if (needsAnimationFrame()) {
+      if (animationFrame) return;
+      lastFrameTime = performance.now();
+      animationFrame = requestAnimationFrame(animate);
+    } else if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    }
+  }
 
   function updateWelcomeLens(now) {
     if (!welcomeLensStart) return;
@@ -12750,11 +13745,16 @@
   }
 
   function animate(now) {
-    requestAnimationFrame(animate);
+    animationFrame = 0;
+    drawAnimationFrame(now);
+    if (needsAnimationFrame()) animationFrame = requestAnimationFrame(animate);
+  }
+
+  function drawAnimationFrame(now) {
     const dt = clamp((now - lastFrameTime) / 1000, 0.0001, 0.05);
     lastFrameTime = now;
     updatePlanetReveal(now);
-    if (venusOrbitPaused || window.__earthSiteReady?.isOpen() || window.__neptuneSiteReady?.isOpen() || window.__saturnSiteReady?.isOpen() || window.__mercurySiteReady?.isOpen() || window.__marsSiteReady?.isOpen() || window.__jupiterSiteReady?.isOpen() || window.__uranusSiteReady?.isOpen()) return;
+    if (isPlanetWorldOpen()) return;
 
     updateSimulation(dt);
     const diving = updatePlanetDive(now);
@@ -12776,13 +13776,18 @@
     starUniforms.uTime.value = state.ambientTime;
     galaxyPointUniforms.uTime.value = state.ambientTime;
 
-    if (!UI.aboutOverlay.hidden && !UI.aboutOverlay.classList.contains('is-closing')) return;
+    if (isArchiveCoveringScene()) return;
 
     composer.render();
     if (diving) commitPlanetEntry(now);
   }
 
-  requestAnimationFrame(animate);
+  // Portal show/close and archive transitions already commit these DOM changes.
+  const sceneVisibility = new MutationObserver(syncAnimationFrame);
+  sceneVisibility.observe(document.body, { attributeFilter: ['class'] });
+  sceneVisibility.observe(UI.aboutOverlay, { attributeFilter: ['hidden', 'class'] });
+  document.addEventListener('visibilitychange', syncAnimationFrame);
+  syncAnimationFrame();
 
   /* ── the opening sequence — 星尘初现 ─────────────────────────── */
 
@@ -13002,7 +14007,6 @@
     window.setTimeout(() => {
       if (UI.boot) UI.boot.style.display = 'none';
     }, 320);
-    warmHighResNetwork();
   }
 
   function beginInstantHome() {
@@ -13924,6 +14928,7 @@
     }
 
     function cleanRoute() {
+      if (location.hash !== '#/venus') return;
       try {
         history.replaceState(null, '', location.pathname + location.search);
       } catch (error) {
@@ -14046,9 +15051,12 @@
       siteState.closeTimer = 0;
       venusWorldActive = false;
       venusOrbitPaused = false;
-      state.transitionLock = false;
-      controls.enabled = true;
-      restoreOrbitDocumentMeta();
+      const orbitOwned = Boolean(planetEntry || state.overlay || isPlanetWorldOpen());
+      if (!orbitOwned) {
+        state.transitionLock = false;
+        controls.enabled = true;
+        restoreOrbitDocumentMeta();
+      }
       dom.root.classList.remove('is-open', 'is-closing');
       dom.root.hidden = true;
       if (dom.gate) {
@@ -14056,8 +15064,10 @@
         dom.gate.hidden = true;
       }
       document.body.classList.remove('venus-world-open', 'venus-transitioning');
-      syncWorldBody(false);
-      if (UI.projectOpen) UI.projectOpen.focus({ preventScroll: true });
+      if (!orbitOwned) {
+        syncWorldBody(false);
+        if (UI.projectOpen) UI.projectOpen.focus({ preventScroll: true });
+      }
     }
 
     function closeWorld(options = {}) {
@@ -14234,7 +15244,43 @@
   })();
 
   VenusSite.init();
-  window.__venusSiteReady = VenusSite;
+
+  let venusSceneRequest;
+  function prepareVenusScene() {
+    if (venusSceneRequest) return venusSceneRequest;
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = './public/venus/scene.css';
+    const script = document.createElement('script');
+    script.src = './public/venus/scene.js';
+    const load = (element) => new Promise((resolve, reject) => {
+      element.onload = resolve;
+      element.onerror = reject;
+      document.head.append(element);
+    });
+    venusSceneRequest = Promise.all([load(style), load(script)]).then(() => {
+      window.createVenusScene($('#venusWorld'));
+    }).catch(() => {
+      style.remove();
+      script.remove();
+      venusSceneRequest = null;
+      // The existing mathematics hall remains usable if the new assets fail.
+    });
+    return venusSceneRequest;
+  }
+
+  window.__venusSiteReady = {
+    ...VenusSite,
+    prepareEntry: prepareVenusScene,
+    openDeepLink() {
+      const timer = window.setTimeout(open, 4500);
+      function open() {
+        window.clearTimeout(timer);
+        if (location.hash === '#/venus') VenusSite.openDeepLink();
+      }
+      prepareVenusScene().then(open);
+    }
+  };
 
   // Earth uses the existing ORBIT gate and flight; Venus implementation remains unchanged.
   const earthGallery = window.createEarthGallery(window.ORBIT_PHOTOGRAPHY);
@@ -14440,11 +15486,13 @@
   }});
 
   // Uranus completes the independent worlds using the same portal, gate and camera lifecycle.
-  const uranusFuture=window.createUranusFuture(window.ORBIT_FUTURE);
+  const uranusSky=window.createUranusInnerSky(
+    window.createUranusFuture(window.ORBIT_FUTURE),THREE,document.getElementById('uranusLandscape')
+  );
   const uranusGate=document.getElementById('venusGate').cloneNode(true);
   uranusGate.id='uranusGate';
   uranusGate.querySelector('.venus-gate-mark span').textContent='URANUS';
-  uranusGate.querySelector('.venus-gate-mark span:last-child').textContent='THE UNWRITTEN FUTURE';
+  uranusGate.querySelector('.venus-gate-mark span:last-child').textContent='THE INNER SKY';
   document.body.append(uranusGate);
   let uranusReturn=null;
   function prepareUranusSelection(){
@@ -14456,7 +15504,7 @@
     camera.position.copy(target).addScaledVector(approachDirection(body),bodyViewDistance(body));
     controls.target.copy(target);controls.autoRotate=false;controls.update();renderProject(body);
   }
-  window.__uranusSiteReady=window.createPlanetPortal({key:'uranus',gallery:uranusFuture,gate:uranusGate,title:'未央。 · URANUS / THE UNWRITTEN FUTURE',detailSegment:'idea',hooks:{
+  window.__uranusSiteReady=window.createPlanetPortal({key:'uranus',gallery:uranusSky,gate:uranusGate,title:'未央 · 思绪星海 · THE INNER SKY',detailSegment:'idea',hooks:{
     hud:UI.hud,
     canOpen:()=>state.started&&!state.transitionLock&&!venusWorldActive&&!window.__earthSiteReady.isActive()&&!window.__neptuneSiteReady.isActive()&&!window.__saturnSiteReady.isActive()&&!window.__mercurySiteReady.isActive()&&!window.__marsSiteReady.isActive()&&!window.__jupiterSiteReady.isActive()&&state.activeFocus?.key==='uranus',
     prepare(){introFinished=true;clearIntroTimers();markIntroSeen();applyGalaxyIntroLevel(1,1);
